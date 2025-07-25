@@ -1,0 +1,55 @@
+# === PYTHON / DJANGO ===
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+db.sqlite3
+local_settings.py
+.env
+venv/
+ENV/
+.envrc
+.venv/
+
+# === NODE / REACT ===
+node_modules/
+dist/
+build/
+.vite/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# === OS and EDITORS ===
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# === TESTING and CACHE ===
+.coverage
+htmlcov/
+*.cover
+*.py.cover
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+
+# === DOCKER ===
+*.pid
+*.tar
+docker-compose.override.yml
+
+# === DOCS ===
+docs/_build/
+
+# === JUPYTER ===
+.ipynb_checkpoints
+
+# === STATIC ===
+staticfiles/
+
+# === MISC ===
+*.bak
+*.tmp
