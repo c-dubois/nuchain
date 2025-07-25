@@ -5,7 +5,7 @@ from decimal import Decimal
 class Reactor(models.Model):
 
     name = models.CharField(max_length=100, unique=True)
-    description = models.TextField
+    description = models.TextField()
     location = models.CharField(max_length=100)
 
     cost_per_token = models.DecimalField(
