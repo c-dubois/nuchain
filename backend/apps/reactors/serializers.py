@@ -28,14 +28,14 @@ class ReactorSerializer(serializers.ModelSerializer):
             'created_at'
         ]
 
-class ReactorProjectionSerializer(serializers.Serializer):
-    """Serializer for ROI and carbon offset projections"""
-    token_amount = serializers.DecimalField(max_digits=12, decimal_places=2, min_value=0.01)
-    time_period_years = serializers.IntegerField(min_value=1, max_value=10)
+# class ReactorProjectionSerializer(serializers.Serializer):
+#     """Serializer for ROI and carbon offset projections"""
+#     token_amount = serializers.DecimalField(max_digits=12, decimal_places=2, min_value=0.01)
+#     time_period_years = serializers.IntegerField(min_value=1, max_value=10)
 
-    def validate_time_period_years(self, value):
-        """Ensure time period is one of the allowed values"""
-        allowed_time_periods = [1, 2, 5, 10]
-        if value not in allowed_time_periods:
-            raise serializers.ValidationError(f"Time period must be one of: {allowed_time_periods}")
-        return value
+#     def validate_time_period_years(self, value):
+#         """Ensure time period is one of the allowed values"""
+#         allowed_time_periods = [1, 2, 5, 10]
+#         if value not in allowed_time_periods:
+#             raise serializers.ValidationError(f"Time period must be one of: {allowed_time_periods}")
+#         return value

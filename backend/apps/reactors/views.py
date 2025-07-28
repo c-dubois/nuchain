@@ -8,5 +8,8 @@ from .serializers import ReactorSerializer, ReactorProjectionSerializer
 class ReactorViewSet(viewsets.ReadOnlyModelViewSet):
     """
     ViewSet for listing and retrieving reactors
+    Only provides basic reactor info for investment decisions
     """
-    
+    queryset = Reactor.objects.filter(is_active=True)
+    serializer_class = ReactorSerializer
+    permission_classes = [IsAuthenticated]
