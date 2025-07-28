@@ -26,3 +26,22 @@ class Investment(models.Model):
     time_period_years = models.PositiveIntegerField(
         help_text="Investment time period in years (1, 2, 5, or 10)"
     )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = "Investment"
+        verbose_name_plural = "Investments"
+
+    def __str__(self):
+        return f"{self.user.username} → {self.reactor.name}: {self.amount_invested:,.2f} tokens"
+    
+    def calculate_roi_projection(self, years):
+        """Calculate projected ROI for given time period"""
+        return self.reactor.calculate_roi_projection(self.amount_invested, years)
+    
+    def calculate_carbon_offset_projection(self, years):
+        """Calculate projected carbon offset for given time period"""
+        return self.reactor.calculate_carbon_offset_projection(self.amount_invested, years)
