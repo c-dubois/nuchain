@@ -62,4 +62,38 @@ class Reactor(models.Model):
     def __str__(self):
         return f"{self.name} ({self.location})"
     
+    @property
+    def investment_percentage(self):
+        """ Calculate percentage of total token capacity that's been invested"""
+        if self.total_token_capacity == 0:
+            return 0
+        return round(self.current_investments / self.total_token_capacity * 100, 2)
     
+    @property
+    def available_capacity(self):
+        """Remaining investment capacity in tokens"""
+        return float(self.total_token_capacity) - float(self.current_investments)
+    
+    @property
+    def is_fully_funded(self):
+        """Check if reactor has reached investment capacity"""
+        return self.current_investments >= self.total_token_capacity
+    
+    def can_invest(self, token_amount):
+        """Check if a specific token investment amount is valid"""
+        return (
+            self.is_active and
+            token_amount > 0 and
+            float(self.current_investments + token_amount) <= self.total_token_capacity
+        )
+    
+    def calculate_roi_projection(self, token_amount, years):
+        """Calculate projected financial return for a given time period"""
+        base_investment = float(token_amount)
+        annual_return = base_investment * float(self.annual_roi_rate)
+        total_return = annual_return * years
+        return total_return
+    
+    def calculate_carbon_offset_projection(self, token_amount, years):
+        """Calculate projected carbon offset in tons CO2"""
+        return float(token_amount) * float(self.carbon_offset_per_token_per_year) * years
