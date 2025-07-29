@@ -42,7 +42,6 @@ class UserProfile(models.Model):
         Reset wallet to starting balance of 100,000 $NUC.
         Clear all investments associated with user and reactor's current investments.
         """
-        from apps.investments.models import Investment
         
         user_investments = self.user.investments.all()
         for investment in user_investments:
