@@ -115,4 +115,4 @@ def logout_user(request):
         else:
             return Response({'error': 'Refresh token required'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
-        return Response({'error': 'Error logging out'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': f'Error logging out: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
