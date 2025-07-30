@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -16,7 +16,7 @@ class UserProfile(models.Model):
         max_digits=10,
         decimal_places=2,
         default=Decimal('25000.00'),
-        help_text="User's balance in $NUC tokens"
+        help_text="User's balance in $NUC"
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -37,6 +37,7 @@ class UserProfile(models.Model):
             return True
         return False
     
+    @transaction.atomic
     def reset_wallet(self):
         """
         Reset wallet to starting balance of 25,000 $NUC.
@@ -46,7 +47,7 @@ class UserProfile(models.Model):
         user_investments = self.user.investments.all()
         for investment in user_investments:
             reactor = investment.reactor
-            reactor.current_investments -= investment.amount_invested
+            reactor.current_funding -= investment.amount_invested
             reactor.save()
 
         user_investments.delete()

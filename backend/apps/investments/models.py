@@ -37,11 +37,3 @@ class Investment(models.Model):
 
     def __str__(self):
         return f"{self.user.username} → {self.reactor.name}: {self.amount_invested:,.2f} $NUC invested"
-    
-    def calculate_roi_projection(self, years):
-        """Calculate projected ROI for given time period"""
-        return self.reactor.calculate_roi_projection(self.amount_invested, years)
-    
-    def calculate_carbon_offset_projection(self, years):
-        """Calculate projected carbon offset for given time period (tonnes CO2)"""
-        return self.reactor.calculate_carbon_offset_projection(self.amount_invested, years)

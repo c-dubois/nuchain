@@ -94,8 +94,8 @@ class InvestmentViewSet(viewsets.ModelViewSet):
             total_carbon_offset = Decimal('0')
 
             for investment in investments:
-                total_roi += Decimal(str(investment.calculate_roi_projection(years)))
-                total_carbon_offset += Decimal(str(investment.calculate_carbon_offset_projection(years)))
+                total_roi += Decimal(str(investment.reactor.calculate_roi_projection(years)))
+                total_carbon_offset += Decimal(str(investment.reactor.calculate_carbon_offset_projection(years)))
 
             total_return = total_invested + total_roi
             roi_percentage = (total_roi / total_invested * 100) if total_invested > 0 else Decimal('0')
