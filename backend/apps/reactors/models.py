@@ -8,7 +8,7 @@ class Reactor(models.Model):
         ('nuwave', 'NuWave'),
         ('phoenix_regenx7', 'Phoenix RegenX-7'),
         ('nexus_core', 'Nexus CORE'),
-        ('fermi_ii', 'Fermi-II'),
+        ('fermi_iii', 'Fermi-III'),
         ('helios_fusiondrive', 'Helios FusionDrive'),
     ]
 
