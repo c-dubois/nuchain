@@ -15,7 +15,7 @@ class Command(BaseCommand):
                 'location': 'Pacific Northwest, USA',
                 'price_per_token': Decimal('1.50'),
                 'annual_roi_rate': Decimal('0.0450'),
-                'carbon_offset_tonnes_co2_per_token_per_year': Decimal('0.8500'),
+                'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('0.8500'),
                 'total_capacity': 180000,
                 'image_url': 'https://example.com/nuwave.jpg',
             },
@@ -27,7 +27,7 @@ class Command(BaseCommand):
                 'location': 'La Drôme Nucléaire, France',
                 'price_per_token': Decimal('2.00'),
                 'annual_roi_rate': Decimal('0.0680'),
-                'carbon_offset_tonnes_co2_per_token_per_year': Decimal('1.15000'),
+                'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('1.15000'),
                 'total_capacity': 150000,
                 'image_url': 'https://example.com/phoenix.jpg',
             },
@@ -39,7 +39,7 @@ class Command(BaseCommand):
                 'location': 'NeueTech District, Hamburg, Germany',
                 'price_per_token': Decimal('3.025'),
                 'annual_roi_rate': Decimal('0.0380'),
-                'carbon_offset_tonnes_co2_per_token_per_year': Decimal('1.4000'),
+                'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('1.4000'),
                 'total_capacity': 220000,
                 'image_url': 'https://example.com/nexus.jpg',
             },
@@ -51,7 +51,7 @@ class Command(BaseCommand):
                 'location': 'Cobalt Energy Complex, Ontario, Canada',
                 'price_per_token': Decimal('1.75'),
                 'annual_roi_rate': Decimal('0.0220'),
-                'carbon_offset_tonnes_co2_per_token_per_year': Decimal('1.8500'),
+                'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('1.8500'),
                 'total_capacity': 160000,
                 'image_url': 'https://example.com/fermi.jpg',
             },
@@ -63,7 +63,7 @@ class Command(BaseCommand):
                 'location': 'Tokamak Research Facility, Japan',
                 'price_per_token': Decimal('4.80'),
                 'annual_roi_rate': Decimal('-0.0150'),
-                'carbon_offset_tonnes_co2_per_token_per_year': Decimal('3.1500'),
+                'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('3.1500'),
                 'total_capacity': 95000,
                 'image_url': 'https://example.com/helios.jpg',
             },
@@ -83,5 +83,6 @@ class Command(BaseCommand):
                     self.style.WARNING(f'Reactor "{reactor.name}" already exists')
                 )
 
-        self.stdout.write
-        self.style.SUCCESS('All reactors have been processed!')
+        self.stdout.write(
+            self.style.SUCCESS('All reactors have been processed!')
+        )
