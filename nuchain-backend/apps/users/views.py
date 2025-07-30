@@ -64,7 +64,7 @@ def register_user(request):
             },
             'refresh': str(refresh),
             'access': str(access_token),
-            'message': 'User created successfully with 100,000 $NUC tokens!'
+            'message': 'User created successfully with 25,000 $NUC tokens!'
         }, status=status.HTTP_201_CREATED)
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

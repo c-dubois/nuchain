@@ -3,8 +3,8 @@ from .models import Reactor
 
 class ReactorSerializer(serializers.ModelSerializer):
     
-    investment_percentage = serializers.ReadOnlyField()
-    available_capacity = serializers.ReadOnlyField()
+    funding_percentage = serializers.ReadOnlyField()
+    available_funding = serializers.ReadOnlyField()
     is_fully_funded = serializers.ReadOnlyField()
 
     class Meta:
