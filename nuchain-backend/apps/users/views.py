@@ -93,12 +93,12 @@ def update_user_profile(request):
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def reset_wallet(request):
-    """Reset user's wallet to starting balance (100,000 $NUC) and clear investments"""
+    """Reset user's wallet to starting balance (25,000 $NUC) and clear investments"""
 
     request.user.profile.reset_wallet()
     
     return Response({
-        'message': 'Wallet reset successfully! Your balance is now 100,000 $NUC.',
+        'message': 'Wallet reset successfully! Your balance is now 25,000 $NUC.',
         'balance': float(request.user.profile.balance)
     })
 
