@@ -7,6 +7,7 @@ services:
   - type: web
     name: nuchain-backend
     env: python
+    rootDir: nuchain-backend
     buildCommand: "./build.sh"
     startCommand: "gunicorn nuchain_backend.wsgi:application --bind 0.0.0.0:$PORT"
     envVars:
