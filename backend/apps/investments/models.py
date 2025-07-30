@@ -20,7 +20,7 @@ class Investment(models.Model):
         max_digits=10,
         decimal_places=2, 
         validators=[MinValueValidator(Decimal('0.01'))],
-        help_text="Amount of $NUC invested"
+        help_text="Amount of $NUC invested in this reactor"
     ) 
 
     time_period_years = models.PositiveIntegerField(

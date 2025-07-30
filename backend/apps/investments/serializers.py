@@ -36,7 +36,7 @@ class CreateInvestmentSerializer(serializers.ModelSerializer):
 
         if not reactor.can_invest(amount):
             raise serializers.ValidationError({
-                'amount_invested': f"Cannot invest {amount:,.2f} tokens. Available capacity: {reactor.available_capacity:,.2f}"
+                'amount_invested': f"Cannot invest {amount:,.2f} $NUC. Available capacity: {reactor.available_capacity:,.2f} $NUC"
             })
         
         user = self.context['request'].user

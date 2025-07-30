@@ -18,13 +18,6 @@ class Reactor(models.Model):
     description = models.TextField()
     location = models.CharField(max_length=100)
 
-    price_per_token = models.DecimalField(
-        max_digits=10,
-        decimal_places=2, 
-        validators=[MinValueValidator(Decimal('0.01'))],
-        help_text="Price per $NUC token investment"
-    )
-
     annual_roi_rate = models.DecimalField(
         max_digits=6,
         decimal_places=4,
@@ -35,18 +28,20 @@ class Reactor(models.Model):
         max_digits=8,
         decimal_places=4,
         validators=[MinValueValidator(Decimal('0.0000'))],
-        help_text="Tons of CO2 offset per token per year"
+        help_text="Tonnes of CO₂ offset per $NUC invested per year"
     )
 
-    total_token_capacity = models.PositiveIntegerField(
-        help_text="Maximum number of tokens that can be invested across all users"
+    total_funding_needed = models.DecimalField(
+    max_digits=15, 
+    decimal_places=2,
+    help_text="Total $NUC needed to fully fund this reactor"
     )
 
-    current_investments = models.DecimalField(
+    current_funding = models.DecimalField(
         max_digits=15, 
         decimal_places=2, 
         default=Decimal('0.00'),
-        help_text="Total tokens currently invested in this reactor"
+        help_text="Total $NUC currently invested in this reactor"
     )
 
     image_url = models.URLField(blank=True, null=True)
@@ -64,37 +59,37 @@ class Reactor(models.Model):
         return f"{self.name} ({self.location})"
     
     @property
-    def investment_percentage(self):
-        """ Calculate percentage of total token capacity that's been invested"""
-        if self.total_token_capacity == 0:
+    def funding_percentage(self):
+        """Calculate percentage of total funding needed that's been invested"""
+        if self.total_funding_needed == 0:
             return 0
-        return round(self.current_investments / self.total_token_capacity * 100, 2)
+        return round(float(self.current_funding / self.total_funding_needed * 100), 2)
     
     @property
-    def available_capacity(self):
-        """Remaining investment capacity in tokens"""
-        return float(self.total_token_capacity) - float(self.current_investments)
+    def available_funding(self):
+        """Remaining funding capacity in $NUC"""
+        return float(self.total_funding_needed) - float(self.current_funding)
     
     @property
     def is_fully_funded(self):
-        """Check if reactor has reached investment capacity"""
-        return self.current_investments >= self.total_token_capacity
+        """Check if reactor has reached full funding"""
+        return self.current_funding >= self.total_funding_needed
     
-    def can_invest(self, token_amount):
-        """Check if a specific token investment amount is valid"""
+    def can_invest(self, nuc_amount):
+        """Check if a specific $NUC investment amount is valid"""
         return (
             self.is_active and
-            token_amount > 0 and
-            float(self.current_investments + token_amount) <= self.total_token_capacity
+            nuc_amount > 0 and
+            float(self.current_funding + nuc_amount) <= float(self.total_funding_needed)
         )
     
-    def calculate_roi_projection(self, token_amount, years):
-        """Calculate projected financial return for a given time period"""
-        base_investment = float(token_amount)
+    def calculate_roi_projection(self, nuc_amount, years):
+        """Calculate projected financial return for a given $NUC investment over time"""
+        base_investment = float(nuc_amount)
         annual_return = base_investment * float(self.annual_roi_rate)
         total_return = annual_return * years
         return total_return
     
-    def calculate_carbon_offset_projection(self, token_amount, years):
-        """Calculate projected carbon offset in tonnes CO2"""
-        return float(token_amount) * float(self.carbon_offset_tonnes_co2_per_nuc_per_year) * years
+    def calculate_carbon_offset_projection(self, nuc_amount, years):
+        """Calculate projected carbon offset in tonnes CO2 for a given $NUC investment"""
+        return float(nuc_amount) * float(self.carbon_offset_tonnes_co2_per_nuc_per_year) * years
