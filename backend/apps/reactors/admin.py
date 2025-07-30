@@ -4,7 +4,8 @@ from .models import Reactor
 @admin.register(Reactor)
 class ReactorAdmin(admin.ModelAdmin):
     list_display = [
-        'name', 
+        'name',
+        'type',
         'location', 
         'price_per_token', 
         'annual_roi_rate', 
@@ -20,7 +21,7 @@ class ReactorAdmin(admin.ModelAdmin):
             'fields': ('name', 'slug', 'description', 'location', 'image_url', 'is_active')
         }),
         ('Investment Parameters', {
-            'fields': ('price_per_token', 'annual_roi_rate', 'carbon_offset_per_token_per_year')
+            'fields': ('price_per_token', 'annual_roi_rate', 'carbon_offset_tonnes_co2_per_token_per_year')
         }),
         ('Capacity', {
             'fields': ('total_capacity', 'current_investments')

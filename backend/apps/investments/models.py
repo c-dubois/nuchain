@@ -20,7 +20,7 @@ class Investment(models.Model):
         max_digits=10,
         decimal_places=2, 
         validators=[MinValueValidator(Decimal('0.01'))],
-        help_text="Number of $NUC tokens invested"
+        help_text="Amount of $NUC invested"
     ) 
 
     time_period_years = models.PositiveIntegerField(
@@ -36,12 +36,12 @@ class Investment(models.Model):
         verbose_name_plural = "Investments"
 
     def __str__(self):
-        return f"{self.user.username} → {self.reactor.name}: {self.amount_invested:,.2f} tokens"
+        return f"{self.user.username} → {self.reactor.name}: {self.amount_invested:,.2f} $NUC invested"
     
     def calculate_roi_projection(self, years):
         """Calculate projected ROI for given time period"""
         return self.reactor.calculate_roi_projection(self.amount_invested, years)
     
     def calculate_carbon_offset_projection(self, years):
-        """Calculate projected carbon offset for given time period"""
+        """Calculate projected carbon offset for given time period (tonnes CO2)"""
         return self.reactor.calculate_carbon_offset_projection(self.amount_invested, years)

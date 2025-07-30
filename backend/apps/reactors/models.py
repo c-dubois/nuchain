@@ -14,6 +14,7 @@ class Reactor(models.Model):
 
     name = models.CharField(max_length=100, unique=True)
     slug = models.CharField(max_length=50, choices=REACTOR_CHOICES, unique=True)
+    type = models.CharField(max_length=200)
     description = models.TextField()
     location = models.CharField(max_length=100)
 
@@ -30,7 +31,7 @@ class Reactor(models.Model):
         help_text="Annual ROI as decimal, can be negative (ex: 0.0650 = 6.5%)"
     )
 
-    carbon_offset_per_token_per_year = models.DecimalField(
+    carbon_offset_tonnes_co2_per_token_per_year = models.DecimalField(
         max_digits=8,
         decimal_places=4,
         validators=[MinValueValidator(Decimal('0.0000'))],
@@ -95,5 +96,5 @@ class Reactor(models.Model):
         return total_return
     
     def calculate_carbon_offset_projection(self, token_amount, years):
-        """Calculate projected carbon offset in tons CO2"""
-        return float(token_amount) * float(self.carbon_offset_per_token_per_year) * years
+        """Calculate projected carbon offset in tonnes CO2"""
+        return float(token_amount) * float(self.carbon_offset_tonnes_co2_per_token_per_year) * years
