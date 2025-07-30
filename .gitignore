@@ -7,6 +7,7 @@ db.sqlite3
 local_settings.py
 .env
 venv/
+env/
 ENV/
 .envrc
 .venv/
@@ -25,6 +26,7 @@ yarn-error.log
 .idea/
 .vscode/
 *.swp
+*~
 
 # === TESTING and CACHE ===
 .coverage
@@ -49,6 +51,7 @@ docs/_build/
 
 # === STATIC ===
 staticfiles/
+static/
 
 # === MISC ===
 *.bak
