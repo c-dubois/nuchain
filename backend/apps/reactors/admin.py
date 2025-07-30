@@ -7,14 +7,13 @@ class ReactorAdmin(admin.ModelAdmin):
         'name',
         'type',
         'location', 
-        'price_per_token', 
         'annual_roi_rate', 
-        'investment_percentage', 
+        'funding_percentage', 
         'is_active'
     ]
     list_filter = ['is_active', 'location', 'slug']
     search_fields = ['name', 'location', 'description']
-    readonly_fields = ['created_at', 'updated_at', 'current_investments', 'investment_percentage']
+    readonly_fields = ['created_at', 'updated_at', 'current_funding', 'funding_percentage']
 
     fieldsets = (
         ('Basic Information', {
@@ -24,14 +23,10 @@ class ReactorAdmin(admin.ModelAdmin):
             'fields': ('price_per_token', 'annual_roi_rate', 'carbon_offset_tonnes_co2_per_nuc_per_year')
         }),
         ('Capacity', {
-            'fields': ('total_capacity', 'current_investments')
+            'fields': ('total_capacity', 'current_funding')
         }),
         ('Timestamps', {
             'fields': ('created_at', 'updated_at'),
             'classes': ('collapse',)
         }),
     )
-
-    def investment_percentage(self, obj):
-        return f"{obj.investment_percentage:.1f}%"
-    investment_percentage.short_description = "Investment %"
