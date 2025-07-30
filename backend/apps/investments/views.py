@@ -3,6 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Sum
+from django.db import transaction
 from decimal import Decimal
 from .models import Investment
 from .serializers import (
@@ -28,6 +29,7 @@ class InvestmentViewSet(viewsets.ModelViewSet):
             return CreateInvestmentSerializer
         return InvestmentSerializer
     
+    @transaction.atomic
     def create(self, request, *args, **kwargs):
         """Create a new investment"""
         serializer = self.get_serializer(data=request.data, context={'request': request})
@@ -36,25 +38,22 @@ class InvestmentViewSet(viewsets.ModelViewSet):
             reactor = serializer.validated_data['reactor']
             amount = serializer.validated_data['amount_invested']
 
-            total_cost = amount * reactor.price_per_token
-
-            if request.user.profile.deduct_balance(total_cost):
-
+            if request.user.profile.deduct_balance(amount):
                 investment = Investment.objects.create(
                     user=request.user,
                     reactor=reactor,
                     amount_invested=amount
                 )
 
-                reactor.current_investments += amount
+                reactor.current_funding += amount
                 reactor.save()
 
                 response_serializer = InvestmentSerializer(investment)
                 return Response({
                     'investment': response_serializer.data,
-                    'message': f'Successfully invested {amount:,.2f} tokens in {reactor.name}',
+                    'message': f'Successfully invested {amount:,.2f} $NUC in {reactor.name}',
                     'remaining_balance': float(request.user.profile.balance),
-                    'total_cost': float(total_cost)
+                    'amount_invested': float(amount)
                 }, status=status.HTTP_201_CREATED)
             else:
                 return Response({

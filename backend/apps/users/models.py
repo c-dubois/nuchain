@@ -15,7 +15,7 @@ class UserProfile(models.Model):
     balance = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        default=Decimal('100000.00'),
+        default=Decimal('25000.00'),
         help_text="User's balance in $NUC tokens"
     )
 
@@ -39,7 +39,7 @@ class UserProfile(models.Model):
     
     def reset_wallet(self):
         """
-        Reset wallet to starting balance of 100,000 $NUC.
+        Reset wallet to starting balance of 25,000 $NUC.
         Clear all investments associated with user and reactor's current investments.
         """
         
@@ -51,7 +51,7 @@ class UserProfile(models.Model):
 
         user_investments.delete()
 
-        self.balance = Decimal('100000.00')
+        self.balance = Decimal('25000.00')
         self.save()
 
     @receiver(post_save, sender=User)
