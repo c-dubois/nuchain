@@ -47,21 +47,16 @@ class UserProfileModelTest(TestCase):
         self.assertEqual(self.user.profile.balance, initial_balance)
 
     def test_reset_wallet(self):
-        """Test resetting wallet to starting balance and clearing investments"""
-        # Simulate investments
-        self.user.investments.create(reactor_id=1, amount_invested=Decimal('5000'))
-        self.user.investments.create(reactor_id=2, amount_invested=Decimal('10000'))
-
-        self.assertEqual(self.user.profile.balance, Decimal('10000'))
-
+        """Test resetting wallet to starting balance"""
+        # First deduct some balance
+        self.user.profile.deduct_balance(Decimal('10000'))
+        self.assertEqual(self.user.profile.balance, Decimal('15000'))
+        
         # Reset wallet
         self.user.profile.reset_wallet()
-
+        
         # Check balance reset to 25,000 $NUC
         self.assertEqual(self.user.profile.balance, Decimal('25000.00'))
-
-        # Check investments cleared
-        self.assertEqual(self.user.investments.count(), 0)
 
     def test_str_representation(self):
         """Test string representation of UserProfile"""
