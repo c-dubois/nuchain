@@ -64,7 +64,7 @@ def register_user(request):
             },
             'refresh': str(refresh),
             'access': str(access_token),
-            'message': 'User created successfully with 100,000 $NUC tokens!'
+            'message': 'User created successfully with 25,000 $NUC tokens!'
         }, status=status.HTTP_201_CREATED)
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -93,12 +93,12 @@ def update_user_profile(request):
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def reset_wallet(request):
-    """Reset user's wallet to starting balance (100,000 $NUC) and clear investments"""
+    """Reset user's wallet to starting balance (25,000 $NUC) and clear investments"""
 
     request.user.profile.reset_wallet()
     
     return Response({
-        'message': 'Wallet reset successfully! Your balance is now 100,000 $NUC.',
+        'message': 'Wallet reset successfully! Your balance is now 25,000 $NUC.',
         'balance': float(request.user.profile.balance)
     })
 
