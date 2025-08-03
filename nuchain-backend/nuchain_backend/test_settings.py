@@ -1,4 +1,4 @@
-from .settings import *
+from .settings import * # noqa: F405
 
 # Override database to use SQLite for testing
 DATABASES = {
