@@ -4,6 +4,7 @@ from apps.users.serializers import (
     UserSerializer,
     UserProfileSerializer,
     UserRegistrationSerializer,
+    CustomTokenObtainPairSerializer,
     UserUpdateSerializer
 )
 
@@ -112,6 +113,22 @@ class UserRegistrationSerializerTest(TestCase):
         self.assertTrue(user.check_password('strongpass123'))
         self.assertTrue(hasattr(user, 'profile'))
 
+class CustomTokenObtainPairSerializerTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username='testuser',
+            email='test@example.com',
+            password='testpass123'
+        )
+
+    def test_get_token(self):
+        """Test that token contains user info"""
+        serializer = CustomTokenObtainPairSerializer.get_token(self.user)
+        
+        self.assertIn('username', serializer)
+        self.assertIn('email', serializer)
+        self.assertEqual(serializer['username'], self.user.username)
+        self.assertEqual(serializer['email'], self.user.email)
 
 class UserUpdateSerializerTest(TestCase):
     def setUp(self):

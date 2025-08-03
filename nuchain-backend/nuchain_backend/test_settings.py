@@ -1,4 +1,4 @@
-from .settings import BASE_DIR
+from .settings import *
 
 # Override database to use SQLite for testing
 DATABASES = {
