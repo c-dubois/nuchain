@@ -77,7 +77,7 @@ class CreateReactorsCommandTest(TestCase):
             {
                 'slug': 'helios_fusiondrive',
                 'total_funding': Decimal('95000'),
-                'roi_rate': Decimal('-0.0150'),  # Negative ROI
+                'roi_rate': Decimal('-0.0150'), 
                 'carbon_offset': Decimal('3.1500')
             }
         ]
