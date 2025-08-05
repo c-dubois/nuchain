@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { RegisterData } from '../../types/auth';
+import type { RegisterData } from '../../types/auth';
 import './AuthForms.css';
 
 interface RegisterFormProps {

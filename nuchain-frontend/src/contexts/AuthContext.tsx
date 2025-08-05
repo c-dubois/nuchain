@@ -1,25 +1,7 @@
-import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
-import { User } from '../types/auth';
+import React, { useState, useEffect, type ReactNode } from 'react';
+import type { User, RegisterData } from '../types/auth';
 import { authService } from '../services/auth';
-
-interface AuthContextType {
-    user: User | null;
-    isAuthenticated: boolean;
-    login: (username: string, password: string) => Promise<void>;
-    register: (data: any) => Promise<void>;
-    logout: () => Promise<void>;
-    updateUser: (user: User) => void;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if (context === undefined) {
-        throw new Error('useAuth must be used within an AuthProvider');
-    }
-    return context;
-};
+import { AuthContext } from './AuthContextBase';
 
 interface AuthProviderProps {
     children: ReactNode;
@@ -44,7 +26,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setIsAuthenticated(true);
     };
 
-    const register = async (data: any) => {
+    const register = async (data: RegisterData) => {
         const response = await authService.register(data);
         setUser(response.user);
         setIsAuthenticated(true);
