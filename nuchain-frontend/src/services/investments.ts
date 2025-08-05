@@ -1,6 +1,6 @@
 import api from './api';
-import { Reactor } from '../types/reactor';
-import { Investment, PortfolioSummary, CreateInvestmentData } from '../types/investment';
+import type { Reactor } from '../types/reactor';
+import type { Investment, PortfolioSummary, CreateInvestmentData } from '../types/investment';
 
 export const reactorService = {
     async getReactors(): Promise<Reactor[]> {

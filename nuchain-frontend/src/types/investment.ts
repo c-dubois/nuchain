@@ -1,3 +1,5 @@
+import type { Reactor } from './reactor';
+
 export interface Investment {
     id: number;
     user: string;
