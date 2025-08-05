@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../hooks/useAuth';
 import type { RegisterData } from '../../types/auth';
+import { AxiosError } from 'axios';
 import './AuthForms.css';
 
 interface RegisterFormProps {
@@ -40,15 +41,18 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchT
         setLoading(true);
 
         try {
-        await register(formData);
-        onSuccess();
-        } catch (err: any) {
-        setError(err.response?.data?.email?.[0] || 
-                err.response?.data?.username?.[0] || 
-                err.response?.data?.password?.[0] ||
-                'Registration failed. Please try again.');
+            await register(formData);
+            onSuccess();
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                setError(err.response?.data?.email?.[0] || 
+                    err.response?.data?.username?.[0] || 
+                    err.response?.data?.password?.[0] || 'Registration failed. Please try again.');
+            } else {
+                setError('An unexpected error occurred. Please try again.');
+            }
         } finally {
-        setLoading(false);
+            setLoading(false);
         }
     };
 

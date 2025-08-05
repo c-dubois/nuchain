@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../hooks/useAuth';
+import { AxiosError } from 'axios';
 import './AuthForms.css';
 
 interface LoginFormProps {
@@ -20,12 +21,16 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegis
         setLoading(true);
 
         try {
-        await login(username, password);
-        onSuccess();
-        } catch (err: any) {
-        setError(err.response?.data?.detail || 'Login failed. Please check your credentials.');
+            await login(username, password);
+            onSuccess();
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                setError(err.response?.data?.detail || 'Login failed. Please check your credentials.');
+            } else { 
+                setError('An unexpected error occurred. Please try again.');
+            }
         } finally {
-        setLoading(false);
+            setLoading(false);
         }
     };
 
