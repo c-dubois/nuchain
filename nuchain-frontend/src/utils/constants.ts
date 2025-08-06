@@ -9,11 +9,11 @@ export const CURRENCY_SYMBOL = '$NUC';
 
 // Reactor slugs (matching backend)
 export const REACTOR_SLUGS = {
-  NUWAVE: 'nuwave',
-  PHOENIX: 'phoenix_regenx7',
-  NEXUS: 'nexus_core',
-  FERMI: 'fermi_iii',
-  HELIOS: 'helios_fusiondrive'
+    NUWAVE: 'nuwave',
+    PHOENIX: 'phoenix_regenx7',
+    NEXUS: 'nexus_core',
+    FERMI: 'fermi_iii',
+    HELIOS: 'helios_fusiondrive'
 } as const;
 
 // Investment limits
