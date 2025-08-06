@@ -1,0 +1,39 @@
+.reactor-list {
+    display: grid;
+    gap: 2rem;
+}
+
+.reactor-list-browse {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+}
+
+.reactor-list-portfolio {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.reactor-list-error,
+.reactor-list-empty {
+    text-align: center;
+    padding: 3rem;
+    background-color: var(--color-dark-bg);
+    border-radius: 1rem;
+    border: 2px solid var(--color-medium);
+}
+
+.reactor-list-error p,
+.reactor-list-empty p {
+    color: var(--color-light);
+    font-size: 1.125rem;
+    opacity: 0.8;
+}
+
+.reactor-list-error p {
+    color: var(--color-error);
+}
+
+@media (max-width: 768px) {
+    .reactor-list-browse,
+    .reactor-list-portfolio {
+        grid-template-columns: 1fr;
+    }
+}
