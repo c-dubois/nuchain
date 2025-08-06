@@ -14,7 +14,7 @@ export const Footer: React.FC = () => {
                     This is a simulation platform. No real investments or transactions occur.
                 </p>
                 <p className="footer-copyright">
-                    © {currentYear} Camille. All rights reserved.
+                    © {currentYear} Camille DuBois. All rights reserved.
                 </p>
             </div>
         </footer>
