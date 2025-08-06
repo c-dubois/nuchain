@@ -15,7 +15,12 @@ function App() {
     <AuthProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Welcome />} />
+          <Route path="/" element={
+            <div className="app-layout">
+              <Welcome />
+              <Footer />
+            </div>
+          } />
 
           <Route path="/dashboard" element={
             <ProtectedRoute>
