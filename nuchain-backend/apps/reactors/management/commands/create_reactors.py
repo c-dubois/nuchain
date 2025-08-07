@@ -64,7 +64,7 @@ class Command(BaseCommand):
             },
             {
                 'name': 'Atucha Q-Tronix',
-                'slug': 'atucha_q_tronix',
+                'slug': 'atucha_qtronix',
                 'type': 'Quantum-Assisted Traveling Wave Reactor (QTWR)',
                 'description': 'Atucha Q-Tronix is a next-generation Quantum-Assisted Traveling Wave Reactor, developed for ultra-long-lifecycle energy production using depleted uranium and in-core breeding of fissile fuel. What sets Atucha Q-Tronix apart is its integration with a quantum computing co-processor that optimizes neutron flux propagation, reactor core migration, and adaptive burn-up zones in real time. Located in the Mendoza Energy Frontier, Argentina, this reactor operates with minimal refueling over decades, enabling stable, high-efficiency energy in regions with limited nuclear fuel infrastructure. Atucha Q-Tronix represents a leap forward in predictive reactor control and fuel utilization for developing markets.',
                 'location': 'Frontera Energética del Sur, Mendoza, Argentina',
