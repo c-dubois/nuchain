@@ -1,0 +1,195 @@
+.profile-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.profile-page h1 {
+    color: var(--color-primary);
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 20px rgba(218, 255, 2, 0.3);
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.profile-section {
+    background-color: var(--color-dark-bg);
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 2px solid var(--color-medium);
+}
+
+.profile-section h2 {
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Profile Info Styles */
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background-color: var(--color-medium);
+    border-radius: 0.5rem;
+}
+
+.info-label {
+    color: var(--color-light);
+    opacity: 0.8;
+    font-weight: 600;
+}
+
+.info-value {
+    color: var(--color-light);
+}
+
+/* Profile Form Styles */
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    color: var(--color-light);
+    font-weight: 600;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.form-buttons button {
+    flex: 1;
+}
+
+/* Wallet Info Styles */
+.wallet-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.balance-display {
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--color-medium);
+    border-radius: 0.75rem;
+}
+
+.balance-label {
+    display: block;
+    color: var(--color-light);
+    opacity: 0.8;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+.balance-value {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    text-shadow: 0 0 20px rgba(218, 255, 2, 0.3);
+}
+
+.wallet-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.wallet-description {
+    color: var(--color-light);
+    opacity: 0.8;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* Success/Error Messages */
+.success-message-profile,
+.error-message-profile {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+.success-message-profile {
+    background-color: var(--color-success);
+    color: var(--color-dark);
+}
+
+.error-message-profile {
+    background-color: var(--color-error);
+    color: var(--color-dark);
+}
+
+/* Account Actions */
+.account-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.action-item {
+    padding: 1.5rem;
+    background-color: var(--color-medium);
+    border-radius: 0.75rem;
+    text-align: center;
+}
+
+.action-item h3 {
+    color: var(--color-primary);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.action-item p {
+    color: var(--color-light);
+    opacity: 0.8;
+    margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .profile-section {
+        padding: 1.5rem;
+    }
+    
+    .form-buttons {
+        flex-direction: column;
+    }
+}

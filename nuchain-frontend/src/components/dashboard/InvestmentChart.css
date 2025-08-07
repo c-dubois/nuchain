@@ -1,0 +1,69 @@
+.investment-chart {
+    background-color: var(--color-dark-bg);
+    border-radius: 1rem;
+    padding: 2rem;
+    border: 2px solid var(--color-medium);
+}
+
+.investment-chart h3 {
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.chart-container {
+    margin-bottom: 2rem;
+}
+
+.chart-carbon {
+    border-top: 2px solid var(--color-medium);
+    padding-top: 1.5rem;
+    margin-top: 2rem;
+}
+
+.chart-carbon h4 {
+    color: var(--color-accent);
+    margin-bottom: 1rem;
+    font-size: 1.125rem;
+}
+
+/* Custom tooltip styles */
+.chart-tooltip {
+    background-color: var(--color-dark-bg);
+    border: 2px solid var(--color-primary);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.tooltip-label {
+    color: var(--color-primary);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.tooltip-item {
+    margin: 0.25rem 0;
+    font-size: 0.875rem;
+}
+
+/* Recharts customization */
+.recharts-text {
+    fill: var(--color-light);
+}
+
+.recharts-legend-item-text {
+    color: var(--color-light) !important;
+}
+
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+    stroke-opacity: 0.2;
+}
+
+@media (max-width: 768px) {
+    .investment-chart {
+        padding: 1rem;
+    }
+}

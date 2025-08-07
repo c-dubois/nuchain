@@ -1,0 +1,61 @@
+.time-button-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: var(--color-dark-bg);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 2px solid var(--color-medium);
+}
+
+.time-label {
+    color: var(--color-light);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.time-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.time-button {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--color-medium);
+    color: var(--color-light);
+    border: 2px solid transparent;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.time-button:hover {
+    background-color: var(--color-secondary);
+    transform: translateY(-2px);
+}
+
+.time-button.active {
+    background-color: var(--color-primary);
+    color: var(--color-dark);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 20px rgba(218, 255, 2, 0.4);
+}
+
+.time-button.active:hover {
+    background-color: var(--color-primary);
+    transform: none;
+}
+
+@media (max-width: 768px) {
+    .time-button-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .time-buttons {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
