@@ -78,7 +78,7 @@ class Command(BaseCommand):
 
         for reactor_data in reactors_data:
             reactor, created = Reactor.objects.get_or_create(
-                name=reactor_data['name'],
+                slug=reactor_data['slug'],
                 defaults=reactor_data
             )
             if not created:
