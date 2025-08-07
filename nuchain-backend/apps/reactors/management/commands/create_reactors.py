@@ -63,15 +63,15 @@ class Command(BaseCommand):
                 'image_url': 'https://example.com/helios.jpg',
             },
             {
-                'name': 'Atucha Tronix-Q',
-                'slug': 'atuchatronix_q',
+                'name': 'Atucha Q-Tronix',
+                'slug': 'atucha_q_tronix',
                 'type': 'Quantum-Assisted Traveling Wave Reactor (QTWR)',
-                'description': 'AtuchaTronix-Q is a next-generation Quantum-Assisted Traveling Wave Reactor, developed for ultra-long-lifecycle energy production using depleted uranium and in-core breeding of fissile fuel. What sets AtuchaTronix-Q apart is its integration with a quantum computing co-processor that optimizes neutron flux propagation, reactor core migration, and adaptive burn-up zones in real time. Located in the Mendoza Energy Frontier, Argentina, this reactor operates with minimal refueling over decades, enabling stable, high-efficiency energy in regions with limited nuclear fuel infrastructure. AtuchaTronix-Q represents a leap forward in predictive reactor control and fuel utilization for developing markets.',
+                'description': 'Atucha Q-Tronix is a next-generation Quantum-Assisted Traveling Wave Reactor, developed for ultra-long-lifecycle energy production using depleted uranium and in-core breeding of fissile fuel. What sets Atucha Q-Tronix apart is its integration with a quantum computing co-processor that optimizes neutron flux propagation, reactor core migration, and adaptive burn-up zones in real time. Located in the Mendoza Energy Frontier, Argentina, this reactor operates with minimal refueling over decades, enabling stable, high-efficiency energy in regions with limited nuclear fuel infrastructure. Atucha Q-Tronix represents a leap forward in predictive reactor control and fuel utilization for developing markets.',
                 'location': 'Frontera Energética del Sur, Mendoza, Argentina',
                 'annual_roi_rate': Decimal('0.0420'),
                 'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('1.6000'),
                 'total_funding_needed': 175000,
-                'image_url': 'https://example.com/atuchatronix.jpg',
+                'image_url': 'https://example.com/atucha_q.jpg',
             }
 
         ]
