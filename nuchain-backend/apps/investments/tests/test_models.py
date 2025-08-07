@@ -27,7 +27,6 @@ class InvestmentModelTest(TestCase):
             user=self.user,
             reactor=self.reactor,
             amount_invested=Decimal('5000'),
-            time_period_years=5
         )
     
     def test_investment_creation(self):
@@ -35,7 +34,6 @@ class InvestmentModelTest(TestCase):
         self.assertEqual(self.investment.user, self.user)
         self.assertEqual(self.investment.reactor, self.reactor)
         self.assertEqual(self.investment.amount_invested, Decimal('5000'))
-        self.assertEqual(self.investment.time_period_years, 5)
     
     def test_investment_str_representation(self):
         """Test string representation of investment"""
@@ -49,7 +47,6 @@ class InvestmentModelTest(TestCase):
             user=self.user,
             reactor=self.reactor,
             amount_invested=Decimal('3000'),
-            time_period_years=2
         )
         
         investments = Investment.objects.all()

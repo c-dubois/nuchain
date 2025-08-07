@@ -23,10 +23,6 @@ class Investment(models.Model):
         help_text="Amount of $NUC invested in this reactor"
     ) 
 
-    time_period_years = models.PositiveIntegerField(
-        help_text="Investment time period in years (1, 2, 5, or 10)"
-    )
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
