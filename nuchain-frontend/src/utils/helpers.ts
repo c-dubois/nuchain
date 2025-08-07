@@ -1,12 +1,14 @@
 import { CURRENCY_SYMBOL } from './constants';
+import Decimal from 'decimal.js';
 
 /**
  * Format a number as currency with $NUC currency symbol
  * e.g., 1234.56 -> "1,234.56 $NUC"
  */
 export const formatCurrency = (amount: number): string => {
-    const isWholeNumber = amount % 1 === 0;
-    return `${amount.toLocaleString('en-US', {
+    const decimalAmount = new Decimal(amount);
+    const isWholeNumber = decimalAmount.mod(1).equals(0);
+    return `${decimalAmount.toNumber().toLocaleString('en-US', {
         minimumFractionDigits: isWholeNumber ? 0 : 2,
         maximumFractionDigits: 2
     })} ${CURRENCY_SYMBOL}`;
@@ -16,8 +18,9 @@ export const formatCurrency = (amount: number): string => {
  * Format a percentage value with specified decimal places
  * e.g., 0.1234 -> "12.34%"
  */
-export const formatPercentage = (value: number, decimals: number = 2): string => {
-    return `${value.toFixed(decimals)}%`;
+export const formatPercentage = (value: number | Decimal, decimals: number = 2): string => {
+    const decimalValue = value instanceof Decimal ? value : new Decimal(value);
+    return `${decimalValue.toFixed(decimals)}%`;
 };
 
 /**
@@ -25,7 +28,8 @@ export const formatPercentage = (value: number, decimals: number = 2): string =>
  * e.g., 0.1234 -> "12.34%"
  */
 export const formatROIRate = (rate: number): string => {
-    return formatPercentage(rate * 100);
+    const decimalRate = new Decimal(rate);
+    return formatPercentage(decimalRate.times(100));
 };
 
 /**
@@ -33,11 +37,11 @@ export const formatROIRate = (rate: number): string => {
  * e.g., 1.2345 -> "1.23 tonnes CO₂"
  */
 export const formatCarbonOffset = (tonnes: number | string): string => {
-    const value = typeof tonnes === 'string' ? parseFloat(tonnes) : tonnes;
-    if (value >= 1000) {
-        return `${(value / 1000).toFixed(2)}k tonnes CO₂\n`;
+    const decimalValue = new Decimal(tonnes);
+    if (decimalValue.gte(1000)) {
+        return `${decimalValue.dividedBy(1000).toFixed(2)}k tonnes CO₂\n`;
     }
-    return `${value.toFixed(2)} tonnes CO₂\n`;
+    return `${decimalValue.toFixed(2)} tonnes CO₂\n`;
 };
 
 /**
