@@ -56,7 +56,7 @@ class Command(BaseCommand):
                 'slug': 'helios_fusiondrive',
                 'type': 'Hybrid Fusion-Fission Blanket Reactor',
                 'description': 'Helios FusionDrive is a cutting-edge hybrid reactor using deuterium-tritium magnetic fusion as a neutron source to activate a subcritical fission blanket composed of thorium or depleted uranium. This architecture allows Helios to extract energy from otherwise inert materials, generate new fuel, and transmute nuclear waste—all while remaining inherently safe due to its reliance on externally driven neutronics. The first grid-integrated pilot was developed under a public–private partnership as part of an international effort to commercialize fusion energy by the 2040s.',
-                'location': 'Tokamak Research Facility, Kagoshima Prefecture, Japan',
+                'location': 'Tokamak Research, Kagoshima Prefecture, Japan',
                 'annual_roi_rate': Decimal('-0.0150'),
                 'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('3.1500'),
                 'total_funding_needed': 95000,
