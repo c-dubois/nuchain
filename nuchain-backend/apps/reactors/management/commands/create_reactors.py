@@ -12,7 +12,7 @@ class Command(BaseCommand):
                 'slug': 'nuwave',
                 'type': 'Advanced Pressurized Water Small Modular Reactor (SMR)',
                 'description': 'The NuWave SMR is a state-of-the-art light water reactor built on modular, factory-fabricated design principles. Optimized for deployment in distributed grids, remote regions, or developing nations, NuWave offers passive safety, underground installation, and rapid deployment. Its core is designed for 20-year sealed operation with no on-site refueling and integrated desalination and hydrogen co-generation options.',
-                'location': 'Pacific Northwest, USA',
+                'location': 'Cascadia Basin, Washington, USA',
                 'annual_roi_rate': Decimal('0.0450'),
                 'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('0.8500'),
                 'total_funding_needed': 180000,
@@ -23,7 +23,7 @@ class Command(BaseCommand):
                 'slug': 'phoenix_regenx7',
                 'type': 'Next-Gen Molten Salt Reactor (MSR)',
                 'description': 'The Phoenix RegenX-7 is a fluoride-based molten salt reactor operating at atmospheric pressure with passive convection cooling and intrinsic fuel recycling. It uses liquid thorium fuel, enabling in-core breeding of U-233 and near-zero long-lived waste production. Phoenix’s RegenX system allows real-time isotopic rebalancing and automated online fission product removal, giving it a uniquely long continuous operation lifespan.',
-                'location': 'La Drôme Nucléaire, France',
+                'location': 'La Drôme Nucléaire, Normandy, France',
                 'annual_roi_rate': Decimal('0.0680'),
                 'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('1.15000'),
                 'total_funding_needed': 150000,
@@ -81,13 +81,16 @@ class Command(BaseCommand):
                 slug=reactor_data['slug'],
                 defaults=reactor_data
             )
-            if created:
+            if not created:
+                for field, value in reactor_data.items():
+                    setattr(reactor, field, value)
+                reactor.save()
                 self.stdout.write(
-                    self.style.SUCCESS(f'Successfully created reactor "{reactor.name}"')
+                    self.style.SUCCESS(f'Successfully updated reactor "{reactor.name}"')
                 )
             else:
                 self.stdout.write(
-                    self.style.WARNING(f'Reactor "{reactor.name}" already exists')
+                    self.style.SUCCESS(f'Successfully created reactor "{reactor.name}"')
                 )
 
         self.stdout.write(
