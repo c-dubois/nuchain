@@ -5,8 +5,9 @@ import { CURRENCY_SYMBOL } from './constants';
  * e.g., 1234.56 -> "1,234.56 $NUC"
  */
 export const formatCurrency = (amount: number): string => {
+    const isWholeNumber = amount % 1 === 0;
     return `${amount.toLocaleString('en-US', {
-        minimumFractionDigits: 0,
+        minimumFractionDigits: isWholeNumber ? 0 : 2,
         maximumFractionDigits: 2
     })} ${CURRENCY_SYMBOL}`;
 };
@@ -34,9 +35,9 @@ export const formatROIRate = (rate: number): string => {
 export const formatCarbonOffset = (tonnes: number | string): string => {
     const value = typeof tonnes === 'string' ? parseFloat(tonnes) : tonnes;
     if (value >= 1000) {
-        return `${(value / 1000).toFixed(2)}k tonnes CO₂ per $NUC per year`;
+        return `${(value / 1000).toFixed(2)}k tonnes CO₂ \nper $NUC per year`;
     }
-    return `${value.toFixed(2)} tonnes CO₂ per $NUC per year`;
+    return `${value.toFixed(2)} tonnes CO₂ \nper $NUC per year`;
 };
 
 /**

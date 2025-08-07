@@ -132,8 +132,8 @@
 }
 
 /* Success/Error Messages */
-.success-message,
-.error-message {
+.success-message-profile,
+.error-message-profile {
     padding: 1rem;
     border-radius: 0.5rem;
     margin-bottom: 1.5rem;
@@ -141,14 +141,14 @@
     font-weight: 600;
 }
 
-.success-message {
+.success-message-profile {
     background-color: var(--color-success);
     color: var(--color-dark);
 }
 
-.error-message {
+.error-message-profile {
     background-color: var(--color-error);
-    color: var(--color-light);
+    color: var(--color-dark);
 }
 
 /* Account Actions */

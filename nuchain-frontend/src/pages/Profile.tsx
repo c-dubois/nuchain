@@ -89,10 +89,10 @@ export const Profile: React.FC = () => {
 
     return (
         <div className="profile-page">
-            <h1>User Profile</h1>
+            <h1>{user.first_name}'s Profile</h1>
 
-            {message && <div className="success-message">{message}</div>}
-            {error && <div className="error-message">{error}</div>}
+            {message && <div className="success-message-profile">{message}</div>}
+            {error && <div className="error-message-profile">{error}</div>}
 
             <div className="profile-grid">
                 <div className="profile-section">
