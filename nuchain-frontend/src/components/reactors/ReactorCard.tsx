@@ -44,7 +44,10 @@ export const ReactorCard: React.FC<ReactorCardProps> = ({
                     </div>
                     <div className="stat">
                         <span className="stat-label">Carbon Offset</span>
-                        <span className="stat-value">{formatCarbonOffset(reactor.carbon_offset_tonnes_co2_per_nuc_per_year)}</span>
+                        <span className="stat-value carbon-offset-text">
+                            <span className="carbon-value">{formatCarbonOffset(reactor.carbon_offset_tonnes_co2_per_nuc_per_year)}</span>
+                            <span className="carbon-unit">per $NUC per year</span>
+                        </span>
                     </div>
                 </div>
 

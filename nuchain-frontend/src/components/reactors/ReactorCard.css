@@ -111,6 +111,26 @@
     color: var(--color-error);
 }
 
+.carbon-offset {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.2;
+}
+
+.carbon-value {
+    font-weight: 700;
+    display: block;
+}
+
+.carbon-unit {
+    font-size: 0.75rem;
+    font-weight: 400;
+    opacity: 0.8;
+    margin-top: 0.125rem;
+    white-space: pre-line;
+}
+
 .reactor-description {
     color: var(--color-light);
     opacity: 0.9;
