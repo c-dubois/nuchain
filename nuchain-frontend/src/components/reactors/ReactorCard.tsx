@@ -1,4 +1,3 @@
-// src/components/reactors/ReactorCard.tsx
 import React from 'react';
 import type { Reactor } from '../../types/reactor';
 import { formatCurrency, formatROIRate, formatCarbonOffset, getReactorImage } from '../../utils/helpers';
