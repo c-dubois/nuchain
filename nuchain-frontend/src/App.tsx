@@ -5,7 +5,7 @@ import { Header } from './components/common/Header';
 import { Footer } from './components/common/Footer';
 import { Welcome } from './pages/Welcome';
 import { Dashboard } from './pages/Dashboard';
-import { Investments } from './pages/Reactors';
+import { Reactors } from './pages/Reactors';
 import { Profile } from './pages/Profile';
 import './styles/globals.css';
 import './App.css';
@@ -39,7 +39,7 @@ function App() {
               <div className="app-layout">
                 <Header />
                 <main className="main-content">
-                  <Investments />
+                  <Reactors />
                 </main>
                 <Footer />
               </div>

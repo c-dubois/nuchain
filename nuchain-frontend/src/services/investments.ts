@@ -4,8 +4,8 @@ import type { Investment, PortfolioSummary, CreateInvestmentData } from '../type
 
 export const reactorService = {
     async getReactors(): Promise<Reactor[]> {
-        const response = await api.get<Reactor[]>('/reactors/');
-        return response.data;
+        const response = await api.get<{ results: Reactor[] }>('/reactors/');
+        return response.data.results;
     },
 
     async getReactor(id: number): Promise<Reactor> {
@@ -16,8 +16,8 @@ export const reactorService = {
 
 export const investmentService = {
     async getInvestments(): Promise<Investment[]> {
-        const response = await api.get<Investment[]>('/investments/');
-        return response.data;
+        const response = await api.get<{ results: Investment[] }>('/investments/');
+        return response.data.results;
     },
 
     async createInvestment(data: CreateInvestmentData): Promise<{
