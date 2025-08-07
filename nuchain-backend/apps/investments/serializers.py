@@ -23,6 +23,10 @@ class CreateInvestmentSerializer(serializers.ModelSerializer):
         model = Investment
         fields = ['reactor_id', 'amount_invested']
 
+    def validate(self, attrs):
+        """Django REST Framework will automatically call this"""
+        return self.validate_investment(attrs)
+
     def validate_investment(self, data):
         """Validate the investment"""
         from apps.reactors.models import Reactor
