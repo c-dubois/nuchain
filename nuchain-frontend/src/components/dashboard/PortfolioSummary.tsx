@@ -1,5 +1,5 @@
 import React from 'react';
-import type { PortfolioSummary as PortfolioSummaryType, PortfolioProjection } from '../../types/investment';
+import type { PortfolioSummary as PortfolioSummaryType } from '../../types/investment';
 import type { TimePeriod } from '../../utils/constants';
 import { formatCurrency, formatPercentage, formatCarbonOffset } from '../../utils/helpers';
 import './PortfolioSummary.css';
