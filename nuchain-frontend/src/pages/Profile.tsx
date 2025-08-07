@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { authService } from '../services/auth';
 import { formatCurrency } from '../utils/helpers';
@@ -6,7 +7,8 @@ import { INITIAL_BALANCE } from '../utils/constants';
 import './Profile.css';
 
 export const Profile: React.FC = () => {
-    const { user, updateUser } = useAuth();
+    const { user, updateUser, logout } = useAuth();
+    const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState(false);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
@@ -71,6 +73,13 @@ export const Profile: React.FC = () => {
             setError('Failed to reset wallet. Please try again.');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleLogout = async () => {
+        if (window.confirm('Are you sure you want to logout?')) {
+            await logout();
+            navigate('/');
         }
     };
 
@@ -192,16 +201,33 @@ export const Profile: React.FC = () => {
                     
                         <div className="wallet-actions">
                             <p className="wallet-description">
-                                Reset your wallet to start fresh with {formatCurrency(INITIAL_BALANCE)}.
+                                Reset your wallet to start fresh with {formatCurrency(INITIAL_BALANCE)}.<br />
                                 This will clear all investments and return funding to reactors.
                             </p>
                         
                             <button 
-                                className="btn-accent"
+                                className="btn-secondary"
                                 onClick={handleResetWallet}
                                 disabled={loading}
                             >
                                 {loading ? 'Resetting...' : '🔄 Reset Wallet'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="profile-section">
+                    <h2>Account Actions</h2>
+
+                    <div className="account-actions">
+                        <div className="action-item">
+                            <h3>🚪 Logout</h3>
+                            <p>Sign out of your NuChain account</p>
+                            <button 
+                                className="btn-secondary"
+                                onClick={handleLogout}
+                            >
+                                Logout
                             </button>
                         </div>
                     </div>

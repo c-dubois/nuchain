@@ -154,8 +154,7 @@
     margin: 0;
 }
 
-.sidebar-menu a,
-.logout-button {
+.sidebar-menu a {
     display: block;
     padding: 1rem 1.5rem;
     color: var(--color-light);
@@ -169,8 +168,7 @@
     cursor: pointer;
 }
 
-.sidebar-menu a:hover,
-.logout-button:hover {
+.sidebar-menu a:hover {
     background-color: var(--color-medium);
     color: var(--color-primary);
     padding-left: 2rem;

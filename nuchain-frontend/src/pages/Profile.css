@@ -1,6 +1,7 @@
 .profile-page {
     max-width: 1000px;
     margin: 0 auto;
+    text-align: center;
 }
 
 .profile-page h1 {
@@ -27,6 +28,7 @@
     color: var(--color-primary);
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
+    text-align: center;
 }
 
 /* Profile Info Styles */
@@ -126,6 +128,7 @@
     opacity: 0.8;
     font-size: 0.875rem;
     line-height: 1.6;
+    text-align: center;
 }
 
 /* Success/Error Messages */
@@ -146,6 +149,32 @@
 .error-message {
     background-color: var(--color-error);
     color: var(--color-light);
+}
+
+/* Account Actions */
+.account-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.action-item {
+    padding: 1.5rem;
+    background-color: var(--color-medium);
+    border-radius: 0.75rem;
+    text-align: center;
+}
+
+.action-item h3 {
+    color: var(--color-primary);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.action-item p {
+    color: var(--color-light);
+    opacity: 0.8;
+    margin-bottom: 1rem;
 }
 
 /* Responsive */

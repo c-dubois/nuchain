@@ -31,11 +31,12 @@ export const formatROIRate = (rate: number): string => {
  * Format carbon offset in tonnes CO₂
  * e.g., 1.2345 -> "1.23 tonnes CO₂"
  */
-export const formatCarbonOffset = (tonnes: number): string => {
-    if (tonnes >= 1000) {
-        return `${(tonnes / 1000).toFixed(2)}k tonnes CO₂ per $NUC per year`;
+export const formatCarbonOffset = (tonnes: number | string): string => {
+    const value = typeof tonnes === 'string' ? parseFloat(tonnes) : tonnes;
+    if (value >= 1000) {
+        return `${(value / 1000).toFixed(2)}k tonnes CO₂ per $NUC per year`;
     }
-    return `${tonnes.toFixed(2)} tonnes CO₂ per $NUC per year`;
+    return `${value.toFixed(2)} tonnes CO₂ per $NUC per year`;
 };
 
 /**

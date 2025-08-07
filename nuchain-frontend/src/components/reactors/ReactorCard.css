@@ -120,8 +120,8 @@
     flex: 1;
     overflow: hidden;
     display: -webkit-box;
-    line-clamp: 5; /* Limit to 5 lines */
-    -webkit-line-clamp: 5;
+    line-clamp: 10; /* Limit to 10 lines */
+    -webkit-line-clamp: 10;
     -webkit-box-orient: vertical;
 }
 

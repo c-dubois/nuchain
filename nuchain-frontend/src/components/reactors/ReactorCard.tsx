@@ -39,7 +39,7 @@ export const ReactorCard: React.FC<ReactorCardProps> = ({
 
                 <div className="reactor-stats">
                     <div className="stat">
-                        <span className="stat-label">ROI Rate</span>
+                        <span className="stat-label">Return on Investment (ROI)</span>
                         <span className={`stat-value ${reactor.annual_roi_rate < 0 ? 'negative' : 'positive'}`}>{formatROIRate(reactor.annual_roi_rate)}</span>
                     </div>
                     <div className="stat">
