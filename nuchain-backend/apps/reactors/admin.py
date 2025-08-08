@@ -17,7 +17,7 @@ class ReactorAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Basic Information', {
-            'fields': ('name', 'slug', 'description', 'location', 'image_url', 'is_active')
+            'fields': ('name', 'slug', 'description', 'location', 'is_active')
         }),
         ('Investment Parameters', {
             'fields': ('annual_roi_rate', 'carbon_offset_tonnes_co2_per_nuc_per_year')

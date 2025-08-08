@@ -15,7 +15,6 @@ class ReactorSerializerTest(TestCase):
             carbon_offset_tonnes_co2_per_nuc_per_year=Decimal('0.8500'),
             total_funding_needed=Decimal('180000'),
             current_funding=Decimal('50000'),
-            image_url='https://example.com/test.jpg'
         )
 
     def test_serializer_fields(self):
@@ -27,7 +26,7 @@ class ReactorSerializerTest(TestCase):
             'id', 'name', 'slug', 'type', 'description', 'location',
             'annual_roi_rate', 'carbon_offset_tonnes_co2_per_nuc_per_year',
             'total_funding_needed', 'current_funding', 'funding_percentage',
-            'available_funding', 'is_fully_funded', 'image_url', 'is_active',
+            'available_funding', 'is_fully_funded', 'is_active',
             'created_at'
         ]
         

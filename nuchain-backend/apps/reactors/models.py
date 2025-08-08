@@ -44,7 +44,6 @@ class Reactor(models.Model):
         help_text="Total $NUC currently invested in this reactor"
     )
 
-    image_url = models.URLField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)

@@ -14,7 +14,6 @@ class ReactorModelTest(TestCase):
             carbon_offset_tonnes_co2_per_nuc_per_year=Decimal('0.8500'),
             total_funding_needed=Decimal('180000'),
             current_funding=Decimal('50000'),
-            image_url='https://example.com/test.jpg'
         )
 
     def test_reactor_creation(self):

@@ -23,7 +23,6 @@ class ReactorSerializer(serializers.ModelSerializer):
             'funding_percentage',
             'available_funding',
             'is_fully_funded',
-            'image_url',
             'is_active',
             'created_at'
         ]
