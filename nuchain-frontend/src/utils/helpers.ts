@@ -69,14 +69,7 @@ export const isValidInvestment = (
  * Get the image URL for a reactor based on its slug
  */
 export const getReactorImage = (slug: string): string => {
-    const CLOUD_NAME = import.meta.env.CLOUD_NAME;
+    const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME;
     const baseUrl = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/`;
-    // const images: Record<string, string> = {
-    //     'nuwave': '/images/nuwave.jpg',
-    //     'phoenix_regenx7': '/images/phoenix.jpg',
-    //     'nexus_core': '/images/nexus.jpg',
-    //     'fermi_iii': '/images/fermi.jpg',
-    //     'helios_fusiondrive': '/images/helios.jpg'
-    // };
     return `${baseUrl}${slug}.jpg`;
 };
