@@ -10,6 +10,7 @@ class Reactor(models.Model):
         ('nexus_core', 'Nexus CORE'),
         ('fermi_iii', 'Fermi-III'),
         ('helios_fusiondrive', 'Helios FusionDrive'),
+        ('atucha_qtronix', 'Atucha Q-Tronix'),
     ]
 
     name = models.CharField(max_length=100, unique=True)
@@ -17,6 +18,7 @@ class Reactor(models.Model):
     type = models.CharField(max_length=200)
     description = models.TextField()
     location = models.CharField(max_length=100)
+    display_order = models.PositiveIntegerField(default=0)
 
     annual_roi_rate = models.DecimalField(
         max_digits=6,

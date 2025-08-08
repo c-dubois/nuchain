@@ -16,6 +16,7 @@ class Command(BaseCommand):
                 'annual_roi_rate': Decimal('0.0450'),
                 'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('0.8500'),
                 'total_funding_needed': 180000,
+                'display_order': 1
             },
             {
                 'name': 'Phoenix RegenX-7',
@@ -26,6 +27,7 @@ class Command(BaseCommand):
                 'annual_roi_rate': Decimal('0.0680'),
                 'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('1.15000'),
                 'total_funding_needed': 150000,
+                'display_order': 2
             },
             {
                 'name': 'Atucha Q-Tronix',
@@ -36,6 +38,7 @@ class Command(BaseCommand):
                 'annual_roi_rate': Decimal('0.0420'),
                 'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('1.6000'),
                 'total_funding_needed': 175000,
+                'display_order': 3
             },
             {
                 'name': 'Fermi-III',
@@ -46,6 +49,7 @@ class Command(BaseCommand):
                 'annual_roi_rate': Decimal('0.0220'),
                 'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('1.8500'),
                 'total_funding_needed': 160000,
+                'display_order': 4
             },
             {
                 'name': 'Helios FusionDrive',
@@ -56,6 +60,7 @@ class Command(BaseCommand):
                 'annual_roi_rate': Decimal('-0.0150'),
                 'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('3.1500'),
                 'total_funding_needed': 95000,
+                'display_order': 5
             },
             {
                 'name': 'Nexus CORE',
@@ -66,6 +71,7 @@ class Command(BaseCommand):
                 'annual_roi_rate': Decimal('0.0380'),
                 'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('1.4000'),
                 'total_funding_needed': 220000,
+                'display_order': 6
             }
         ]
 
