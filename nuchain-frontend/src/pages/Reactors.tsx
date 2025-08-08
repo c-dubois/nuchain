@@ -4,6 +4,7 @@ import { reactorService, investmentService } from '../services/investments';
 import { ReactorList } from '../components/reactors/ReactorList';
 import { InvestmentModal } from '../components/reactors/InvestmentModal';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
+import { formatCurrency } from '../utils/helpers';
 import type { Reactor } from '../types/reactor';
 import './Reactors.css';
 
@@ -68,8 +69,8 @@ export const Reactors: React.FC = () => {
                     <span className="stat-label">Available Reactors</span>
                 </div>
                 <div className="stat-card">
-                    <span className="stat-number">{user?.balance.toLocaleString() || 0}</span>
-                    <span className="stat-label">$NUC Balance</span>
+                    <span className="stat-number">{formatCurrency(user?.balance ?? 0)}</span>
+                    <span className="stat-label">Wallet Balance</span>
                 </div>
                 <div className="stat-card">
                     <span className="stat-number">

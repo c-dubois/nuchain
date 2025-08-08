@@ -37,8 +37,9 @@
 
 .reactor-type-badge {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    bottom: 0.75rem;
+    left: 50%;   
+    transform: translateX(-50%);
     background-color: var(--color-secondary);
     color: var(--color-light);
     padding: 0.25rem 0.75rem;
@@ -47,6 +48,8 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    white-space: nowrap;  
+    max-width: calc(100% - 2rem);
 }
 
 .reactor-content {
@@ -57,6 +60,7 @@
 }
 
 .reactor-name {
+    text-align: center;
     color: var(--color-primary);
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
@@ -65,16 +69,17 @@
 }
 
 .reactor-location {
+    text-align: center;
     color: var(--color-light);
     opacity: 0.8;
-    font-size: 0.875rem;
+    font-size: 0.98rem;
     margin-bottom: 1rem;
 }
 
-.reactor-stats {
+.reactor-stats-card {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.5rem;
     margin-bottom: 1rem;
     padding: 1rem;
     background-color: var(--color-medium);
@@ -131,18 +136,20 @@
     white-space: pre-line;
 }
 
-.reactor-description {
+p.reactor-description {
     color: var(--color-light);
     opacity: 0.9;
-    font-size: 0.875rem;
+    font-size: 0.98rem;
     line-height: 1.6;
-    margin-bottom: 1.5rem;
+    margin: 0 auto 1.25rem;
     flex: 1;
     overflow: hidden;
     display: -webkit-box;
     line-clamp: 15; /* Limit to 15 lines */
     -webkit-line-clamp: 15;
     -webkit-box-orient: vertical;
+    text-align: justify;
+    width: 96%;
 }
 
 .funding-info {
@@ -206,8 +213,8 @@
 .btn-invest {
     width: 100%;
     padding: 1rem;
-    background-color: var(--color-primary);
-    color: var(--color-dark);
+    background-color: var(--color-secondary);
+    color: var(--color-light);
     border: none;
     border-radius: 0.5rem;
     font-size: 1rem;

@@ -27,7 +27,7 @@ export const ReactorCard: React.FC<ReactorCardProps> = ({
                     alt={reactor.name}
                     className="reactor-image"
                     onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x250/2a2829/daff02?text=' + reactor.name;
+                        (e.target as HTMLImageElement).src = `https://picsum.photos/800/600?text=${encodeURIComponent(reactor.name)}`;
                     }}
                 />
                 <div className="reactor-type-badge">{reactor.type}</div>
@@ -37,7 +37,7 @@ export const ReactorCard: React.FC<ReactorCardProps> = ({
                 <h3 className="reactor-name">{reactor.name}</h3>
                 <p className="reactor-location">📍 {reactor.location}</p>
 
-                <div className="reactor-stats">
+                <div className="reactor-stats-card">
                     <div className="stat">
                         <span className="stat-label">Return on Investment (ROI)</span>
                         <span className={`stat-value ${reactor.annual_roi_rate < 0 ? 'negative' : 'positive'}`}>{formatROIRate(reactor.annual_roi_rate)}</span>
