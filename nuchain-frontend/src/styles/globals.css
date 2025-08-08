@@ -130,9 +130,10 @@ input:focus, textarea:focus, select:focus {
 }
 
 .error-message {
+  text-align: center;
   color: var(--color-error);
   font-size: 0.875rem;
-  margin-top: 0.5rem;
+  margin: 0.5rem;
 }
 
 .success-message {

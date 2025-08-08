@@ -72,7 +72,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchT
                 type="text"
                 value={formData.first_name}
                 onChange={handleChange}
-                placeholder="John"
+                placeholder="Fusion"
             />
             </div>
 
@@ -84,7 +84,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchT
                 type="text"
                 value={formData.last_name}
                 onChange={handleChange}
-                placeholder="Doe"
+                placeholder="Fanatic"
             />
             </div>
         </div>
@@ -98,7 +98,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchT
             value={formData.username}
             onChange={handleChange}
             required
-            placeholder="johndoe"
+            placeholder="the_future_is_nuclear"
             />
         </div>
 
@@ -111,7 +111,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchT
             value={formData.email}
             onChange={handleChange}
             required
-            placeholder="john@example.com"
+            placeholder="fusion_fanatic@nuchain.com"
             />
         </div>
 

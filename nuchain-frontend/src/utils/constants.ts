@@ -13,7 +13,8 @@ export const REACTOR_SLUGS = {
     PHOENIX: 'phoenix_regenx7',
     NEXUS: 'nexus_core',
     FERMI: 'fermi_iii',
-    HELIOS: 'helios_fusiondrive'
+    HELIOS: 'helios_fusiondrive',
+    ATUCHA: 'atucha_qtronix'
 } as const;
 
 // Investment limits

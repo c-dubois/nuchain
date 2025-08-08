@@ -32,7 +32,7 @@ export const Welcome: React.FC = () => {
                     </p>
                     <div className="welcome-description">
                         <p>
-                        Invest in fictional nuclear reactors with mock $NUC tokens.
+                        Invest in fictional nuclear reactors with mock $NUC tokens.<br />
                         Track your ROI and carbon offset impact while learning about
                         clean energy infrastructure.
                         </p>
@@ -46,7 +46,7 @@ export const Welcome: React.FC = () => {
                         </div>
                         <div className="feature-card">
                             <span className="feature-icon">⚡</span>
-                            <h3>5 Reactors</h3>
+                            <h3>6 Reactors</h3>
                             <p>Unique investment opportunities</p>
                         </div>
                         <div className="feature-card">

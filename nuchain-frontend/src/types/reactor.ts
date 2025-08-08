@@ -12,7 +12,6 @@ export interface Reactor {
     funding_percentage: number;
     available_funding: number;
     is_fully_funded: boolean;
-    image_url: string | null;
     is_active: boolean;
     created_at: string;
 }

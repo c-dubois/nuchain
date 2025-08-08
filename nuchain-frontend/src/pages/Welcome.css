@@ -16,7 +16,7 @@
     right: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(218, 255, 2, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(17, 19, 7, 0.77) 0%, transparent 80%);
     animation: pulse 15s ease-in-out infinite;
 }
 
@@ -37,7 +37,7 @@
 }
 
 .welcome-hero {
-    text-align: left;
+    text-align: center;
 }
 
 .welcome-title {
@@ -45,8 +45,9 @@
     font-weight: 900;
     color: var(--color-primary);
     margin-bottom: 1rem;
-    text-shadow: 0 0 40px rgba(218, 255, 2, 0.8);
+    text-shadow: 0 0 50px rgba(218, 255, 2, 0.8);
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 1rem;
 }
@@ -63,8 +64,8 @@
 
 .welcome-tagline {
     font-size: 1.5rem;
-    color: var(--color-accent);
-    margin-bottom: 2rem;
+    color: #d060fc;
+    margin-bottom: 1rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -75,15 +76,15 @@
     color: var(--color-light);
     opacity: 0.9;
     line-height: 1.8;
-    margin-bottom: 3rem;
-    max-width: 500px;
+    margin: 1rem;
+    justify-content: center;
 }
 
 .features-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
-    margin-top: 3rem;
+    margin-top: 2rem;
 }
 
 .feature-card {
