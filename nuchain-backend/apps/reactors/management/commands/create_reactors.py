@@ -19,6 +19,17 @@ class Command(BaseCommand):
                 'display_order': 1
             },
             {
+                'name': 'Helios FusionDrive',
+                'slug': 'helios_fusiondrive',
+                'type': 'Hybrid Fusion-Fission Blanket Reactor',
+                'description': 'Helios FusionDrive is a cutting-edge hybrid reactor using deuterium-tritium magnetic fusion as a neutron source to activate a subcritical fission blanket composed of thorium or depleted uranium. This architecture allows Helios to extract energy from otherwise inert materials, generate new fuel, and transmute nuclear waste—all while remaining inherently safe due to its reliance on externally driven neutronics. The first grid-integrated pilot was developed under a public–private partnership as part of an international effort to commercialize fusion energy by the 2040s.',
+                'location': 'Tokamak Research, Kagoshima Prefecture, Japan',
+                'annual_roi_rate': Decimal('-0.0150'),
+                'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('3.1500'),
+                'total_funding_needed': 95000,
+                'display_order': 2
+            },
+            {
                 'name': 'Phoenix RegenX-7',
                 'slug': 'phoenix_regenx7',
                 'type': 'Next-Gen Molten Salt Reactor (MSR)',
@@ -27,17 +38,6 @@ class Command(BaseCommand):
                 'annual_roi_rate': Decimal('0.0680'),
                 'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('1.15000'),
                 'total_funding_needed': 150000,
-                'display_order': 2
-            },
-            {
-                'name': 'Atucha Q-Tronix',
-                'slug': 'atucha_qtronix',
-                'type': 'Quantum-Assisted Traveling Wave Reactor (QTWR)',
-                'description': 'Atucha Q-Tronix is a next-generation Quantum-Assisted Traveling Wave Reactor, developed for ultra-long-lifecycle energy production using depleted uranium and in-core breeding of fissile fuel. What sets Atucha Q-Tronix apart is its integration with a quantum computing co-processor that optimizes neutron flux propagation, reactor core migration, and adaptive burn-up zones in real time. Located in the Mendoza Energy Frontier, Argentina, this reactor operates with minimal refueling over decades, enabling stable, high-efficiency energy in regions with limited nuclear fuel infrastructure. Atucha Q-Tronix represents a leap forward in predictive reactor control and fuel utilization for developing markets.',
-                'location': 'Frontera Energética del Sur, Mendoza, Argentina',
-                'annual_roi_rate': Decimal('0.0420'),
-                'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('1.6000'),
-                'total_funding_needed': 175000,
                 'display_order': 3
             },
             {
@@ -52,14 +52,14 @@ class Command(BaseCommand):
                 'display_order': 4
             },
             {
-                'name': 'Helios FusionDrive',
-                'slug': 'helios_fusiondrive',
-                'type': 'Hybrid Fusion-Fission Blanket Reactor',
-                'description': 'Helios FusionDrive is a cutting-edge hybrid reactor using deuterium-tritium magnetic fusion as a neutron source to activate a subcritical fission blanket composed of thorium or depleted uranium. This architecture allows Helios to extract energy from otherwise inert materials, generate new fuel, and transmute nuclear waste—all while remaining inherently safe due to its reliance on externally driven neutronics. The first grid-integrated pilot was developed under a public–private partnership as part of an international effort to commercialize fusion energy by the 2040s.',
-                'location': 'Tokamak Research, Kagoshima Prefecture, Japan',
-                'annual_roi_rate': Decimal('-0.0150'),
-                'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('3.1500'),
-                'total_funding_needed': 95000,
+                'name': 'Atucha Q-Tronix',
+                'slug': 'atucha_qtronix',
+                'type': 'Quantum-Assisted Traveling Wave Reactor (QTWR)',
+                'description': 'Atucha Q-Tronix is a next-generation Quantum-Assisted Traveling Wave Reactor, developed for ultra-long-lifecycle energy production using depleted uranium and in-core breeding of fissile fuel. What sets Atucha Q-Tronix apart is its integration with a quantum computing co-processor that optimizes neutron flux propagation, reactor core migration, and adaptive burn-up zones in real time. Located in the Mendoza Energy Frontier, Argentina, this reactor operates with minimal refueling over decades, enabling stable, high-efficiency energy in regions with limited nuclear fuel infrastructure. Atucha Q-Tronix represents a leap forward in predictive reactor control and fuel utilization for developing markets.',
+                'location': 'Frontera Energética del Sur, Mendoza, Argentina',
+                'annual_roi_rate': Decimal('0.0420'),
+                'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('1.6000'),
+                'total_funding_needed': 175000,
                 'display_order': 5
             },
             {
