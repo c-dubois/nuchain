@@ -52,7 +52,7 @@ export const Welcome: React.FC = () => {
                         <div className="feature-card">
                             <span className="feature-icon">🌱</span>
                             <h3>Track Impact</h3>
-                            <p>Monitor carbon offset & ROI</p>
+                            <p>Monitor ROI & carbon offset</p>
                         </div>
                     </div>
                 </div>

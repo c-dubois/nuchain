@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { investmentService, reactorService } from '../services/investments';
 import { PortfolioSummary } from '../components/dashboard/PortfolioSummary';
@@ -133,9 +134,9 @@ export const Dashboard: React.FC = () => {
                     ) : (
                         <div className="no-investments">
                             <p>No investments yet!</p>
-                            <a href="/invest" className="btn-primary">
+                            <Link to="/invest" className="btn-primary">
                                 Browse Reactors
-                            </a>
+                            </Link>
                         </div>
                     )}
                 </div>
