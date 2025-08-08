@@ -194,9 +194,9 @@ export const Profile: React.FC = () => {
                     <h2>Wallet Information</h2>
                     
                     <div className="wallet-info">
-                        <div className="balance-display">
-                            <span className="balance-label">Current Balance</span>
-                            <span className="balance-value">{formatCurrency(user.balance)}</span>
+                        <div className="profile-balance-display">
+                            <span className="profile-balance-label">Current Balance</span>
+                            <span className="profile-balance-value">{formatCurrency(user.balance)}</span>
                         </div>
                     
                         <div className="wallet-actions">

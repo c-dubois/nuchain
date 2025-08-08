@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import { formatCurrency } from '../../utils/helpers';
 import './Header.css';
 
 export const Header: React.FC = () => {
@@ -31,7 +32,7 @@ export const Header: React.FC = () => {
 
                     <div className="balance-display">
                         <span className="balance-label">Balance:</span>
-                        <span className="balance-amount">{user?.balance.toLocaleString()} $NUC</span>
+                        <span className="balance-amount">{formatCurrency(user?.balance ?? 0)}</span>
                     </div>
                 </div>
             </header>

@@ -69,12 +69,20 @@
     color: var(--color-light);
     font-size: 0.875rem;
     opacity: 0.8;
+    text-transform: uppercase;
 }
 
 .balance-amount {
     color: var(--color-primary);
     font-weight: 700;
     font-size: 1.125rem;
+}
+
+.balance-label,
+.balance-amount {
+    display: flex;
+    align-items: center;
+    line-height: 1;
 }
 
 /* Sidebar styles */
