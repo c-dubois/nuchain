@@ -134,7 +134,7 @@ export const Dashboard: React.FC = () => {
                     ) : (
                         <div className="no-investments">
                             <p>No investments yet!</p>
-                            <Link to="/invest" className="btn-primary">
+                            <Link to="/invest" className="btn-browse-reactors">
                                 Browse Reactors
                             </Link>
                         </div>
