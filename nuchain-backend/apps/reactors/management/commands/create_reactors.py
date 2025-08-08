@@ -10,7 +10,7 @@ class Command(BaseCommand):
             {
                 'name': 'NuWave',
                 'slug': 'nuwave',
-                'type': 'Advanced Pressurized Water Small Modular Reactor (SMR)',
+                'type': 'Pressurized Water Small Modular Reactor (SMR)',
                 'description': 'The NuWave SMR is a state-of-the-art light water reactor built on modular, factory-fabricated design principles. Optimized for deployment in distributed grids, remote regions, or developing nations, NuWave offers passive safety, underground installation, and rapid deployment. Its core is designed for 20-year sealed operation with no on-site refueling and integrated desalination and hydrogen co-generation options.',
                 'location': 'Cascadia Basin, Washington, USA',
                 'annual_roi_rate': Decimal('0.0450'),
@@ -65,8 +65,8 @@ class Command(BaseCommand):
             {
                 'name': 'Nexus CORE',
                 'slug': 'nexus_core',
-                'type': 'Cognitive Optimized High-Temperature Gas-Cooled Reactor (HTGR)',
-                'description': 'The Nexus CORE uses pebble-bed TRISO fuel in a helium-cooled reactor, enabling extremely high outlet temperatures for industrial heat, hydrogen production, and efficient power generation. A networked AI system manages thermal loads, predictive maintenance, and demand forecasting across a fleet of reactors. CORE units operate in decentralized grids or heavy industrial zones where heat and power co-generation are critical.',
+                'type': 'High-Temperature Gas-Cooled Reactor (HTGR)',
+                'description': 'The Nexus CORE (Cognitive Optimized Reactor Environment) uses pebble-bed TRISO fuel in a helium-cooled reactor, enabling extremely high outlet temperatures for industrial heat, hydrogen production, and efficient power generation. A networked AI system manages thermal loads, predictive maintenance, and demand forecasting across a fleet of reactors. CORE modules can be linked to form a "neural reactor network" for mega-scale power coordination in decentralized grids or heavy industrial zones where heat and power co-generation are critical.',
                 'location': 'NeueTech District, Hamburg, Germany',
                 'annual_roi_rate': Decimal('0.0380'),
                 'carbon_offset_tonnes_co2_per_nuc_per_year': Decimal('1.4000'),
