@@ -10,17 +10,18 @@ class CreateReactorsCommandTest(TestCase):
         """Test the create_reactors management command"""
         out = StringIO()
         call_command('create_reactors', stdout=out)
-        
-        # Check that all 5 reactors were created
-        self.assertEqual(Reactor.objects.count(), 5)
-        
+
+        # Check that all 6 reactors were created
+        self.assertEqual(Reactor.objects.count(), 6)
+
         # Check specific reactors exist
         reactor_slugs = [
             'nuwave',
             'phoenix_regenx7',
             'nexus_core',
             'fermi_iii',
-            'helios_fusiondrive'
+            'helios_fusiondrive',
+            'atucha_qtronix'
         ]
         
         for slug in reactor_slugs:
@@ -32,7 +33,7 @@ class CreateReactorsCommandTest(TestCase):
         # Verify specific reactor details
         nuwave = Reactor.objects.get(slug='nuwave')
         self.assertEqual(nuwave.name, 'NuWave')
-        self.assertEqual(nuwave.location, 'Pacific Northwest, USA')
+        self.assertEqual(nuwave.location, 'Cascadia Basin, Washington, USA')
         self.assertEqual(nuwave.annual_roi_rate, Decimal('0.0450'))
         
         # Check output messages
@@ -43,19 +44,20 @@ class CreateReactorsCommandTest(TestCase):
         """Test that running command twice doesn't create duplicates"""
         # Run command first time
         call_command('create_reactors')
-        self.assertEqual(Reactor.objects.count(), 5)
+        self.assertEqual(Reactor.objects.count(), 6)
         
         # Run command second time
         out = StringIO()
         call_command('create_reactors', stdout=out)
-        
-        # Should still have only 5 reactors
-        self.assertEqual(Reactor.objects.count(), 5)
+
+        # Should still have only 6 reactors
+        self.assertEqual(Reactor.objects.count(), 6)
         
         # Check output shows reactors already exist
         output = out.getvalue()
-        self.assertIn('already exists', output)
-    
+        self.assertIn('Successfully updated reactor', output)
+        self.assertNotIn('Successfully created reactor', output)
+
     def test_reactor_data_integrity(self):
         """Test that all reactor data is correctly loaded"""
         call_command('create_reactors')
