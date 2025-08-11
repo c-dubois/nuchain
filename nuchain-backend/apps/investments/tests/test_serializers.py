@@ -32,7 +32,7 @@ class InvestmentSerializerTest(TestCase):
         self.investment = Investment.objects.create(
             user=self.user,
             reactor=self.reactor,
-            amount_invested=Decimal('5000'),
+            amount_invested=Decimal('5000')
         )
     
     def test_investment_serializer_fields(self):
