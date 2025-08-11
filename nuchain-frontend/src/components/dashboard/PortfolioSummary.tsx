@@ -1,4 +1,5 @@
 import React from 'react';
+import { TimeButtonGroup } from './TimeButtonGroup';
 import type { PortfolioSummary as PortfolioSummaryType } from '../../types/investment';
 import type { TimePeriod } from '../../utils/constants';
 import { formatCurrency, formatPercentage, formatCarbonOffset } from '../../utils/helpers';
@@ -7,12 +8,14 @@ import './PortfolioSummary.css';
 interface PortfolioSummaryProps {
     summary: PortfolioSummaryType | null;
     selectedPeriod: TimePeriod;
+    onPeriodChange: (period: TimePeriod) => void;
     loading?: boolean;
 }
 
 export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
     summary,
     selectedPeriod,
+    onPeriodChange,
     loading = false
 }) => {
     if (loading) {
@@ -42,7 +45,11 @@ export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
     return (
         <div className="portfolio-summary">
             <h2>Portfolio Summary</h2>
-        
+            <TimeButtonGroup
+                selectedPeriod={selectedPeriod}
+                onPeriodChange={onPeriodChange}
+            />
+
             <div className="summary-grid">
                 <div className="summary-card">
                     <div className="card-header">

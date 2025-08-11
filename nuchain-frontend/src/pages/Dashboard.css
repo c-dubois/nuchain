@@ -12,12 +12,14 @@
     font-size: 3rem;
     margin-bottom: 0.5rem;
     text-shadow: 0 0 30px rgba(218, 255, 2, 0.5);
+    text-align: center;
 }
 
 .dashboard-subtitle {
     color: var(--color-light);
     opacity: 0.8;
     font-size: 1.25rem;
+    text-align: center;
 }
 
 .dashboard-grid {

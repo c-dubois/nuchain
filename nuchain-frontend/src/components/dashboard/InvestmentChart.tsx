@@ -8,9 +8,11 @@ import {
     YAxis,
     CartesianGrid,
     Tooltip,
+    type TooltipProps,
     Legend,
     ResponsiveContainer
 } from 'recharts';
+import type { ValueType, NameType } from 'recharts/types/component/DefaultTooltipContent';
 import type { PortfolioSummary } from '../../types/investment';
 import { CHART_COLORS } from '../../utils/constants';
 import { formatCurrency, formatCarbonOffset } from '../../utils/helpers';
@@ -37,7 +39,10 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
         totalReturn: projection.total_return
     }));
 
-    const CustomTooltip = ({ active, payload }: any) => {
+    const CustomTooltip = ({ 
+        active, 
+        payload 
+    }: TooltipProps<ValueType, NameType>) => {
         if (active && payload && payload.length) {
             return (
                 <div className="chart-tooltip">

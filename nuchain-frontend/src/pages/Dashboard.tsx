@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { investmentService, reactorService } from '../services/investments';
 import { PortfolioSummary } from '../components/dashboard/PortfolioSummary';
-import { TimeButtonGroup } from '../components/dashboard/TimeButtonGroup';
 import { InvestmentChart } from '../components/dashboard/InvestmentChart';
 import { ReactorList } from '../components/reactors/ReactorList';
 import { InvestmentModal } from '../components/reactors/InvestmentModal';
@@ -104,16 +103,12 @@ export const Dashboard: React.FC = () => {
                 </p>
             </div>
 
-            <TimeButtonGroup
-                selectedPeriod={selectedPeriod}
-                onPeriodChange={setSelectedPeriod}
-            />
-
             <div className="dashboard-grid">
                 <div className="dashboard-main">
                     <PortfolioSummary
                         summary={portfolioSummary}
                         selectedPeriod={selectedPeriod}
+                        onPeriodChange={setSelectedPeriod}
                         loading={loading}
                     />
 
@@ -123,7 +118,7 @@ export const Dashboard: React.FC = () => {
                 </div>
 
                 <div className="dashboard-sidebar">
-                    <h2>Your Investments</h2>
+                    <h2>Your Investments:</h2>
                     {investedReactors.length > 0 ? (
                         <ReactorList
                             reactors={investedReactors}

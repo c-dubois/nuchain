@@ -77,7 +77,7 @@ export const ReactorCard: React.FC<ReactorCardProps> = ({
                 {variant === 'portfolio' && investmentAmount && (
                     <div className="investment-info">
                         <div className="investment-stat">
-                            <span>Your Investment</span>
+                            <span>Your Investment:</span>
                             <strong>{formatCurrency(investmentAmount)}</strong>
                         </div>
                     </div>

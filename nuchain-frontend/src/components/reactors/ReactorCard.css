@@ -145,8 +145,8 @@ p.reactor-description {
     flex: 1;
     overflow: hidden;
     display: -webkit-box;
-    line-clamp: 15; /* Limit to 15 lines */
-    -webkit-line-clamp: 15;
+    line-clamp: 20; /* Limit to 20 lines */
+    -webkit-line-clamp: 20;
     -webkit-box-orient: vertical;
     text-align: justify;
     width: 96%;
