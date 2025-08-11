@@ -39,8 +39,7 @@ class InvestmentViewSetTest(TestCase):
         self.investment = Investment.objects.create(
             user=self.user1,
             reactor=self.reactor,
-            amount_invested=Decimal('5000'),
-            time_period_years=5
+            amount_invested=Decimal('5000')
         )
         
         # Update reactor funding
@@ -56,8 +55,7 @@ class InvestmentViewSetTest(TestCase):
         Investment.objects.create(
             user=self.user2,
             reactor=self.reactor,
-            amount_invested=Decimal('3000'),
-            time_period_years=2
+            amount_invested=Decimal('3000')
         )
         
         url = reverse('investment-list')
@@ -104,7 +102,7 @@ class InvestmentViewSetTest(TestCase):
         response = self.client.post(url, data, format='json')
         
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn('Insufficient balance', response.data['error'])
+        self.assertIn('Insufficient balance', str(response.data))
     
     def test_create_investment_exceeds_reactor_capacity(self):
         """Test investment exceeding reactor capacity"""
@@ -181,8 +179,7 @@ class InvestmentViewSetTest(TestCase):
         Investment.objects.create(
             user=self.user1,
             reactor=reactor2,
-            amount_invested=Decimal('8000'),
-            time_period_years=10
+            amount_invested=Decimal('8000')
         )
         
         url = reverse('investment-portfolio-summary')

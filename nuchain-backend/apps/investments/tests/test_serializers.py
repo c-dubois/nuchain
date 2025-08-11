@@ -33,7 +33,6 @@ class InvestmentSerializerTest(TestCase):
             user=self.user,
             reactor=self.reactor,
             amount_invested=Decimal('5000'),
-            time_period_years=5
         )
     
     def test_investment_serializer_fields(self):
