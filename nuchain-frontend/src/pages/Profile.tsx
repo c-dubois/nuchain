@@ -349,7 +349,7 @@ export const Profile: React.FC = () => {
 
                         <div className="action-item">
                             <h3>🗑️ Delete Account</h3>
-                            <p>Warning: This action is irreversible and will delete all your data.</p>
+                            <p>Warning: This action is irreversible and will delete all of your data</p>
                             <button className="btn-danger" onClick={handleDeleteAccount} disabled={deleteLoading}>
                                 {deleteLoading ? 'Deleting...' : 'Delete Account'}
                             </button>

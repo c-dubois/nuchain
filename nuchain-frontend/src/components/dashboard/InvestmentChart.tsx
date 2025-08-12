@@ -11,16 +11,27 @@ import {
     YAxis,
     CartesianGrid,
     Tooltip,
-    type TooltipProps,
     Legend,
     ResponsiveContainer
 } from 'recharts';
-import type { ValueType, NameType } from 'recharts/types/component/DefaultTooltipContent';
 import type { PortfolioSummary } from '../../types/investment';
 import type { Investment } from '../../types/investment';
 import { CHART_COLORS, PIE_COLORS } from '../../utils/constants';
 import { formatCurrency, formatPercentage, formatCarbonOffset } from '../../utils/helpers';
 import './InvestmentChart.css';
+
+interface TooltipPayload {
+    color?: string;
+    value?: number;
+    dataKey?: string;
+    name?: string;
+    payload?: {
+        period: string;
+        roi: number;
+        carbonOffset: number;
+        totalReturn: number;
+    };
+}
 
 interface InvestmentChartProps {
     summary: PortfolioSummary | null;
@@ -47,24 +58,27 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
 
     const pieData = investments?.map((inv) => ({
         name: inv.reactor.name,
-        value: inv.amount_invested,
-        percentage: formatPercentage((inv.amount_invested / summary.total_invested) * 100)
+        value: parseFloat(inv.amount_invested.toString()),
+        percentage: formatPercentage((parseFloat(inv.amount_invested.toString()) / parseFloat(summary.total_invested.toString())) * 100)
     })) || [];
 
     const CustomTooltip = ({ 
         active, 
         payload 
-    }: TooltipProps<ValueType, NameType>) => {
+    }: {
+        active?: boolean;
+        payload?: TooltipPayload[];
+    }) => {
         if (active && payload && payload.length) {
             return (
                 <div className="chart-tooltip">
-                    <p className="tooltip-label">{payload[0].payload.period}</p>
-                    {payload.map((entry: any, index: number) => (
+                    <p className="tooltip-label">{payload[0]?.payload?.period}</p>
+                    {payload.map((entry, index) => (
                         <p key={index} className="tooltip-item" style={{ color: entry.color }}>
                             {entry.name}: {
                                 entry.dataKey === 'carbonOffset' 
-                                    ? formatCarbonOffset(entry.value)
-                                    : formatCurrency(entry.value)
+                                    ? formatCarbonOffset(entry.value || 0)
+                                    : formatCurrency(entry.value || 0)
                             }
                         </p>
                     ))}
@@ -96,7 +110,7 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
                             <Line
                                 type="monotone"
                                 dataKey="totalReturn"
-                                name="Total Investment Value (Investment + Return)"
+                                name="Total Investment Value"
                                 stroke={CHART_COLORS.roi}
                                 strokeWidth={3}
                                 dot={{ fill: CHART_COLORS.roi, r: 6 }}
@@ -151,7 +165,7 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
                         />
                         <YAxis 
                             stroke={CHART_COLORS.textColor}
-                            tickFormatter={(value) => `${value.toFixed(0)}t`}
+                            tickFormatter={(value) => `${(value / 1000).toFixed(0)}k t`}
                         />
                         <Tooltip content={<CustomTooltip />} />
                         <Bar
