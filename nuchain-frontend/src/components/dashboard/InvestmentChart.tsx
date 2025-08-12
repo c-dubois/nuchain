@@ -177,7 +177,7 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
                             fill="#8884d8"
                             dataKey="value"
                         >
-                            {pieData.map((entry, index) => (
+                            {pieData.map((_entry, index) => (
                                 <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
                             ))}
                         </Pie>

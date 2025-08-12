@@ -55,6 +55,15 @@ export const authService = {
         return response.data;
     },
 
+    async changePassword(oldPassword: string, newPassword: string): Promise<{ message: string }> {
+        const response = await api.post('/auth/password/change/', {
+            old_password: oldPassword,
+            new_password: newPassword
+        });
+        
+        return response.data;
+    },
+
     async resetWallet(): Promise<{ message: string; balance: number }> {
         const response = await api.post('/auth/wallet/reset/');
         
@@ -65,6 +74,11 @@ export const authService = {
         localStorage.setItem('user', JSON.stringify(user));
         }
         
+        return response.data;
+    },
+
+    async deleteAccount(): Promise<{ message: string }> {
+        const response = await api.delete('/auth/account/delete/');
         return response.data;
     },
 

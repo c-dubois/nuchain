@@ -9,8 +9,13 @@ import './Profile.css';
 export const Profile: React.FC = () => {
     const { user, updateUser, logout } = useAuth();
     const navigate = useNavigate();
+
     const [isEditing, setIsEditing] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const [passwordLoading, setPasswordLoading] = useState(false);
+    const [deleteLoading, setDeleteLoading] = useState(false);
+
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     
@@ -20,9 +25,22 @@ export const Profile: React.FC = () => {
         email: user?.email || ''
     });
 
+    const [passwords, setPasswords] = useState({
+        oldPassword: '',
+        newPassword: '',
+        confirmNewPassword: ''
+    });
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
             ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPasswords({
+            ...passwords,
             [e.target.name]: e.target.value
         });
     };
@@ -38,8 +56,10 @@ export const Profile: React.FC = () => {
             updateUser(response.user);
             setIsEditing(false);
             setMessage('Profile updated successfully!');
+            window.scrollTo(0, 0);
         } catch {
             setError('Failed to update profile. Please try again.');
+            window.scrollTo(0, 0);
         } finally {
             setLoading(false);
         }
@@ -69,10 +89,63 @@ export const Profile: React.FC = () => {
                 });
             }
             setMessage('Wallet reset successfully! Your balance is now 25,000 $NUC.');
+            window.scrollTo(0, 0);
         } catch {
             setError('Failed to reset wallet. Please try again.');
+            window.scrollTo(0, 0);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleChangePassword = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        setError('');
+        setMessage('');
+
+        if (passwords.newPassword !== passwords.confirmNewPassword) {
+            setError("New password and confirmation do not match.");
+            window.scrollTo(0, 0);
+            return;
+        }
+
+        setPasswordLoading(true);
+
+        try {
+            await authService.changePassword(passwords.oldPassword, passwords.newPassword);
+            setMessage('Password changed successfully!');
+            setPasswords({ oldPassword: '', newPassword: '', confirmNewPassword: '' });
+            window.scrollTo(0, 0);
+        } catch {
+            setError('Failed to change password');
+            window.scrollTo(0, 0);
+        } finally {
+            setPasswordLoading(false);
+        }
+    };
+
+    const handleDeleteAccount = async () => {
+        if (
+            !window.confirm(
+                'Are you sure? This will permanently delete your account and all investments.'
+            )
+        ) {
+            return;
+        }
+
+        setDeleteLoading(true);
+        setError('');
+        setMessage('');
+
+        try {
+            await authService.deleteAccount();
+            await logout();
+            navigate('/');
+        } catch {
+            setError('Failed to delete account. Please try again later.');
+        } finally {
+            setDeleteLoading(false);
         }
     };
 
@@ -217,6 +290,48 @@ export const Profile: React.FC = () => {
                 </div>
 
                 <div className="profile-section">
+                    <h2>Change Password</h2>
+                    <form onSubmit={handleChangePassword} className="profile-form">
+                        <div className="form-group">
+                            <label htmlFor="oldPassword">Current Password</label>
+                            <input
+                                id="oldPassword"
+                                name="oldPassword"
+                                type="password"
+                                value={passwords.oldPassword}
+                                onChange={handlePasswordChange}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="newPassword">New Password</label>
+                            <input
+                                id="newPassword"
+                                name="newPassword"
+                                type="password"
+                                value={passwords.newPassword}
+                                onChange={handlePasswordChange}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="confirmNewPassword">Confirm New Password</label>
+                            <input
+                                id="confirmNewPassword"
+                                name="confirmNewPassword"
+                                type="password"
+                                value={passwords.confirmNewPassword}
+                                onChange={handlePasswordChange}
+                                required
+                            />
+                        </div>
+                        <button type="submit" className="btn-primary" disabled={passwordLoading}>
+                            {passwordLoading ? 'Changing...' : 'Change Password'}
+                        </button>
+                    </form>
+                </div>
+
+                <div className="profile-section">
                     <h2>Account Actions</h2>
 
                     <div className="account-actions">
@@ -228,6 +343,14 @@ export const Profile: React.FC = () => {
                                 onClick={handleLogout}
                             >
                                 Logout
+                            </button>
+                        </div>
+
+                        <div className="action-item">
+                            <h3>🗑️ Delete Account</h3>
+                            <p>Warning: This action is irreversible and will delete all your data.</p>
+                            <button className="btn-danger" onClick={handleDeleteAccount} disabled={deleteLoading}>
+                                {deleteLoading ? 'Deleting...' : 'Delete Account'}
                             </button>
                         </div>
                     </div>
