@@ -136,5 +136,8 @@ def logout_user(request):
 @permission_classes([permissions.IsAuthenticated])
 def delete_account(request):
     """Delete user's account"""
-    request.user.delete()
-    return Response({'message': 'Account deleted successfully'})
+    try:
+        request.user.delete()
+        return Response({'message': 'Account deleted successfully'}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({'error': f'Failed to delete account: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)

@@ -9,5 +9,7 @@ urlpatterns = [
     path('profile/', views.get_user_profile, name='user-profile'),
     path('profile/update/', views.update_user_profile, name='update-profile'),
     path('wallet/reset/', views.reset_wallet, name='reset-wallet'),
+    path('password/change/', views.change_password, name='change-password'),
+    path('account/delete/', views.delete_account, name='delete-account'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

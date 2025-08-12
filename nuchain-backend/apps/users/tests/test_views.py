@@ -221,6 +221,38 @@ class WalletResetTest(TestCase):
         self.user.profile.refresh_from_db()
         self.assertEqual(self.user.profile.balance, Decimal('25000'))
 
+class ChangePasswordTest(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.user = User.objects.create_user(
+            username='testuser',
+            password='testpass123'
+        )
+        self.client.force_authenticate(user=self.user)
+        self.change_password_url = reverse('change-password')
+
+    def test_change_password_success(self):
+        """Test successful password change"""
+        data = {
+            'old_password': 'testpass123',
+            'new_password': 'newpass123',
+            'new_password_confirm': 'newpass123'
+        }
+        
+        response = self.client.post(self.change_password_url, data, format='json')
+        
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['message'], 'Password changed successfully')
+        
+        # Verify new password works
+        self.client.logout()
+        login_response = self.client.post(
+            reverse('login'),
+            {'username': 'testuser', 'password': 'newpass123'},
+            format='json'
+        )
+        self.assertEqual(login_response.status_code, status.HTTP_200_OK)
+
 class LogoutTest(TestCase):
     def setUp(self):
         self.client = APIClient()
@@ -252,3 +284,26 @@ class LogoutTest(TestCase):
         
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn('Refresh token required', response.data['error'])
+
+class DeleteAccountTest(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.user = User.objects.create_user(
+            username='testuser',
+            password='testpass123'
+        )
+        self.client.force_authenticate(user=self.user)
+        self.delete_account_url = reverse('delete-account')
+
+    def test_delete_account(self):
+        """Test account deletion"""
+        response = self.client.delete(self.delete_account_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['message'], 'Account deleted successfully')
+
+    def test_delete_account_failure(self):
+        """Test account deletion failure"""
+        self.user.delete()
+        response = self.client.delete(self.delete_account_url)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn('Failed to delete account', response.data['error'])
