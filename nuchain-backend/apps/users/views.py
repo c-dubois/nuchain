@@ -92,6 +92,21 @@ def update_user_profile(request):
 
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
+def change_password(request):
+    """Change user's password"""
+    old_password = request.data.get('old_password')
+    new_password = request.data.get('new_password')
+    
+    if not request.user.check_password(old_password):
+        return Response({'error': 'Current password is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    request.user.set_password(new_password)
+    request.user.save()
+    
+    return Response({'message': 'Password changed successfully'})
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
 def reset_wallet(request):
     """Reset user's wallet to starting balance (25,000 $NUC) and clear investments"""
 
@@ -116,3 +131,10 @@ def logout_user(request):
             return Response({'error': 'Refresh token required'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': f'Error logging out: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['DELETE'])
+@permission_classes([permissions.IsAuthenticated])
+def delete_account(request):
+    """Delete user's account"""
+    request.user.delete()
+    return Response({'message': 'Account deleted successfully'})
