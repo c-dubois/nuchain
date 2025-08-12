@@ -15,7 +15,7 @@ export const Header: React.FC = () => {
     return (
         <>
             <header className="header">
-                <div className="header-content">
+                <div className="header-content-grid">
                     <button 
                         className="menu-button"
                         onClick={() => setSidebarOpen(!sidebarOpen)}
