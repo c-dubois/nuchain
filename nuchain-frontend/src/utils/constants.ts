@@ -28,3 +28,5 @@ export const CHART_COLORS = {
   gridColor: '#3a3839',  // Medium color for grid lines
   textColor: '#f3f0eb'   // Light color for text
 };
+
+export const PIE_COLORS = ['#daff02', '#fe572a', '#685bc7', '#4CC9F0', '#F72585'];

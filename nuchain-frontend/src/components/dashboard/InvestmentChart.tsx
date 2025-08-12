@@ -4,6 +4,9 @@ import {
     Line,
     BarChart,
     Bar,
+    PieChart,
+    Pie,
+    Cell,
     XAxis,
     YAxis,
     CartesianGrid,
@@ -15,19 +18,20 @@ import {
 import type { ValueType, NameType } from 'recharts/types/component/DefaultTooltipContent';
 import type { PortfolioSummary } from '../../types/investment';
 import type { Investment } from '../../types/investment';
-import { CHART_COLORS } from '../../utils/constants';
-import { formatCurrency, formatCarbonOffset } from '../../utils/helpers';
+import { CHART_COLORS, PIE_COLORS } from '../../utils/constants';
+import { formatCurrency, formatPercentage, formatCarbonOffset } from '../../utils/helpers';
 import './InvestmentChart.css';
 
 interface InvestmentChartProps {
     summary: PortfolioSummary | null;
-    chartType?: 'line' | 'bar';
+    chartType?: 'line' | 'bar' | 'pie';
     investments?: Investment[];
 }
 
 export const InvestmentChart: React.FC<InvestmentChartProps> = ({
     summary,
-    chartType = 'line'
+    chartType = 'line',
+    investments
 }) => {
     if (!summary || summary.investment_count === 0) {
         return null;
@@ -40,6 +44,12 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
         carbonOffset: projection.total_carbon_offset,
         totalReturn: projection.total_return
     }));
+
+    const pieData = investments?.map((inv) => ({
+        name: inv.reactor.name,
+        value: inv.amount_invested,
+        percentage: formatPercentage((inv.amount_invested / summary.total_invested) * 100)
+    })) || [];
 
     const CustomTooltip = ({ 
         active, 
@@ -86,7 +96,7 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
                             <Line
                                 type="monotone"
                                 dataKey="totalReturn"
-                                name="Total Return"
+                                name="Total Investment Value (Investment + Return)"
                                 stroke={CHART_COLORS.roi}
                                 strokeWidth={3}
                                 dot={{ fill: CHART_COLORS.roi, r: 6 }}
@@ -95,7 +105,7 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
                             <Line
                                 type="monotone"
                                 dataKey="roi"
-                                name="ROI"
+                                name="Return on Investment (ROI)"
                                 stroke={CHART_COLORS.carbon}
                                 strokeWidth={3}
                                 dot={{ fill: CHART_COLORS.carbon, r: 6 }}
@@ -150,6 +160,30 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
                             fill={CHART_COLORS.carbon}
                         />
                     </BarChart>
+                </ResponsiveContainer>
+            </div>
+
+            <div className="chart-portfolio">
+                <h4>Portfolio Distribution</h4>
+                <ResponsiveContainer width="100%" height={250}>
+                    <PieChart>
+                        <Pie
+                            data={pieData}
+                            cx="50%"
+                            cy="50%"
+                            labelLine={false}
+                            label={({ percentage }) => `${percentage}%`}
+                            outerRadius={80}
+                            fill="#8884d8"
+                            dataKey="value"
+                        >
+                            {pieData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
+                            ))}
+                        </Pie>
+                        <Tooltip formatter={(value) => formatCurrency(value as number)} />
+                        <Legend />
+                    </PieChart>
                 </ResponsiveContainer>
             </div>
         </div>

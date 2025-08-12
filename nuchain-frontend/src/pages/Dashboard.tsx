@@ -114,7 +114,7 @@ export const Dashboard: React.FC = () => {
 
                     {investedReactors.length > 0 ? (
                         <div className="portfolio-reactors">
-                            <h3>Your Reactor Investments</h3>
+                            <h3>Your Investments:</h3>
                             <ReactorList
                                 reactors={investedReactors}
                                 onInvestClick={setSelectedReactor}

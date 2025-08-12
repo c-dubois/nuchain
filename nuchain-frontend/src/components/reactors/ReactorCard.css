@@ -239,9 +239,62 @@ p.reactor-description {
 
 /* Portfolio variant adjustments */
 .reactor-card.portfolio {
+    display: grid;
+    grid-template-columns: 200px 1fr auto;
     height: auto;
+    gap: 1rem;
+    align-items: center;
+}
+
+.reactor-card.portfolio .reactor-image-container {
+    height: 120px;
+    width: 200px;
+}
+
+.reactor-card.portfolio .reactor-content {
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 3fr auto;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.reactor-card.portfolio .reactor-name {
+    font-size: 1.25rem;
+    text-align: left;
+    margin-bottom: 0.25rem;
+}
+
+.reactor-card.portfolio .reactor-type-badge {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
 }
 
 .reactor-card.portfolio .reactor-description {
+    display: none;
+}
+
+.portfolio-stats {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.portfolio-stat-item {
+    text-align: center;
+}
+
+.stat-value-small {
+    font-size: 1rem;
+    font-weight: 600;
+    display: block;
+}
+
+.stat-value-small.highlight {
+    color: var(--color-primary);
+}
+
+.reactor-card.portfolio .reactor-location,
+.reactor-card.portfolio .reactor-stats-card {
     display: none;
 }

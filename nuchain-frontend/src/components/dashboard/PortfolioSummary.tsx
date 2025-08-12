@@ -82,18 +82,6 @@ export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
                     <p className="card-subtitle">Environmental impact</p>
                 </div>
             </div>
-
-            <div className="portfolio-details">
-                <h4>Investment Breakdown</h4>
-                <div className="reactor-list">
-                    {summary.reactors_invested_in.map((reactor, index) => (
-                        <div key={index} className="reactor-item">
-                            <span className="reactor-icon">⚛️</span>
-                            <span>{reactor}</span>
-                        </div>
-                    ))}
-                </div>
-            </div>
         </div>
     );
 };

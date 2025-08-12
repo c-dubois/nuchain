@@ -71,7 +71,7 @@
     color: var(--color-error);
 }
 
-.portfolio-details {
+/* .portfolio-details {
     background-color: var(--color-medium);
     padding: 1.5rem;
     border-radius: 0.75rem;
@@ -81,7 +81,7 @@
     color: var(--color-primary);
     margin: 0 0 1rem 0;
     font-size: 1.125rem;
-}
+} */
 
 .reactor-list {
     display: flex;

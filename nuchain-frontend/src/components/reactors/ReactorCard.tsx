@@ -15,7 +15,8 @@ export const ReactorCard: React.FC<ReactorCardProps> = ({
     reactor, 
     onInvestClick,
     variant = 'browse',
-    investmentAmount 
+    investmentAmount,
+    portfolioTotal
 }) => {
     const fundingPercentage = reactor.funding_percentage || 0;
     const isFullyFunded = reactor.is_fully_funded;
@@ -76,12 +77,34 @@ export const ReactorCard: React.FC<ReactorCardProps> = ({
                 )}
 
                 {variant === 'portfolio' && investmentAmount && (
-                    <div className="investment-info">
-                        <div className="investment-stat">
-                            <span>Your Investment:</span>
-                            <strong>{formatCurrency(investmentAmount)}</strong>
+                    <>
+                        <div className="portfolio-stats">
+                            <div className="portfolio-stat-item">
+                                <span className="stat-label">ROI</span>
+                                <span className={`stat-value-small ${reactor.annual_roi_rate < 0 ? 'negative' : 'positive'}`}>
+                                    {formatROIRate(reactor.annual_roi_rate)}
+                                </span>
+                            </div>
+                            <div className="portfolio-stat-item">
+                                <span className="stat-label">CO₂ Offset</span>
+                                <span className="stat-value-small">
+                                    {formatCarbonOffset(reactor.carbon_offset_tonnes_co2_per_nuc_per_year)}
+                                </span>
+                            </div>
+                            <div className="portfolio-stat-item">
+                                <span className="stat-label">Your Investment</span>
+                                <span className="stat-value-small highlight">
+                                    {formatCurrency(investmentAmount)}
+                                </span>
+                            </div>
+                            <div className="portfolio-stat-item">
+                                <span className="stat-label">Portfolio %</span>
+                                <span className="stat-value-small">
+                                    {((investmentAmount / (portfolioTotal || 1)) * 100).toFixed(1)}%
+                                </span>
+                            </div>
                         </div>
-                    </div>
+                    </>
                 )}
 
                 <button 
