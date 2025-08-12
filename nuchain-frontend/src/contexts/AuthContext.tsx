@@ -10,6 +10,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         // Check if user is logged in on mount
@@ -18,6 +19,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setUser(currentUser);
         setIsAuthenticated(true);
         }
+        setLoading(false);
     }, []);
 
     const login = async (username: string, password: string) => {
@@ -48,6 +50,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         value={{
             user,
             isAuthenticated,
+            loading,
             login,
             register,
             logout,

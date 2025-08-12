@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 import { authService } from '../services/auth';
 import { formatCurrency } from '../utils/helpers';
 import { INITIAL_BALANCE } from '../utils/constants';
+import { LoadingSpinner } from '../components/common/LoadingSpinner';
 import './Profile.css';
 
 export const Profile: React.FC = () => {
@@ -157,7 +158,7 @@ export const Profile: React.FC = () => {
     };
 
     if (!user) {
-        return <div>Loading...</div>;
+        return <LoadingSpinner />;
     }
 
     return (
