@@ -11,6 +11,7 @@ interface ReactorListProps {
     onInvestClick: (reactor: Reactor) => void;
     variant?: 'browse' | 'portfolio';
     investments?: Record<number, number>;
+    portfolioTotal?: number;
 }
 
 export const ReactorList: React.FC<ReactorListProps> = ({
@@ -19,7 +20,8 @@ export const ReactorList: React.FC<ReactorListProps> = ({
     error,
     onInvestClick,
     variant = 'browse',
-    investments = {}
+    investments = {},
+    portfolioTotal
 }) => {
     if (loading) {
         return <LoadingSpinner message="Loading reactors..." />;
@@ -50,6 +52,7 @@ export const ReactorList: React.FC<ReactorListProps> = ({
                     onInvestClick={onInvestClick}
                     variant={variant}
                     investmentAmount={investments[reactor.id]}
+                    portfolioTotal={portfolioTotal}
                 />
             ))}
         </div>

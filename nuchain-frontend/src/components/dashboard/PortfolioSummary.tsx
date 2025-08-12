@@ -57,7 +57,9 @@ export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
                         <h3>Total Invested</h3>
                     </div>
                     <p className="card-value">{formatCurrency(summary.total_invested)}</p>
-                    <p className="card-subtitle">Across {summary.investment_count} investments</p>
+                    <p className="card-subtitle">
+                        Across {summary.investment_count} {summary.investment_count === 1 ? 'investment' : 'investments'}
+                    </p>
                 </div>
 
                 <div className="summary-card">

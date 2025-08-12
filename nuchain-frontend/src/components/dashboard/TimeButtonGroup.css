@@ -6,6 +6,7 @@
     padding: 1rem;
     border-radius: 0.75rem;
     border: 2px solid var(--color-medium);
+    margin-bottom: 2rem;
 }
 
 .time-label {

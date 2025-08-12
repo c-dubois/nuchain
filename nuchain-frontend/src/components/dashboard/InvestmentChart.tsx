@@ -14,6 +14,7 @@ import {
 } from 'recharts';
 import type { ValueType, NameType } from 'recharts/types/component/DefaultTooltipContent';
 import type { PortfolioSummary } from '../../types/investment';
+import type { Investment } from '../../types/investment';
 import { CHART_COLORS } from '../../utils/constants';
 import { formatCurrency, formatCarbonOffset } from '../../utils/helpers';
 import './InvestmentChart.css';
@@ -21,6 +22,7 @@ import './InvestmentChart.css';
 interface InvestmentChartProps {
     summary: PortfolioSummary | null;
     chartType?: 'line' | 'bar';
+    investments?: Investment[];
 }
 
 export const InvestmentChart: React.FC<InvestmentChartProps> = ({

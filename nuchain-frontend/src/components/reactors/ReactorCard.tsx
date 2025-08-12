@@ -8,6 +8,7 @@ interface ReactorCardProps {
     onInvestClick: (reactor: Reactor) => void;
     variant?: 'browse' | 'portfolio';
     investmentAmount?: number;
+    portfolioTotal?: number;
 }
 
 export const ReactorCard: React.FC<ReactorCardProps> = ({ 

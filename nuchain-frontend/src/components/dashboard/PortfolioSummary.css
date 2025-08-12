@@ -21,7 +21,7 @@
 
 .summary-card {
     background-color: var(--color-medium);
-    padding: 1.5rem;
+    padding: 1rem;
     border-radius: 0.75rem;
     transition: all 0.3s ease;
 }
@@ -39,7 +39,7 @@
 }
 
 .card-icon {
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .card-header h3 {
@@ -50,10 +50,10 @@
 }
 
 .card-value {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--color-primary);
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.25rem 0;
 }
 
 .card-subtitle {

@@ -112,27 +112,33 @@ export const Dashboard: React.FC = () => {
                         loading={loading}
                     />
 
-                    {portfolioSummary && portfolioSummary.investment_count > 0 && (
-                        <InvestmentChart summary={portfolioSummary} />
-                    )}
-                </div>
-
-                <div className="dashboard-sidebar">
-                    <h2>Your Investments:</h2>
                     {investedReactors.length > 0 ? (
-                        <ReactorList
-                            reactors={investedReactors}
-                            onInvestClick={setSelectedReactor}
-                            variant="portfolio"
-                            investments={investmentAmounts}
-                        />
-                    ) : (
-                        <div className="no-investments">
+                        <div className="portfolio-reactors">
+                            <h3>Your Reactor Investments</h3>
+                            <ReactorList
+                                reactors={investedReactors}
+                                onInvestClick={setSelectedReactor}
+                                variant="portfolio"
+                                investments={investmentAmounts}
+                                portfolioTotal={portfolioSummary?.total_invested || 0}
+                            />
+                        </div>
+                        ) : (
+                            <div className="no-investments">
                             <p>No investments yet!</p>
                             <Link to="/invest" className="btn-browse-reactors">
                                 Browse Reactors
                             </Link>
                         </div>
+                        )}
+                        </div>
+
+                <div className="dashboard-sidebar">
+                    {portfolioSummary && portfolioSummary.investment_count > 0 && (
+                        <InvestmentChart 
+                            summary={portfolioSummary} 
+                            investments={investments}
+                        />
                     )}
                 </div>
             </div>
