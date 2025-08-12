@@ -3,6 +3,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { Header } from './components/common/Header';
 import { Footer } from './components/common/Footer';
+import { ScrollToTop } from './components/common/ScrollToTop';
 import { Welcome } from './pages/Welcome';
 import { Dashboard } from './pages/Dashboard';
 import { Reactors } from './pages/Reactors';
@@ -14,6 +15,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={
             <div className="app-layout">
