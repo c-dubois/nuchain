@@ -191,8 +191,8 @@ VITE_CLOUD_NAME=your-cloudinary-name
 ## 🙏 Acknowledgments
 
 - Nuclear reactor designs inspired by real-world Gen IV reactor concepts
-- Climate data concepts from IPCC reports
-- DeFi mechanics inspired by leading decentralized finance protocols
+- Simulated climate data designed for educational purposes
+- User interface and investment process inspired by leading decentralized finance protocols
 
 ## ⚠️ Disclaimer
 
