@@ -1,18 +1,5 @@
 import api from './api';
-import type { Reactor } from '../types/reactor';
 import type { Investment, PortfolioSummary, CreateInvestmentData } from '../types/investment';
-
-export const reactorService = {
-    async getReactors(): Promise<Reactor[]> {
-        const response = await api.get<{ results: Reactor[] }>('/reactors/');
-        return response.data.results;
-    },
-
-    async getReactor(id: number): Promise<Reactor> {
-        const response = await api.get<Reactor>(`/reactors/${id}/`);
-        return response.data;
-    },
-};
 
 export const investmentService = {
     async getInvestments(): Promise<Investment[]> {

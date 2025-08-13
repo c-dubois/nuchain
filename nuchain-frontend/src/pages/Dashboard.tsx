@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { investmentService, reactorService } from '../services/investments';
+import { reactorService } from '../services/reactors';
+import { investmentService } from '../services/investments';
 import { PortfolioSummary } from '../components/dashboard/PortfolioSummary';
 import { InvestmentChart } from '../components/dashboard/InvestmentChart';
 import { ReactorList } from '../components/reactors/ReactorList';

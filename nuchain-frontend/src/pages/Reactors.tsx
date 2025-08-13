@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { reactorService, investmentService } from '../services/investments';
+import { reactorService } from '../services/reactors';
+import { investmentService } from '../services/investments';
 import { ReactorList } from '../components/reactors/ReactorList';
 import { InvestmentModal } from '../components/reactors/InvestmentModal';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
