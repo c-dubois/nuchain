@@ -196,7 +196,7 @@ VITE_CLOUD_NAME=your-cloudinary-name
 
 ## ⚠️ Disclaimer
 
-NuChain is an educational simulation platform. No real investments, transactions, or nuclear reactors are involved. All financial data and projections are fictional and for demonstration purposes only.
+NuChain is an educational simulation platform. No real investments, transactions, or nuclear reactors are involved. All reactor data, financial data, and projections are fictional and for demonstration purposes only.
 
 ---
 
