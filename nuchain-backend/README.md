@@ -68,27 +68,20 @@ nuchain-backend/
    pip install -r requirements.txt
    ```
 
-3. **Environment setup**
-
-   ```bash
-   cp .env.example .env
-   # Edit .env with your configuration
-   ```
-
-4. **Database setup**
+3. **Database setup**
 
    ```bash
    python manage.py migrate
    python manage.py create_reactors  # Load sample reactor data
    ```
 
-5. **Create superuser (optional)**
+4. **Create superuser (optional)**
 
    ```bash
    python manage.py createsuperuser
    ```
 
-6. **Run development server**
+5. **Run development server**
 
    ```bash
    python manage.py runserver
