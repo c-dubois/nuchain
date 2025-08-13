@@ -42,6 +42,7 @@ NuChain bridges climate tech, energy infrastructure, and DeFi simulation by offe
 
 ### Project Structure
 
+``` bash
 nuchain/
 ├── nuchain-backend/         # Django REST API
 │   ├── apps/
@@ -59,6 +60,7 @@ nuchain/
 │   │   └── utils/           # Helper functions & constants
 │   └── package.json
 └── README.md
+```
 
 ## 🚀 Quick Start
 
