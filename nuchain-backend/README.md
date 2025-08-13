@@ -350,4 +350,4 @@ LOGGING = {
 
 ---
 
-**API Documentation**: Available at `/admin/` when running with `DEBUG=True`
+**Admin Interface**: Available at `/admin/` when running with `DEBUG=True` for managing users, reactors, and investments
