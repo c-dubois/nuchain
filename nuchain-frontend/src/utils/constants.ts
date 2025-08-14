@@ -24,9 +24,9 @@ export const MAX_INVESTMENT_PERCENTAGE = 100; // Max % of balance you can invest
 // Chart colors for data visualization
 export const CHART_COLORS = {
   roi: '#daff02',        // Primary color for ROI
-  carbon: '#fe572a',     // Accent color for carbon offset
-  gridColor: '#3a3839',  // Medium color for grid lines
+  carbon: '#685bc7',     // Accent color for carbon offset
+  gridColor: '#f3f0eb',  // Medium color for grid lines
   textColor: '#f3f0eb'   // Light color for text
 };
 
-export const PIE_COLORS = ['#daff02', '#fe572a', '#685bc7', '#4CC9F0', '#F72585'];
+export const PIE_COLORS = ['#daff02', '#fe572a', '#685bc7', '#4CC9F0', '#fd3f95ff', '#40f476ff'];

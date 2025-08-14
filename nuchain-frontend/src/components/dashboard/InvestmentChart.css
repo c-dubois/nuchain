@@ -11,6 +11,10 @@
     font-size: 1.5rem;
 }
 
+.investment-chart-title, .carbon-offset-title, .portfolio-distribution-title {
+    text-align: center;
+}
+
 .chart-container {
     margin-bottom: 2rem;
 }
@@ -25,6 +29,12 @@
     color: var(--color-accent);
     margin-bottom: 1rem;
     font-size: 1.125rem;
+}
+
+.chart-portfolio {
+    border-top: 2px solid var(--color-medium);
+    padding-top: 1.5rem;
+    margin-top: 2rem;
 }
 
 /* Custom tooltip styles */

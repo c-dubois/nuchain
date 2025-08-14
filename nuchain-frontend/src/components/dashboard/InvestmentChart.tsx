@@ -41,7 +41,6 @@ interface InvestmentChartProps {
 
 export const InvestmentChart: React.FC<InvestmentChartProps> = ({
     summary,
-    chartType = 'line',
     investments
 }) => {
     if (!summary || summary.investment_count === 0) {
@@ -90,20 +89,24 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
 
     return (
         <div className="investment-chart">
-            <h3>Investment Projections</h3>
-        
+            <h3 className='investment-chart-title'>Investment Projections</h3>
+
             <div className="chart-container">
                 <ResponsiveContainer width="100%" height={300}>
-                    {chartType === 'line' ? (
-                        <LineChart data={chartData}>
+                        <LineChart 
+                            data={chartData}
+                            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                        >
                             <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.gridColor} />
                             <XAxis 
                                 dataKey="period" 
+                                tickMargin={5}
                                 stroke={CHART_COLORS.textColor}
                             />
                             <YAxis 
                                 stroke={CHART_COLORS.textColor}
-                                tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
+                                tickMargin={10}
+                                tickFormatter={(value) => `${(value / 1000).toFixed(0)}k $NUC`}
                             />
                             <Tooltip content={<CustomTooltip />} />
                             <Legend />
@@ -111,52 +114,27 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
                                 type="monotone"
                                 dataKey="totalReturn"
                                 name="Total Investment Value"
-                                stroke={CHART_COLORS.roi}
+                                stroke={CHART_COLORS.carbon}
                                 strokeWidth={3}
-                                dot={{ fill: CHART_COLORS.roi, r: 6 }}
+                                dot={{ fill: CHART_COLORS.carbon, r: 6 }}
                                 activeDot={{ r: 8 }}
                             />
                             <Line
                                 type="monotone"
                                 dataKey="roi"
                                 name="Return on Investment (ROI)"
-                                stroke={CHART_COLORS.carbon}
+                                stroke={CHART_COLORS.roi}
                                 strokeWidth={3}
-                                dot={{ fill: CHART_COLORS.carbon, r: 6 }}
+                                dot={{ fill: CHART_COLORS.roi, r: 6 }}
                                 activeDot={{ r: 8 }}
                             />
                         </LineChart>
-                    ) : (
-                        <BarChart data={chartData}>
-                            <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.gridColor} />
-                            <XAxis 
-                                dataKey="period" 
-                                stroke={CHART_COLORS.textColor}
-                            />
-                            <YAxis 
-                                stroke={CHART_COLORS.textColor}
-                                tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
-                            />
-                            <Tooltip content={<CustomTooltip />} />
-                            <Legend />
-                            <Bar
-                                dataKey="totalReturn"
-                                name="Total Return"
-                                fill={CHART_COLORS.roi}
-                            />
-                            <Bar
-                                dataKey="roi"
-                                name="ROI"
-                                fill={CHART_COLORS.carbon}
-                            />
-                        </BarChart>
-                    )}
                 </ResponsiveContainer>
             </div>
 
             <div className="chart-carbon">
-                <h4>Carbon Offset Projection</h4>
-                <ResponsiveContainer width="100%" height={200}>
+                <h3 className='carbon-offset-title'>Carbon Offset Projection</h3>
+                <ResponsiveContainer width="100%" height={300}>
                     <BarChart data={chartData}>
                         <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.gridColor} />
                         <XAxis 
@@ -165,6 +143,7 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
                         />
                         <YAxis 
                             stroke={CHART_COLORS.textColor}
+                            tickMargin={10}
                             tickFormatter={(value) => `${(value / 1000).toFixed(0)}k t`}
                         />
                         <Tooltip content={<CustomTooltip />} />
@@ -178,16 +157,16 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
             </div>
 
             <div className="chart-portfolio">
-                <h4>Portfolio Distribution</h4>
-                <ResponsiveContainer width="100%" height={250}>
+                <h3 className='portfolio-distribution-title'>Portfolio Distribution</h3>
+                <ResponsiveContainer width="100%" height={300}>
                     <PieChart>
                         <Pie
                             data={pieData}
                             cx="50%"
                             cy="50%"
                             labelLine={false}
-                            label={({ percentage }) => `${percentage}%`}
-                            outerRadius={80}
+                            label={({ percentage }) => `${percentage}`}
+                            outerRadius={85}
                             fill="#8884d8"
                             dataKey="value"
                         >

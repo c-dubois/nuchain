@@ -65,7 +65,7 @@ export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
                 <div className="summary-card">
                     <div className="card-header">
                         <span className="card-icon">📈</span>
-                        <h3>Projected Return ({selectedPeriod}y)</h3>
+                        <h3>Projected Return ({selectedPeriod}Y)</h3>
                     </div>
                     <p className="card-value">{formatCurrency(currentProjection.total_return)}</p>
                     <p className={`card-subtitle ${currentProjection.roi_percentage >= 0 ? 'positive' : 'negative'}`}>
@@ -76,7 +76,7 @@ export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
                 <div className="summary-card">
                     <div className="card-header">
                         <span className="card-icon">🌱</span>
-                        <h3>Carbon Offset ({selectedPeriod}y)</h3>
+                        <h3>Carbon Offset ({selectedPeriod}Y)</h3>
                     </div>
                     <p className="card-value">{formatCarbonOffset(currentProjection.total_carbon_offset)}</p>
                     <p className="card-subtitle">Environmental impact</p>

@@ -119,7 +119,7 @@ export const InvestmentModal: React.FC<InvestmentModalProps> = ({
                             />
 
                             <p className="percentage-label">
-                                Or select a percentage of your available funds to invest:
+                                Or select a percentage of your wallet funds to invest:
                             </p>
 
                             <div className="percentage-buttons">
