@@ -49,10 +49,6 @@ export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
     return (
         <div className="portfolio-summary">
             <h2>Portfolio Summary</h2>
-            <TimeButtonGroup
-                selectedPeriod={selectedPeriod}
-                onPeriodChange={onPeriodChange}
-            />
 
             <div className="summary-grid">
                 <div className="summary-card">
@@ -85,6 +81,11 @@ export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
                     <p className="card-value">{formatCarbonOffset(currentProjection.total_carbon_offset)}</p>
                     <p className="card-subtitle">Environmental impact</p>
                 </div>
+                
+            <TimeButtonGroup
+                selectedPeriod={selectedPeriod}
+                onPeriodChange={onPeriodChange}
+            />
             </div>
         </div>
     );

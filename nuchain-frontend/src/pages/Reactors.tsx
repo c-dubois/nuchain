@@ -60,7 +60,7 @@ export const Reactors: React.FC = () => {
             <div className="page-header">
                 <h1>Nuclear Reactor Marketplace</h1>
                 <p className="page-subtitle">
-                    Invest in the future of clean energy
+                    Invest in the future of clean energy!
                 </p>
             </div>
 
