@@ -1,4 +1,5 @@
-.reactor-card {
+/* Browse variant styles */
+.reactor-card.browse {
     background-color: var(--color-dark-bg);
     border-radius: 1rem;
     overflow: hidden;
@@ -8,9 +9,9 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    }
+}
 
-.reactor-card:hover {
+.reactor-card.browse:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
     border-color: var(--color-primary);
@@ -31,7 +32,7 @@
     transition: transform 0.3s ease;
 }
 
-.reactor-card:hover .reactor-image {
+.reactor-card.browse:hover .reactor-image {
     transform: scale(1.05);
 }
 
@@ -116,13 +117,6 @@
     color: var(--color-error);
 }
 
-.carbon-offset {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    line-height: 1.2;
-}
-
 .carbon-value {
     font-weight: 700;
     display: block;
@@ -145,7 +139,7 @@ p.reactor-description {
     flex: 1;
     overflow: hidden;
     display: -webkit-box;
-    line-clamp: 20; /* Limit to 20 lines */
+    line-clamp: 20;
     -webkit-line-clamp: 20;
     -webkit-box-orient: vertical;
     text-align: justify;
@@ -191,25 +185,6 @@ p.reactor-description {
     opacity: 0.8;
 }
 
-.investment-info {
-    background-color: var(--color-medium);
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
-}
-
-.investment-stat {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--color-light);
-}
-
-.investment-stat strong {
-    color: var(--color-primary);
-    font-size: 1.25rem;
-}
-
 .btn-invest {
     width: 100%;
     padding: 1rem;
@@ -237,64 +212,206 @@ p.reactor-description {
     opacity: 0.7;
 }
 
-/* Portfolio variant adjustments */
+/* ============================================
+                PORTFOLIO VARIANT
+   ============================================ */
+
 .reactor-card.portfolio {
-    display: grid;
-    grid-template-columns: 200px 1fr auto;
-    height: auto;
-    gap: 1rem;
-    align-items: center;
-}
-
-.reactor-card.portfolio .reactor-image-container {
-    height: 120px;
-    width: 200px;
-}
-
-.reactor-card.portfolio .reactor-content {
-    padding: 1rem;
-    display: grid;
-    grid-template-columns: 1fr 3fr auto;
-    gap: 1.5rem;
-    align-items: center;
-}
-
-.reactor-card.portfolio .reactor-name {
-    font-size: 1.25rem;
-    text-align: left;
-    margin-bottom: 0.25rem;
-}
-
-.reactor-card.portfolio .reactor-type-badge {
-    font-size: 0.65rem;
-    padding: 0.2rem 0.5rem;
-}
-
-.reactor-card.portfolio .reactor-description {
-    display: none;
-}
-
-.portfolio-stats {
+    background-color: var(--color-dark-bg);
+    border-radius: 0.75rem;
+    border: 2px solid var(--color-medium);
     display: flex;
-    gap: 1.5rem;
-    align-items: center;
+    align-items: stretch;
+    height: 120px; 
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.portfolio-stat-item {
-    text-align: center;
+.reactor-card.portfolio:hover {
+    border-color: var(--color-primary);
+    transform: translateX(4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.stat-value-small {
-    font-size: 1rem;
+/* Portfolio Image */
+.portfolio-image-container {
+    width: 120px;  
+    height: 120px;
+    flex-shrink: 0;
+    overflow: hidden;
+    background-color: var(--color-medium);
+}
+
+.portfolio-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.reactor-card.portfolio:hover .portfolio-image {
+    transform: scale(1.1);
+}
+
+/* Portfolio Content */
+.portfolio-content {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+}
+
+/* Portfolio Header */
+.portfolio-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: nowrap;
+}
+
+.portfolio-name {
+    color: var(--color-primary);
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 0;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: unset;
+    text-shadow: 0 0 10px rgba(218, 255, 2, 0.2);
+    flex-shrink: 0;
+}
+
+.portfolio-type {
+    color: var(--color-secondary);
+    font-size: 0.75rem;
     font-weight: 600;
-    display: block;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding: 0.125rem 0.5rem;
+    background-color: var(--color-medium);
+    border-radius: 0.5rem;
+    flex-shrink: 0;
+    align-items: baseline;
 }
 
-.stat-value-small.highlight {
+/* Portfolio Stats Grid */
+.portfolio-stats-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.stat-row {
+    display: flex;
+}
+
+.stat-inline {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.stat-inline-label {
+    color: var(--color-light);
+    opacity: 0.7;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.stat-inline-value {
+    color: var(--color-light);
+    font-size: 0.875rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.stat-inline-value.positive {
+    color: var(--color-success);
+}
+
+.stat-inline-value.negative {
+    color: var(--color-error);
+}
+
+.stat-inline-value.highlight {
     color: var(--color-primary);
 }
 
-.reactor-card.portfolio .reactor-location,
-.reactor-card.portfolio .reactor-stats-card {
-    display: none;
+/* Portfolio Invest Button */
+.portfolio-invest-btn {
+    padding: 0.5rem 1.25rem;
+    background-color: var(--color-secondary);
+    color: var(--color-light);
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    align-self: center;
+    margin: 0 1rem;
+}
+
+.portfolio-invest-btn:hover:not(.disabled) {
+    background-color: var(--color-accent);
+    transform: scale(1.05);
+}
+
+.portfolio-invest-btn.disabled {
+    background-color: var(--color-medium);
+    color: var(--color-light);
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .reactor-card.portfolio {
+        height: auto;
+        min-height: 100px;
+    }
+    
+    .portfolio-header {
+        flex-wrap: wrap;
+    }
+    
+    .stat-row {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .stat-inline {
+        min-width: 45%;
+    }
+}
+
+@media (max-width: 500px) {
+    .reactor-card.portfolio {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .portfolio-image-container {
+        width: 100%;
+        height: 150px;
+    }
+    
+    .portfolio-content {
+        padding: 1rem;
+    }
+    
+    .portfolio-invest-btn {
+        width: calc(100% - 2rem);
+        margin: 0.5rem 1rem 1rem;
+    }
 }

@@ -99,7 +99,7 @@
 
 .portfolio-reactors h3 {
     color: var(--color-primary);
-    margin-bottom: 1rem;
+    text-align: center;
 }
 
 .reactor-list-portfolio {

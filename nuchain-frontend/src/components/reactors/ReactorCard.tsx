@@ -21,8 +21,72 @@ export const ReactorCard: React.FC<ReactorCardProps> = ({
     const fundingPercentage = reactor.funding_percentage || 0;
     const isFullyFunded = reactor.is_fully_funded;
 
+    if (variant === 'portfolio' && investmentAmount) {
+        return (
+            <div className="reactor-card portfolio">
+                <div className="portfolio-image-container">
+                    <img 
+                        src={getReactorImage(reactor.slug)} 
+                        alt={reactor.name}
+                        className="portfolio-image"
+                        onError={(e) => {
+                            (e.target as HTMLImageElement).src = `https://picsum.photos/800/600?text=${encodeURIComponent(reactor.name)}`;
+                        }}
+                    />
+                </div>
+                
+                <div className="portfolio-content">
+                    <div className="portfolio-header">
+                        <h3 className="portfolio-name">{reactor.name}</h3>
+                        <span className="portfolio-type">{reactor.type}</span>
+                    </div>
+                    
+                    <div className="portfolio-stats-grid">
+                        <div className="stat-row">
+                            <div className="stat-inline">
+                                <span className="stat-inline-label">ROI:</span>
+                                <span className={`stat-inline-value ${reactor.annual_roi_rate < 0 ? 'negative' : 'positive'}`}>
+                                    {formatROIRate(reactor.annual_roi_rate)}
+                                </span>
+                            </div>
+                            <div className="stat-inline">
+                                <span className="stat-inline-label">Portfolio:</span>
+                                <span className="stat-inline-value">
+                                    {((investmentAmount / (portfolioTotal || 1)) * 100).toFixed(1)}%
+                                </span>
+                            </div>
+                        </div>
+                        <div className="stat-row">
+                            <div className="stat-inline">
+                                <span className="stat-inline-label">CO₂:</span>
+                                <span className="stat-inline-value">
+                                    {formatCarbonOffset(reactor.carbon_offset_tonnes_co2_per_nuc_per_year)}
+                                </span>
+                            </div>
+                            <div className="stat-inline">
+                                <span className="stat-inline-label">Your Investment:</span>
+                                <span className="stat-inline-value highlight">
+                                    {formatCurrency(investmentAmount)}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button 
+                    className={`portfolio-invest-btn ${isFullyFunded ? 'disabled' : ''}`}
+                    onClick={() => onInvestClick(reactor)}
+                    disabled={isFullyFunded}
+                >
+                    {isFullyFunded ? '✓ Fully Funded' : '⚡ Invest'}
+                </button>
+            </div>
+        );
+    }
+
+    // Original browse variant
     return (
-        <div className={`reactor-card ${variant}`}>
+        <div className="reactor-card browse">
             <div className="reactor-image-container">
                 <img 
                     src={getReactorImage(reactor.slug)} 
@@ -42,7 +106,9 @@ export const ReactorCard: React.FC<ReactorCardProps> = ({
                 <div className="reactor-stats-card">
                     <div className="stat">
                         <span className="stat-label">Return on Investment (ROI)</span>
-                        <span className={`stat-value ${reactor.annual_roi_rate < 0 ? 'negative' : 'positive'}`}>{formatROIRate(reactor.annual_roi_rate)}</span>
+                        <span className={`stat-value ${reactor.annual_roi_rate < 0 ? 'negative' : 'positive'}`}>
+                            {formatROIRate(reactor.annual_roi_rate)}
+                        </span>
                     </div>
                     <div className="stat">
                         <span className="stat-label">Carbon Offset</span>
@@ -53,59 +119,24 @@ export const ReactorCard: React.FC<ReactorCardProps> = ({
                     </div>
                 </div>
 
-                {variant === 'browse' && (
-                    <>
-                        <p className="reactor-description">{reactor.description}</p>
+                <p className="reactor-description">{reactor.description}</p>
 
-                        <div className="funding-info">
-                            <div className="funding-header">
-                                <span>Funding Progress</span>
-                                <span>{fundingPercentage.toFixed(1)}%</span>
-                            </div>
-                            <div className="funding-bar">
-                                <div 
-                                    className="funding-progress"
-                                    style={{ width: `${Math.min(fundingPercentage, 100)}%` }}
-                                />
-                            </div>
-                            <div className="funding-details">
-                                <span>{formatCurrency(reactor.current_funding)} raised</span>
-                                <span>of {formatCurrency(reactor.total_funding_needed)}</span>
-                            </div>
-                        </div>
-                    </>
-                )}
-
-                {variant === 'portfolio' && investmentAmount && (
-                    <>
-                        <div className="portfolio-stats">
-                            <div className="portfolio-stat-item">
-                                <span className="stat-label">ROI</span>
-                                <span className={`stat-value-small ${reactor.annual_roi_rate < 0 ? 'negative' : 'positive'}`}>
-                                    {formatROIRate(reactor.annual_roi_rate)}
-                                </span>
-                            </div>
-                            <div className="portfolio-stat-item">
-                                <span className="stat-label">CO₂ Offset</span>
-                                <span className="stat-value-small">
-                                    {formatCarbonOffset(reactor.carbon_offset_tonnes_co2_per_nuc_per_year)}
-                                </span>
-                            </div>
-                            <div className="portfolio-stat-item">
-                                <span className="stat-label">Your Investment</span>
-                                <span className="stat-value-small highlight">
-                                    {formatCurrency(investmentAmount)}
-                                </span>
-                            </div>
-                            <div className="portfolio-stat-item">
-                                <span className="stat-label">Portfolio %</span>
-                                <span className="stat-value-small">
-                                    {((investmentAmount / (portfolioTotal || 1)) * 100).toFixed(1)}%
-                                </span>
-                            </div>
-                        </div>
-                    </>
-                )}
+                <div className="funding-info">
+                    <div className="funding-header">
+                        <span>Funding Progress</span>
+                        <span>{fundingPercentage.toFixed(1)}%</span>
+                    </div>
+                    <div className="funding-bar">
+                        <div 
+                            className="funding-progress"
+                            style={{ width: `${Math.min(fundingPercentage, 100)}%` }}
+                        />
+                    </div>
+                    <div className="funding-details">
+                        <span>{formatCurrency(reactor.current_funding)} raised</span>
+                        <span>of {formatCurrency(reactor.total_funding_needed)}</span>
+                    </div>
+                </div>
 
                 <button 
                     className={`btn-invest ${isFullyFunded ? 'disabled' : ''}`}
@@ -117,4 +148,4 @@ export const ReactorCard: React.FC<ReactorCardProps> = ({
             </div>
         </div>
     );
-};
+}

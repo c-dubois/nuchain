@@ -239,7 +239,7 @@ export const Profile: React.FC = () => {
                             <div className="form-buttons">
                                 <button 
                                     type="button"
-                                    className="btn-secondary"
+                                    className="btn-primary"
                                     onClick={() => {
                                         setIsEditing(false);
                                         setFormData({
@@ -254,7 +254,7 @@ export const Profile: React.FC = () => {
                                 </button>
                                 <button 
                                     type="submit"
-                                    className="btn-primary"
+                                    className="btn-secondary"
                                     disabled={loading}
                                 >
                                     {loading ? 'Saving...' : 'Save Changes'}
@@ -326,7 +326,7 @@ export const Profile: React.FC = () => {
                                 required
                             />
                         </div>
-                        <button type="submit" className="btn-primary" disabled={passwordLoading}>
+                        <button type="submit" className="btn-secondary" disabled={passwordLoading}>
                             {passwordLoading ? 'Changing...' : 'Change Password'}
                         </button>
                     </form>
