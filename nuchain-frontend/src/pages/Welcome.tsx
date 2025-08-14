@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LoginForm } from '../components/auth/LoginForm';
 import { RegisterForm } from '../components/auth/RegisterForm';
+import nuchainLogo from '../assets/images/nuchain-logo.png';
 import './Welcome.css';
 
 export const Welcome: React.FC = () => {
@@ -25,7 +26,12 @@ export const Welcome: React.FC = () => {
             <div className="welcome-content">
                 <div className="welcome-hero">
                     <h1 className="welcome-title">
-                        <span className="nuclear-symbol">⚛️</span> NuChain
+                        <img 
+                            src={nuchainLogo} 
+                            alt="NuChain" 
+                            className="nuclear-symbol"
+                        /> 
+                        NuChain
                     </h1>
                     <p className="welcome-tagline">
                         The Future of Nuclear Investment

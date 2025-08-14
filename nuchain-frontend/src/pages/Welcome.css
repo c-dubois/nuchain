@@ -53,7 +53,10 @@
 }
 
 .nuclear-symbol {
-    font-size: 4.5rem;
+    width: 4.5rem;
+    height: 4.5rem;
+    object-fit: contain;
+    display: inline-block;
     animation: rotate 20s linear infinite;
 }
 
@@ -64,7 +67,7 @@
 
 .welcome-tagline {
     font-size: 1.5rem;
-    color: #d060fc;
+    color: var(--color-secondary);
     margin-bottom: 1rem;
     font-weight: 600;
     text-transform: uppercase;

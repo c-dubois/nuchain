@@ -19,8 +19,17 @@
     font-weight: 600;
 }
 
+.footer-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    object-fit: contain;
+    display: inline-block;
+    vertical-align: -7px;
+    margin-right: 0.5rem;
+}
+
 .footer-disclaimer {
-    color: var(--color-error);
+    color: var(--color-accent);
     opacity: 0.8;
     font-size: 0.75rem;
     margin: 0;

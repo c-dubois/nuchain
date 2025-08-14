@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { formatCurrency } from '../../utils/helpers';
+import nuchainLogo from '../../assets/images/nuchain-logo.png';
 import './Header.css';
 
 export const Header: React.FC = () => {
@@ -27,7 +28,14 @@ export const Header: React.FC = () => {
                     </button>
 
                     <Link to="/dashboard" className="logo-link">
-                        <h1 className="logo">⚛️ NuChain</h1>
+                        <h1 className="logo">
+                            <img 
+                                src={nuchainLogo} 
+                                alt="NuChain" 
+                                className="logo-icon"
+                            /> 
+                            NuChain
+                        </h1>
                     </Link>
 
                     <div className="balance-display">

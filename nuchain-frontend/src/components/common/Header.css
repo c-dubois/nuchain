@@ -57,6 +57,16 @@
     text-shadow: 0 0 30px rgba(218, 255, 2, 0.8);
 }
 
+.logo-icon {
+    width: 2rem;
+    height: 2rem;
+    object-fit: contain;
+    display: inline-block;
+    vertical-align: -4px;
+    margin-right: 0.5rem;
+    animation: rotate 20s linear infinite;
+}
+
 .header-content-grid .balance-display {
     display: flex;
     align-items: center;
