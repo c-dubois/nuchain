@@ -133,7 +133,7 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
             </div>
 
             <div className="chart-carbon">
-                <h3 className='carbon-offset-title'>Carbon Offset Projection</h3>
+                <h3 className='carbon-offset-title'>Carbon Offset Projections</h3>
                 <ResponsiveContainer width="100%" height={300}>
                     <BarChart data={chartData}>
                         <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.gridColor} />
