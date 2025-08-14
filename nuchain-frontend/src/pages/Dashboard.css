@@ -29,10 +29,25 @@
     margin-top: 2rem;
 }
 
+.dashboard-grid:has(.dashboard-main .no-investments),
+.dashboard-grid:has(.portfolio-summary.empty) {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
 .dashboard-main {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+}
+
+.dashboard-main:only-child {
+    max-width: 800px;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
 }
 
 .dashboard-sidebar {
@@ -47,19 +62,22 @@
     margin: 0;
 }
 
-.no-investments {
+/* .no-investments {
     background-color: var(--color-dark-bg);
-    padding: 2rem;
+    padding: 3rem 2rem;
     border-radius: 1rem;
     text-align: center;
     border: 2px solid var(--color-medium);
-}
+    max-width: 500px;
+    width: 100%;
+} */
 
-.no-investments p {
+/* .no-investments p {
     color: var(--color-light);
     opacity: 0.8;
-    margin-bottom: 1rem;
-}
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+} */
 
 .dashboard-error {
     background-color: var(--color-dark-bg);

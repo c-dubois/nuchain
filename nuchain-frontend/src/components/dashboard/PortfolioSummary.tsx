@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { TimeButtonGroup } from './TimeButtonGroup';
 import type { PortfolioSummary as PortfolioSummaryType } from '../../types/investment';
 import type { TimePeriod } from '../../utils/constants';
@@ -33,6 +34,9 @@ export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
                 <div className="empty-state">
                     <p>🚀 No investments yet!</p>
                     <p>Start investing in nuclear reactors to see your portfolio grow!</p>
+                    <Link to="/invest" className="btn-browse-reactors">
+                        Browse Reactors
+                    </Link>
                 </div>
             </div>
         );

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { reactorService } from '../services/reactors';
 import { investmentService } from '../services/investments';
@@ -124,15 +123,8 @@ export const Dashboard: React.FC = () => {
                                 portfolioTotal={portfolioSummary?.total_invested || 0}
                             />
                         </div>
-                        ) : (
-                            <div className="no-investments">
-                            <p>No investments yet!</p>
-                            <Link to="/invest" className="btn-browse-reactors">
-                                Browse Reactors
-                            </Link>
-                        </div>
-                        )}
-                        </div>
+                        ) : null}
+                </div>
 
                 <div className="dashboard-sidebar">
                     {portfolioSummary && portfolioSummary.investment_count > 0 && (

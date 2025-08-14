@@ -10,6 +10,7 @@
     margin-bottom: 1.5rem;
     font-size: 2rem;
     text-shadow: 0 0 20px rgba(218, 255, 2, 0.3);
+    text-align: center;
 }
 
 .summary-grid {
@@ -105,9 +106,14 @@
 }
 
 /* Empty state */
+.portfolio-summary.empty {
+    max-width: 600px;     /* <-- Added this line for centering */
+    margin: 0 auto;       /* <-- Added this line for centering */
+}
+
 .portfolio-summary.empty .empty-state {
     text-align: center;
-    padding: 3rem;
+    padding: 0rem;
     color: var(--color-light);
     opacity: 0.8;
 }
@@ -115,11 +121,34 @@
 .empty-state p {
     margin: 0.5rem 0;
     font-size: 1.125rem;
+    margin-bottom: 2rem;
 }
 
 .empty-state p:first-child {
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-bottom: 1rem;
+}
+
+.empty-state .btn-browse-reactors {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: var(--color-secondary);
+    color: var(--color-light);
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1.5rem;
+    text-decoration: none;
+}
+
+.empty-state .btn-browse-reactors:hover {
+    background-color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(254, 87, 42, 0.3);
+    text-decoration: none;
 }
 
 .portfolio-summary.loading {
