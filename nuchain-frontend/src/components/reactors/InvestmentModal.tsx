@@ -118,6 +118,10 @@ export const InvestmentModal: React.FC<InvestmentModalProps> = ({
                                 autoFocus
                             />
 
+                            <p className="percentage-label">
+                                Or select a percentage of your available funds to invest:
+                            </p>
+
                             <div className="percentage-buttons">
                                 <button type="button" onClick={() => setPercentage(25)}>25%</button>
                                 <button type="button" onClick={() => setPercentage(50)}>50%</button>
