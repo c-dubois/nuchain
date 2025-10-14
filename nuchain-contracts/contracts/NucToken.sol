@@ -2,61 +2,67 @@
 pragma solidity ^0.8.28;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract NucToken is ERC20 {
-    address public admin;
 
+contract NucToken is ERC20, Ownable {
     // Track locked balances per user
     mapping(address => uint256) public lockedBalances;
 
-    constructor() ERC20("NuChain Token", "NUC") {
-        admin = msg.sender;
-    }
-
-    function decimals() public pure override returns (uint8) {
-        return 18;
-    }
-
-    // Get available (unlocked) balance
+    // Get available (unlocked) balance in user's wallet
     function availableBalanceOf(address account) public view returns (uint256) {
         return balanceOf(account) - lockedBalances[account];
     }
 
-    // Mint tokens to user on signup
-    function mint(address to, uint256 amount) external {
-        require(msg.sender == admin, "Only admin can mint");
-        _mint(to, amount);
+    // Signup: Admin mints 25,000 NUC to new users
+    function mintSignup(address to) external onlyOwner {
+        _mint(to, 25_000 * 10**18); // 25,000 NUC (18 decimals)
     }
 
-    // Burn tokens from user on account deletion
-    function burn(address from, uint256 amount) external {
-        require(msg.sender == admin, "Only admin can burn");
-        _burn(from, amount);
-    }
-
-    // Lock tokens when user invests in a reactor
-    function lock(address user, uint256 amount) external {
-        require(msg.sender == admin, "Only admin can lock");
+    // Invest: Admin locks user's tokens when they invest in a reactor
+    function lock(address user, uint256 amount) external onlyOwner {
         require(availableBalanceOf(user) >= amount, "Insufficient unlocked balance");
         lockedBalances[user] += amount;
+        emit TokensLocked(user, amount);
     }
 
-    // Unlock tokens when user resets wallet
-    function unlock(address user, uint256 amount) external {
-        require(msg.sender == admin, "Only admin can unlock");
-        require(lockedBalances[user] >= amount, "Insufficient locked balance");
-        lockedBalances[user] -= amount;
+    // Reset: Admin unlocks ALL locked tokens for a user
+    function resetPortfolio(address user) external onlyOwner {
+        uint256 amount = lockedBalances[user];
+        if (amount > 0) {
+            lockedBalances[user] = 0;
+            emit TokensUnlocked(user, amount);
+        }
     }
 
-    // Override transfer to prevent transferring locked tokens
+    // Delete: Admin burns user's tokens (account deletion)
+    function burnAccount(address from) external onlyOwner {
+        uint256 balance = balanceOf(from);
+        _burn(from, balance);
+        emit AccountDeleted(from, balance);
+    }
+
+    // Prevent transferring locked tokens
     function transfer(address to, uint256 amount) public override returns (bool) {
-        require(availableBalanceOf(msg.sender) >= amount, "Insufficient unlocked balance");
+        require(availableBalanceOf(msg.sender) >= amount, "Cannot transfer locked tokens");
         return super.transfer(to, amount);
     }
 
-    // Override transferFrom to prevent transferring locked tokens
+    // Prevent transferFrom for locked tokens
     function transferFrom(address from, address to, uint256 amount) public override returns (bool) {
-        require(availableBalanceOf(from) >= amount, "Insufficient unlocked balance");
+        require(availableBalanceOf(from) >= amount, "Cannot transfer locked tokens");
         return super.transferFrom(from, to, amount);
     }
+
+    // --- Events ---
+    event TokensLocked(address indexed user, uint256 amount);
+    event TokensUnlocked(address indexed user, uint256 amount);
+    event AccountDeleted(address indexed user, uint256 amount);
+
+    // --- Admin Safety ---
+    function renounceOwnership() public override onlyOwner view {
+        revert("Ownership cannot be renounced!");
+    }
+
+    constructor() ERC20("NuChain Token", "NUC") Ownable(msg.sender) {}
 }
