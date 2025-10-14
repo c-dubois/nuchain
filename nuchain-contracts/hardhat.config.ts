@@ -1,5 +1,6 @@
 import type { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox-mocha-ethers";
+import hardhatToolboxViem from "@nomicfoundation/hardhat-toolbox-viem";
 import { configVariable } from "hardhat/config";
 
 const config: HardhatUserConfig = {
@@ -12,6 +13,7 @@ const config: HardhatUserConfig = {
       },
     },
   },
+  plugins: [hardhatToolboxViem],
   networks: {
     baseSepolia: {
       type: "http",
