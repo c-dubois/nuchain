@@ -1,10 +1,15 @@
 import type { HardhatUserConfig } from "hardhat/config";
-
-import hardhatToolboxMochaEthersPlugin from "@nomicfoundation/hardhat-toolbox-mocha-ethers";
+import hardhatToolboxMochaEthers from "@nomicfoundation/hardhat-toolbox-mocha-ethers";
+import hardhatKeystore from "@nomicfoundation/hardhat-keystore";
+import hardhatVerify from "@nomicfoundation/hardhat-verify";
 import { configVariable } from "hardhat/config";
 
 const config: HardhatUserConfig = {
-  plugins: [hardhatToolboxMochaEthersPlugin],
+  plugins: [
+    hardhatToolboxMochaEthers,
+    hardhatKeystore,
+    hardhatVerify,
+  ],
   solidity: {
     profiles: {
       default: {
@@ -22,21 +27,26 @@ const config: HardhatUserConfig = {
     },
   },
   networks: {
-    hardhatMainnet: {
-      type: "edr-simulated",
-      chainType: "l1",
-    },
-    hardhatOp: {
-      type: "edr-simulated",
-      chainType: "op",
-    },
-    sepolia: {
+    baseSepolia: {
       type: "http",
-      chainType: "l1",
-      url: configVariable("SEPOLIA_RPC_URL"),
-      accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
+      chainType: "generic",
+      url: configVariable("BASE_SEPOLIA_RPC_URL"),
+      accounts: [configVariable("NUCHAIN_PRIVATE_KEY")],
+      chainId: 84532,
     },
   },
+  chainDescriptors: {
+    84532: {
+      name: "Base Sepolia",
+      blockExplorers: {
+        etherscan: {
+          name: "BaseScan",
+          url: "https://sepolia.basescan.org",
+          apiUrl: "https://api-sepolia.basescan.org/api",
+        },
+      },
+    },
+  }
 };
 
 export default config;

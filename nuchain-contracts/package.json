@@ -14,6 +14,7 @@
   "description": "",
   "devDependencies": {
     "@nomicfoundation/hardhat-ignition": "^3.0.3",
+    "@nomicfoundation/hardhat-keystore": "^3.0.1",
     "@nomicfoundation/hardhat-toolbox-mocha-ethers": "^3.0.0",
     "@nomicfoundation/hardhat-verify": "^3.0.3",
     "@openzeppelin/contracts": "^5.4.0",
