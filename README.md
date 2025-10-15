@@ -76,7 +76,7 @@ nuchain/
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/nuchain.git
+   git clone https://github.com/c-dubois/nuchain.git
    cd nuchain
    ```
 
