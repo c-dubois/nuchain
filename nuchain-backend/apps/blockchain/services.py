@@ -83,3 +83,93 @@ class BlockchainService:
             if isinstance(e, (InsufficientGasError, TransactionError)):
                 raise
             raise TransactionError(f"Transaction failed: {str(e)}")
+
+    # === WRITE FUNCTIONS ===
+
+    def mint_signup(self, wallet_address):
+        """
+        Mint 25,000 NUC tokens to a new user's wallet.
+        Called during user signup.
+        """
+        address = Web3.to_checksum_address(wallet_address)
+        return self._send_transaction(self.contract.functions.mintSignup, address)
+
+    def lock_tokens(self, wallet_address, amount):
+        """
+        Lock tokens when user invests in a reactor.
+        
+        Args:
+            wallet_address: User's Ethereum address
+            amount: Amount of NUC to lock (Decimal or float)
+        """
+        address = Web3.to_checksum_address(wallet_address)
+        wei_amount = self._to_wei(amount)
+
+        # Check if user has sufficient available balance
+        available = self.get_available_balance(address)
+        if available < Decimal(amount):
+            raise InsufficientBalanceError(
+                f"Insufficient balance. Available: {available} NUC, Required: {amount} NUC"
+            )
+        
+        return self._send_transaction(self.contract.functions.lock, address, wei_amount)
+
+    def reset_portfolio(self, wallet_address):
+        """
+        Unlock all locked tokens for a user.
+        Called when user resets their wallet.
+        """
+        address = Web3.to_checksum_address(wallet_address)
+        return self._send_transaction(self.contract.functions.resetPortfolio, address)
+
+    def burn_account(self, wallet_address):
+        """
+        Burn all tokens for a user.
+        Called when user deletes their account.
+        """
+        address = Web3.to_checksum_address(wallet_address)
+        return self._send_transaction(self.contract.functions.burnAccount, address)
+
+    # ==== READ FUNCTIONS (no gas required) ====
+
+    def get_balance(self, wallet_address):
+        """Get total balance for a user (in NUC)"""
+        address = Web3.to_checksum_address(wallet_address)
+        balance_wei = self.contract.functions.balanceOf(address).call()
+        return self._from_wei(balance_wei)
+
+    def get_locked_balance(self, wallet_address):
+        """Get locked balance for a user (in NUC)"""
+        address = Web3.to_checksum_address(wallet_address)
+        locked_wei = self.contract.functions.lockedBalances(address).call()
+        return self._from_wei(locked_wei)
+
+    def get_available_balance(self, wallet_address):
+        """Get available (unlocked) balance for a user (in NUC)"""
+        address = Web3.to_checksum_address(wallet_address)
+        available_wei = self.contract.functions.availableBalanceOf(address).call()
+        return self._from_wei(available_wei)
+
+    def get_all_balances(self, wallet_address):
+        """
+        Get all balance information for a user.
+        
+        Returns:
+            dict: {'total': Decimal, 'locked': Decimal, 'available': Decimal}
+        """
+        address = Web3.to_checksum_address(wallet_address)
+        return {
+            'total': self.get_balance(address),
+            'locked': self.get_locked_balance(address),
+            'available': self.get_available_balance(address)
+        }
+
+# Singleton instance
+_service = None
+
+def get_blockchain_service():
+    """Get or create singleton blockchain service instance"""
+    global _service
+    if _service is None:
+        _service = BlockchainService()
+    return _service
