@@ -53,7 +53,8 @@ INSTALLED_APPS = [
 
     'apps.users',
     'apps.investments',
-    'apps.reactors'
+    'apps.reactors',
+    'apps.blockchain'
 ]
 
 MIDDLEWARE = [
@@ -233,3 +234,9 @@ LOGGING = {
         },
     },
 }
+
+# ==== BLOCKCHAIN CONFIGURATION ====
+
+BASE_SEPOLIA_RPC_URL = os.getenv('BASE_SEPOLIA_RPC_URL', 'https://sepolia.base.org')
+NUC_CONTRACT_ADDRESS = os.getenv('NUC_CONTRACT_ADDRESS', '0x7a8ed93c1eA030eC8F283e93Ff1BB008e57D4791')
+ADMIN_PRIVATE_KEY = os.getenv('ADMIN_PRIVATE_KEY', '')
