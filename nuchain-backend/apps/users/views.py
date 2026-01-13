@@ -4,25 +4,28 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.models import User
+from django.db import transaction
 from .serializers import (
     UserRegistrationSerializer,
     UserProfileSerializer,
     CustomTokenObtainPairSerializer,
     UserUpdateSerializer
 )
+from apps.blockchain.services import BlockchainService
+from apps.blockchain.exceptions import BlockchainError
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     """Custom JWT login view that returns user info along with tokens"""
     serializer_class = CustomTokenObtainPairSerializer
-
+    
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
-
+        
         if response.status_code == 200:
             username = request.data.get('username')
             try:
                 user = User.objects.get(username=username)
-
+                
                 response.data.update({
                     'user': {
                         'id': user.id,
@@ -42,30 +45,53 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 @api_view(['POST'])
 @permission_classes([permissions.AllowAny])
 def register_user(request):
-    """Register a new user and return JWT tokens"""
+    """Register a new user with blockchain wallet and return JWT tokens"""
     serializer = UserRegistrationSerializer(data=request.data)
     if serializer.is_valid():
-        user = serializer.save()
-
-        refresh = RefreshToken.for_user(user)
-        access_token = refresh.access_token
-
-        access_token['username'] = user.username
-        access_token['email'] = user.email
-
-        return Response({
-            'user': {
-                'id': user.id,
-                'username': user.username,
-                'email': user.email,
-                'first_name': user.first_name,
-                'last_name': user.last_name,
-                'balance': float(user.profile.balance)
-            },
-            'refresh': str(refresh),
-            'access': str(access_token),
-            'message': 'User created successfully with 25,000 $NUC tokens!'
-        }, status=status.HTTP_201_CREATED)
+        try:
+            with transaction.atomic():
+                # 1. Create user (profile auto-created via signal)
+                user = serializer.save()
+                
+                # 2. Generate wallet and mint tokens on blockchain
+                blockchain = BlockchainService()
+                wallet_address, tx_hash = blockchain.mint_signup()
+                
+                # 3. Save wallet address to profile
+                user.profile.wallet_address = wallet_address
+                user.profile.save()
+                
+                # 4. Generate JWT tokens
+                refresh = RefreshToken.for_user(user)
+                access_token = refresh.access_token
+                access_token['username'] = user.username
+                access_token['email'] = user.email
+                
+                return Response({
+                    'user': {
+                        'id': user.id,
+                        'username': user.username,
+                        'email': user.email,
+                        'first_name': user.first_name,
+                        'last_name': user.last_name,
+                        'balance': float(user.profile.balance)
+                    },
+                    'wallet': {
+                        'address': wallet_address,
+                        'basescan_url': f"https://sepolia.basescan.org/address/{wallet_address}",
+                        'tx_hash': tx_hash,
+                        'tx_url': f"https://sepolia.basescan.org/tx/{tx_hash}",
+                    },
+                    'refresh': str(refresh),
+                    'access': str(access_token),
+                    'message': 'User created successfully with 25,000 $NUC tokens!'
+                }, status=status.HTTP_201_CREATED)
+        
+        except BlockchainError as e:
+            return Response(
+                {'error': f'Blockchain error: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -109,7 +135,7 @@ def change_password(request):
 @permission_classes([permissions.IsAuthenticated])
 def reset_wallet(request):
     """Reset user's wallet to starting balance (25,000 $NUC) and clear investments"""
-
+    
     request.user.profile.reset_wallet()
     
     return Response({
@@ -139,7 +165,7 @@ def delete_account(request):
     try:
         # Reset wallet and clear investments first
         request.user.profile.reset_wallet()
-
+        
         # Delete user profile
         request.user.delete()
         
