@@ -189,14 +189,34 @@ def logout_user(request):
 @api_view(['DELETE'])
 @permission_classes([permissions.IsAuthenticated])
 def delete_account(request):
-    """Delete user's account"""
+    """Delete user's account and burn all tokens on blockchain"""
+    user = request.user
+    wallet_address = user.profile.wallet_address
+    
     try:
-        # Reset wallet and clear investments first
-        request.user.profile.reset_wallet()
+        # 1. Burn tokens on blockchain (if wallet exists)
+        tx_hash = None
+        if wallet_address:
+            blockchain = BlockchainService()
+            tx_hash = blockchain.burn_account(wallet_address)
         
-        # Delete user profile
-        request.user.delete()
+        # 2. Delete user (cascades to profile and investments)
+        user.delete()
         
-        return Response({'message': 'Account deleted successfully'}, status=status.HTTP_200_OK)
+        response_data = {'message': 'Account deleted successfully'}
+        if tx_hash:
+            response_data['tx_hash'] = tx_hash
+            response_data['tx_url'] = f"https://sepolia.basescan.org/tx/{tx_hash}"
+        
+        return Response(response_data, status=status.HTTP_200_OK)
+    
+    except BlockchainError as e:
+        return Response(
+            {'error': f'Blockchain error: {str(e)}'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
     except Exception as e:
-        return Response({'error': f'Failed to delete account: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {'error': f'Failed to delete account: {str(e)}'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
