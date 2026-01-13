@@ -5,23 +5,27 @@ from django.dispatch import receiver
 from decimal import Decimal
 
 class UserProfile(models.Model):
-
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
         related_name='profile'
     )
-
     balance = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         default=Decimal('25000.00'),
         help_text="User's balance in $NUC"
     )
-
+    wallet_address = models.CharField(
+        max_length=42, 
+        unique=True, 
+        null=True, 
+        blank=True,
+        help_text="Ethereum wallet address (0x...) for blockchain interactions"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    
     def __str__(self):
         return f"{self.user.username} - Balance: {self.balance:,.2f} $NUC"
     
@@ -49,9 +53,9 @@ class UserProfile(models.Model):
             reactor = investment.reactor
             reactor.current_funding -= investment.amount_invested
             reactor.save()
-
+        
         user_investments.delete()
-
+        
         self.balance = Decimal('25000.00')
         self.save()
 
