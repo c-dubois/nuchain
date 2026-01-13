@@ -41,7 +41,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 pass
         
         return response
-    
+
 @api_view(['POST'])
 @permission_classes([permissions.AllowAny])
 def register_user(request):
@@ -135,13 +135,41 @@ def change_password(request):
 @permission_classes([permissions.IsAuthenticated])
 def reset_wallet(request):
     """Reset user's wallet to starting balance (25,000 $NUC) and clear investments"""
+    user = request.user
+    wallet_address = user.profile.wallet_address
     
-    request.user.profile.reset_wallet()
+    if not wallet_address:
+        return Response(
+            {'error': 'No wallet found for user'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
     
-    return Response({
-        'message': 'Wallet reset successfully! Your balance is now 25,000 $NUC.',
-        'balance': float(request.user.profile.balance)
-    })
+    try:
+        with transaction.atomic():
+            # 1. Unlock tokens on blockchain
+            blockchain = BlockchainService()
+            tx_hash = blockchain.reset_portfolio(wallet_address)
+            
+            # 2. Reset wallet in database (clears investments, resets balance)
+            user.profile.reset_wallet()
+            
+            return Response({
+                'message': 'Wallet reset successfully! Your balance is now 25,000 $NUC.',
+                'balance': float(user.profile.balance),
+                'wallet': {
+                    'address': wallet_address,
+                    'locked': '0.00',
+                    'available': '25000.00',
+                },
+                'tx_hash': tx_hash,
+                'tx_url': f"https://sepolia.basescan.org/tx/{tx_hash}",
+            })
+    
+    except BlockchainError as e:
+        return Response(
+            {'error': f'Blockchain error: {str(e)}'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
 
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
@@ -157,7 +185,7 @@ def logout_user(request):
             return Response({'error': 'Refresh token required'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': f'Error logging out: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
-    
+
 @api_view(['DELETE'])
 @permission_classes([permissions.IsAuthenticated])
 def delete_account(request):
