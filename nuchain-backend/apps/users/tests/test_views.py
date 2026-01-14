@@ -1,3 +1,4 @@
+from unittest.mock import patch, MagicMock
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
@@ -11,8 +12,17 @@ class UserRegistrationTest(TestCase):
         self.client = APIClient()
         self.register_url = reverse('register')
     
-    def test_successful_registration(self):
-        """Test successful user registration"""
+    @patch('apps.users.views.BlockchainService')
+    def test_successful_registration(self, mock_blockchain_class):
+        """Test successful user registration with blockchain wallet"""
+        # Setup mock
+        mock_service = MagicMock()
+        mock_service.mint_signup.return_value = (
+            '0x1234567890abcdef1234567890abcdef12345678',
+            '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890'
+        )
+        mock_blockchain_class.return_value = mock_service
+        
         data = {
             'username': 'newuser',
             'email': 'newuser@example.com',
@@ -21,17 +31,23 @@ class UserRegistrationTest(TestCase):
             'first_name': 'New',
             'last_name': 'User'
         }
-
+        
         response = self.client.post(self.register_url, data, format='json')
-
+        
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertIn('access', response.data)
         self.assertIn('refresh', response.data)
         self.assertIn('user', response.data)
+        self.assertIn('wallet', response.data)
         self.assertEqual(response.data['user']['username'], 'newuser')
         self.assertEqual(response.data['user']['balance'], 25000.0)
+        self.assertEqual(
+            response.data['wallet']['address'],
+            '0x1234567890abcdef1234567890abcdef12345678'
+        )
         self.assertIn('25,000 $NUC tokens', response.data['message'])
-
+        mock_service.mint_signup.assert_called_once()
+    
     def test_registration_password_mismatch(self):
         """Test registration with mismatched passwords"""
         data = {
@@ -47,7 +63,7 @@ class UserRegistrationTest(TestCase):
         
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn('Passwords do not match', str(response.data))
-
+    
     def test_registration_duplicate_username(self):
         """Test registration with existing username"""
         User.objects.create_user(username='existinguser', password='pass123')
@@ -63,7 +79,7 @@ class UserRegistrationTest(TestCase):
         
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn('username', response.data)
-
+    
     def test_registration_duplicate_email(self):
         """Test registration with existing email"""
         User.objects.create_user(
@@ -120,16 +136,16 @@ class UserLoginTest(TestCase):
         response = self.client.post(self.login_url, data, format='json')
         
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-
+    
     def test_login_nonexistent_user(self):
         """Test login with a non-existent user"""
         data = {
             'username': 'nonexistent',
             'password': 'somepassword'
         }
-
+        
         response = self.client.post(self.login_url, data, format='json')
-
+        
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
 class UserProfileTest(TestCase):
@@ -159,7 +175,7 @@ class UserProfileTest(TestCase):
         response = self.client.get(self.profile_url)
         
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-
+    
     def test_update_profile(self):
         """Test updating user profile"""
         data = {
@@ -178,7 +194,7 @@ class UserProfileTest(TestCase):
         self.assertEqual(self.user.first_name, 'Updated')
         self.assertEqual(self.user.last_name, 'Name')
         self.assertEqual(self.user.email, 'updated@example.com')
-
+    
     def test_update_profile_duplicate_email(self):
         """Test updating profile with email already in use"""
         User.objects.create_user(
@@ -201,11 +217,20 @@ class WalletResetTest(TestCase):
             username='testuser',
             password='testpass123'
         )
+        # Add wallet address to profile
+        self.user.profile.wallet_address = '0x1234567890abcdef1234567890abcdef12345678'
+        self.user.profile.save()
+        
         self.client.force_authenticate(user=self.user)
         self.reset_url = reverse('reset-wallet')
-
-    def test_reset_wallet(self):
-        """Test wallet reset functionality"""
+    
+    @patch('apps.users.views.BlockchainService')
+    def test_reset_wallet(self, mock_blockchain_class):
+        """Test wallet reset functionality with blockchain unlock"""
+        mock_service = MagicMock()
+        mock_service.reset_portfolio.return_value = '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890'
+        mock_blockchain_class.return_value = mock_service
+        
         # First reduce balance
         self.user.profile.deduct_balance(Decimal('10000'))
         self.assertEqual(self.user.profile.balance, Decimal('15000'))
@@ -216,10 +241,25 @@ class WalletResetTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['balance'], 25000.0)
         self.assertIn('Wallet reset successfully', response.data['message'])
+        self.assertIn('tx_hash', response.data)
+        self.assertIn('wallet', response.data)
         
         # Verify in database
         self.user.profile.refresh_from_db()
         self.assertEqual(self.user.profile.balance, Decimal('25000'))
+        mock_service.reset_portfolio.assert_called_once_with(
+            '0x1234567890abcdef1234567890abcdef12345678'
+        )
+    
+    def test_reset_wallet_no_wallet_address(self):
+        """Test reset wallet fails when user has no wallet"""
+        self.user.profile.wallet_address = None
+        self.user.profile.save()
+        
+        response = self.client.post(self.reset_url)
+        
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn('No wallet found', response.data['error'])
 
 class ChangePasswordTest(TestCase):
     def setUp(self):
@@ -230,7 +270,7 @@ class ChangePasswordTest(TestCase):
         )
         self.client.force_authenticate(user=self.user)
         self.change_password_url = reverse('change-password')
-
+    
     def test_change_password_success(self):
         """Test successful password change"""
         data = {
@@ -292,18 +332,45 @@ class DeleteAccountTest(TestCase):
             username='testuser',
             password='testpass123'
         )
+        self.user.profile.wallet_address = '0x1234567890abcdef1234567890abcdef12345678'
+        self.user.profile.save()
+        
         self.client.force_authenticate(user=self.user)
         self.delete_account_url = reverse('delete-account')
-
-    def test_delete_account(self):
-        """Test account deletion"""
+    
+    @patch('apps.users.views.BlockchainService')
+    def test_delete_account(self, mock_blockchain_class):
+        """Test account deletion with token burn"""
+        mock_service = MagicMock()
+        mock_service.burn_account.return_value = '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890'
+        mock_blockchain_class.return_value = mock_service
+        
+        user_id = self.user.id
+        
         response = self.client.delete(self.delete_account_url)
+        
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['message'], 'Account deleted successfully')
-
-    def test_delete_account_failure(self):
-        """Test account deletion failure"""
-        self.user.delete()
+        self.assertIn('tx_hash', response.data)
+        self.assertIn('tx_url', response.data)
+        
+        # Verify user deleted
+        self.assertFalse(User.objects.filter(id=user_id).exists())
+        mock_service.burn_account.assert_called_once()
+    
+    @patch('apps.users.views.BlockchainService')
+    def test_delete_account_no_wallet(self, mock_blockchain_class):
+        """Test account deletion when user has no wallet"""
+        self.user.profile.wallet_address = None
+        self.user.profile.save()
+        
+        user_id = self.user.id
+        
         response = self.client.delete(self.delete_account_url)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn('Failed to delete account', response.data['error'])
+        
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertNotIn('tx_hash', response.data)
+        
+        # Verify user still deleted
+        self.assertFalse(User.objects.filter(id=user_id).exists())
+        mock_blockchain_class.assert_not_called()
