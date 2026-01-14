@@ -1,3 +1,4 @@
+from unittest.mock import patch, MagicMock
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
@@ -17,10 +18,16 @@ class InvestmentViewSetTest(TestCase):
             username='user1',
             password='testpass123'
         )
+        # Add wallet address
+        self.user1.profile.wallet_address = '0x1234567890abcdef1234567890abcdef12345678'
+        self.user1.profile.save()
+        
         self.user2 = User.objects.create_user(
             username='user2',
             password='testpass123'
         )
+        self.user2.profile.wallet_address = '0xabcdef1234567890abcdef1234567890abcdef12'
+        self.user2.profile.save()
         
         # Create test reactor
         self.reactor = Reactor.objects.create(
@@ -68,8 +75,13 @@ class InvestmentViewSetTest(TestCase):
             self.user1.username
         )
     
-    def test_create_investment_success(self):
-        """Test successful investment creation"""
+    @patch('apps.investments.views.BlockchainService')
+    def test_create_investment_success(self, mock_blockchain_class):
+        """Test successful investment creation with token locking"""
+        mock_service = MagicMock()
+        mock_service.lock_tokens.return_value = '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890'
+        mock_blockchain_class.return_value = mock_service
+        
         url = reverse('investment-list')
         data = {
             'reactor_id': self.reactor.id,
@@ -82,6 +94,8 @@ class InvestmentViewSetTest(TestCase):
         self.assertIn('investment', response.data)
         self.assertIn('Successfully invested', response.data['message'])
         self.assertEqual(response.data['amount_invested'], 10000.0)
+        self.assertIn('tx_hash', response.data)
+        self.assertIn('tx_url', response.data)
         
         # Check reactor funding updated
         self.reactor.refresh_from_db()
@@ -90,6 +104,8 @@ class InvestmentViewSetTest(TestCase):
         # Check user balance deducted
         self.user1.profile.refresh_from_db()
         self.assertEqual(self.user1.profile.balance, Decimal('15000'))
+        
+        mock_service.lock_tokens.assert_called_once()
     
     def test_create_investment_insufficient_balance(self):
         """Test investment with insufficient balance"""
@@ -148,8 +164,15 @@ class InvestmentViewSetTest(TestCase):
         
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
     
-    def test_portfolio_summary_empty(self):
+    @patch('apps.investments.views.BlockchainService')
+    def test_portfolio_summary_empty(self, mock_blockchain_class):
         """Test portfolio summary with no investments"""
+        mock_service = MagicMock()
+        mock_service.get_balance.return_value = Decimal('25000')
+        mock_service.get_locked_balance.return_value = Decimal('0')
+        mock_service.get_available_balance.return_value = Decimal('25000')
+        mock_blockchain_class.return_value = mock_service
+        
         # Authenticate as user2 (no investments)
         self.client.force_authenticate(user=self.user2)
         
@@ -161,9 +184,18 @@ class InvestmentViewSetTest(TestCase):
         self.assertEqual(response.data['investment_count'], 0)
         self.assertEqual(len(response.data['reactors_invested_in']), 0)
         self.assertEqual(len(response.data['projections']), 0)
+        self.assertIn('wallet', response.data)
+        self.assertEqual(response.data['wallet']['available'], '25000')
     
-    def test_portfolio_summary_with_investments(self):
-        """Test portfolio summary with investments"""
+    @patch('apps.investments.views.BlockchainService')
+    def test_portfolio_summary_with_investments(self, mock_blockchain_class):
+        """Test portfolio summary with investments includes blockchain balances"""
+        mock_service = MagicMock()
+        mock_service.get_balance.return_value = Decimal('25000')
+        mock_service.get_locked_balance.return_value = Decimal('13000')
+        mock_service.get_available_balance.return_value = Decimal('12000')
+        mock_blockchain_class.return_value = mock_service
+        
         # Create another reactor and investment
         reactor2 = Reactor.objects.create(
             name='Reactor 2',
@@ -190,6 +222,11 @@ class InvestmentViewSetTest(TestCase):
         self.assertEqual(response.data['investment_count'], 2)
         self.assertEqual(len(response.data['reactors_invested_in']), 2)
         
+        # Check wallet data from blockchain
+        self.assertIn('wallet', response.data)
+        self.assertEqual(response.data['wallet']['locked'], '13000')
+        self.assertEqual(response.data['wallet']['available'], '12000')
+        
         # Check projections
         self.assertEqual(len(response.data['projections']), 4)  # 1, 2, 5, 10 years
         
@@ -206,6 +243,22 @@ class InvestmentViewSetTest(TestCase):
             Decimal(projection_1yr['total_roi']),
             expected_roi
         )
+    
+    def test_create_investment_no_wallet(self):
+        """Test investment fails when user has no wallet"""
+        self.user1.profile.wallet_address = None
+        self.user1.profile.save()
+        
+        url = reverse('investment-list')
+        data = {
+            'reactor_id': self.reactor.id,
+            'amount_invested': '1000'
+        }
+        
+        response = self.client.post(url, data, format='json')
+        
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn('No wallet found', response.data['error'])
     
     def test_investment_authentication_required(self):
         """Test that authentication is required for all endpoints"""
