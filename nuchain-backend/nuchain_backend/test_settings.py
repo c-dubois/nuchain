@@ -30,3 +30,7 @@ SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 
+# Blockchain settings for testing (mocked)
+BASE_SEPOLIA_RPC_URL = 'https://sepolia.base.org'
+NUC_CONTRACT_ADDRESS = '0x7a8ed93c1eA030eC8F283e93Ff1BB008e57D4791'
+ADMIN_PRIVATE_KEY = '0x' + '1' * 64  # Fake key for testing
