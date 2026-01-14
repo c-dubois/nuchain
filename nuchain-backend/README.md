@@ -12,6 +12,7 @@ The backend API for NuChain nuclear investment simulation platform, built with D
 - **Testing**: Django's built-in testing framework
 - **Deployment**: Render with Gunicorn
 - **Environment**: Python 3.11+
+- **Blockchain**: Web3.py for Base Sepolia integration
 
 ### Project Structure
 
@@ -31,11 +32,15 @@ nuchain-backend/
 │   │   ├── views.py        # Reactor API endpoints
 │   │   ├── management/     # Management commands
 │   │   └── tests/          # Reactor app tests
-│   └── investments/        # Investment logic and portfolio
-│       ├── models.py       # Investment model
-│       ├── serializers.py  # Investment serialization
-│       ├── views.py        # Investment endpoints
-│       └── tests/          # Investment app tests
+│   ├── investments/        # Investment logic and portfolio
+│   │   ├── models.py       # Investment model
+│   │   ├── serializers.py  # Investment serialization
+│   │   ├── views.py        # Investment endpoints
+│   │   └── tests/          # Investment app tests
+│   └── blockchain/         # Blockchain integration
+│       ├── abi.py          # NUC Token contract ABI
+│       ├── exceptions.py   # Custom blockchain exceptions
+│       └── services.py     # BlockchainService class
 ├── nuchain_backend/
 │   ├── settings.py         # Django configuration
 │   ├── urls.py             # URL routing
@@ -115,26 +120,36 @@ ALLOWED_HOSTS=yourdomain.com
 CORS_ALLOWED_ORIGINS=https://yourfrontend.com
 ```
 
+### Blockchain Environment
+
+```env
+BASE_SEPOLIA_RPC_URL=https://sepolia.base.org
+NUC_CONTRACT_ADDRESS=0x7a8ed93c1eA030eC8F283e93Ff1BB008e57D4791
+ADMIN_PRIVATE_KEY=your-admin-wallet-private-key
+```
+
 ## 📡 API Endpoints
 
 ### Authentication (`/api/auth/`)
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/register/` | Create new user account |
+
+| POST | `/register/` | Create account + mint 25,000 NUC tokens |
 | POST | `/login/` | User authentication |
 | POST | `/logout/` | Logout and blacklist token |
 | POST | `/token/refresh/` | Refresh access token |
 | GET | `/profile/` | Get user profile |
 | PUT | `/profile/update/` | Update user profile |
 | POST | `/password/change/` | Change password |
-| POST | `/wallet/reset/` | Reset wallet to 25,000 $NUC |
-| DELETE | `/account/delete/` | Delete user account |
+| POST | `/wallet/reset/` | Reset wallet + unlock all tokens on blockchain |
+| DELETE | `/account/delete/` | Delete account + burn all tokens on blockchain |
 
 ### Reactors (`/api/reactors/`)
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
+
 | GET | `/` | List all active reactors |
 | GET | `/{id}/` | Get specific reactor details |
 
@@ -142,8 +157,9 @@ CORS_ALLOWED_ORIGINS=https://yourfrontend.com
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
+
 | GET | `/` | List user's investments |
-| POST | `/` | Create new investment |
+| POST | `/` | Create investment + lock tokens on blockchain |
 | GET | `/portfolio_summary/` | Get portfolio summary with projections |
 
 ## 🏢 Data Models
@@ -152,7 +168,9 @@ CORS_ALLOWED_ORIGINS=https://yourfrontend.com
 
 - Extends Django's User model
 - Tracks $NUC token balance (default: 25,000)
+- Stores Ethereum wallet address (`wallet_address`)
 - Handles balance deduction and wallet reset
+- Syncs with NUC token contract on Base Sepolia
 
 ### Reactor
 
@@ -166,6 +184,34 @@ CORS_ALLOWED_ORIGINS=https://yourfrontend.com
 - Links user to reactor with investment amount
 - Tracks creation timestamp
 - Calculates ROI and carbon offset projections
+
+## ⛓️ Blockchain Integration
+
+NuChain uses a custom ERC20 token (NUC) deployed on Base Sepolia testnet.
+
+### Smart Contract
+
+| Property | Value |
+|----------|-------|
+
+| Token Name | NuChain Token (NUC) |
+| Contract Address | `0x7a8ed93c1eA030eC8F283e93Ff1BB008e57D4791` |
+| Network | Base Sepolia (Testnet) |
+| Chain ID | 84532 |
+| Decimals | 18 |
+
+### Token Flow
+
+1. **Registration**: User receives 25,000 NUC tokens (minted on-chain)
+2. **Investment**: Tokens are locked on-chain when investing
+3. **Reset Wallet**: All locked tokens are unlocked on-chain
+4. **Delete Account**: All tokens are burned on-chain
+
+### Verification
+
+All transactions are verifiable on [BaseScan](https://sepolia.basescan.org/address/0x7a8ed93c1eA030eC8F283e93Ff1BB008e57D4791).
+
+> ⚠️ **Note**: This is a testnet simulation only. No real tokens or transactions are involved.
 
 ## 🧪 Testing
 
