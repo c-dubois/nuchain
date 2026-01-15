@@ -10,13 +10,13 @@ import './Profile.css';
 export const Profile: React.FC = () => {
     const { user, updateUser, logout } = useAuth();
     const navigate = useNavigate();
-
+    
     const [isEditing, setIsEditing] = useState(false);
     const [loading, setLoading] = useState(false);
-
+    
     const [passwordLoading, setPasswordLoading] = useState(false);
     const [deleteLoading, setDeleteLoading] = useState(false);
-
+    
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     
@@ -25,33 +25,33 @@ export const Profile: React.FC = () => {
         last_name: user?.last_name || '',
         email: user?.email || ''
     });
-
+    
     const [passwords, setPasswords] = useState({
         oldPassword: '',
         newPassword: '',
         confirmNewPassword: ''
     });
-
+    
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
         });
     };
-
+    
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPasswords({
             ...passwords,
             [e.target.name]: e.target.value
         });
     };
-
+    
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError('');
         setMessage('');
-
+        
         try {
             const response = await authService.updateProfile(formData);
             updateUser(response.user);
@@ -65,7 +65,7 @@ export const Profile: React.FC = () => {
             setLoading(false);
         }
     };
-
+    
     const handleResetWallet = async () => {
         if (!window.confirm(
             'Are you sure you want to reset your wallet? This will:\n' +
@@ -76,11 +76,11 @@ export const Profile: React.FC = () => {
         )) {
             return;
         }
-
+        
         setLoading(true);
         setError('');
         setMessage('');
-
+        
         try {
             const response = await authService.resetWallet();
             if (user) {
@@ -98,21 +98,21 @@ export const Profile: React.FC = () => {
             setLoading(false);
         }
     };
-
+    
     const handleChangePassword = async (e: React.FormEvent) => {
         e.preventDefault();
-
+        
         setError('');
         setMessage('');
-
+        
         if (passwords.newPassword !== passwords.confirmNewPassword) {
             setError("New password and confirmation do not match.");
             window.scrollTo(0, 0);
             return;
         }
-
+        
         setPasswordLoading(true);
-
+        
         try {
             await authService.changePassword(passwords.oldPassword, passwords.newPassword);
             setMessage('Password changed successfully!');
@@ -125,7 +125,7 @@ export const Profile: React.FC = () => {
             setPasswordLoading(false);
         }
     };
-
+    
     const handleDeleteAccount = async () => {
         if (
             !window.confirm(
@@ -134,11 +134,11 @@ export const Profile: React.FC = () => {
         ) {
             return;
         }
-
+        
         setDeleteLoading(true);
         setError('');
         setMessage('');
-
+        
         try {
             await authService.deleteAccount();
             await logout();
@@ -149,29 +149,29 @@ export const Profile: React.FC = () => {
             setDeleteLoading(false);
         }
     };
-
+    
     const handleLogout = async () => {
         if (window.confirm('Are you sure you want to logout?')) {
             await logout();
             navigate('/');
         }
     };
-
+    
     if (!user) {
         return <LoadingSpinner />;
     }
-
+    
     return (
         <div className="profile-page">
             <h1>{user.first_name}'s Profile</h1>
-
+            
             {message && <div className="success-message-profile">{message}</div>}
             {error && <div className="error-message-profile">{error}</div>}
-
+            
             <div className="profile-grid">
                 <div className="profile-section">
                     <h2>Account Information</h2>
-            
+                    
                     {!isEditing ? (
                         <div className="profile-info">
                             <div className="info-row">
@@ -190,7 +190,7 @@ export const Profile: React.FC = () => {
                                 <span className="info-label">Email:</span>
                                 <span className="info-value">{user.email}</span>
                             </div>
-                
+                            
                             <button 
                                 className="btn-secondary"
                                 onClick={() => setIsEditing(true)}
@@ -211,7 +211,7 @@ export const Profile: React.FC = () => {
                                     placeholder="John"
                                 />
                             </div>
-                
+                            
                             <div className="form-group">
                                 <label htmlFor="last_name">Last Name</label>
                                 <input
@@ -223,7 +223,7 @@ export const Profile: React.FC = () => {
                                     placeholder="Doe"
                                 />
                             </div>
-                
+                            
                             <div className="form-group">
                                 <label htmlFor="email">Email</label>
                                 <input
@@ -235,7 +235,7 @@ export const Profile: React.FC = () => {
                                     required
                                 />
                             </div>
-                
+                            
                             <div className="form-buttons">
                                 <button 
                                     type="button"
@@ -263,7 +263,7 @@ export const Profile: React.FC = () => {
                         </form>
                     )}
                 </div>
-
+                
                 <div className="profile-section">
                     <h2>Wallet Information</h2>
                     
@@ -272,13 +272,28 @@ export const Profile: React.FC = () => {
                             <span className="profile-balance-label">Current Balance</span>
                             <span className="profile-balance-value">{formatCurrency(user.balance)}</span>
                         </div>
-                    
+                        
+                        {user.wallet && (
+                            <div className="wallet-address-display">
+                                <span className="info-label">Wallet Address:</span>
+                                <code className="wallet-address">{user.wallet.address}</code>
+                                <a 
+                                    href={user.wallet.basescan_url} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="basescan-link"
+                                >
+                                    View on BaseScan ↗
+                                </a>
+                            </div>
+                        )}
+                        
                         <div className="wallet-actions">
                             <p className="wallet-description">
                                 Reset your wallet to start fresh with {formatCurrency(INITIAL_BALANCE)}.<br />
                                 This will clear all investments and return funding to reactors.
                             </p>
-                        
+                            
                             <button 
                                 className="btn-secondary"
                                 onClick={handleResetWallet}
@@ -289,7 +304,7 @@ export const Profile: React.FC = () => {
                         </div>
                     </div>
                 </div>
-
+                
                 <div className="profile-section">
                     <h2>Change Password</h2>
                     <form onSubmit={handleChangePassword} className="profile-form">
@@ -331,10 +346,10 @@ export const Profile: React.FC = () => {
                         </button>
                     </form>
                 </div>
-
+                
                 <div className="profile-section">
                     <h2>Account Actions</h2>
-
+                    
                     <div className="account-actions">
                         <div className="action-item">
                             <h3>🚪 Logout</h3>
@@ -346,7 +361,7 @@ export const Profile: React.FC = () => {
                                 Logout
                             </button>
                         </div>
-
+                        
                         <div className="action-item">
                             <h3>🗑️ Delete Account</h3>
                             <p>Warning: This action is irreversible and will delete all of your data</p>

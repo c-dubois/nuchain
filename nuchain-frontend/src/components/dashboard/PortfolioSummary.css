@@ -84,6 +84,42 @@
     color: var(--color-error);
 }
 
+.wallet-card .wallet-balances {
+    margin: 0.5rem 0;
+}
+
+.wallet-card .balance-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem 0;
+    font-size: 0.875rem;
+    color: var(--color-light);
+}
+
+.wallet-card .balance-value {
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.wallet-card .balance-value.locked {
+    color: var(--color-accent);
+}
+
+.wallet-card .basescan-link {
+    display: block;
+    text-align: center;
+    margin-top: 0.75rem;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.wallet-card .basescan-link:hover {
+    text-decoration: underline;
+    color: var(--color-accent);
+}
+
 /* .portfolio-details {
     background-color: var(--color-medium);
     padding: 1.5rem;

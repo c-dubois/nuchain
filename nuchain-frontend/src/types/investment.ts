@@ -1,5 +1,13 @@
 import type { Reactor } from './reactor';
 
+export interface WalletBalance {
+    address: string;
+    total: string;
+    locked: string;
+    available: string;
+    basescan_url: string;
+}
+
 export interface Investment {
     id: number;
     user: string;
@@ -21,6 +29,7 @@ export interface PortfolioSummary {
     investment_count: number;
     reactors_invested_in: string[];
     projections: PortfolioProjection[];
+    wallet: WalletBalance | null;
 }
 
 export interface CreateInvestmentData {

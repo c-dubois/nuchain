@@ -5,6 +5,12 @@ export interface User {
     first_name: string;
     last_name: string;
     balance: number;
+    wallet?: Wallet;
+}
+
+export interface Wallet {
+    address: string;
+    basescan_url: string;
 }
 
 export interface AuthTokens {

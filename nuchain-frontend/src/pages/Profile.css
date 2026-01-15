@@ -131,6 +131,36 @@
     text-align: center;
 }
 
+.wallet-address-display {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: var(--color-medium);
+    border-radius: 0.5rem;
+}
+
+.wallet-address {
+    font-family: monospace;
+    font-size: 0.85rem;
+    word-break: break-all;
+    color: var(--color-light);
+    opacity: 0.9;
+}
+
+.basescan-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.basescan-link:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+}
+
 /* Success/Error Messages */
 .success-message-profile,
 .error-message-profile {

@@ -26,7 +26,7 @@ export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
             </div>
         );
     }
-
+    
     if (!summary || summary.investment_count === 0) {
         return (
             <div className="portfolio-summary empty">
@@ -41,15 +41,15 @@ export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
             </div>
         );
     }
-
+    
     const currentProjection = summary.projections.find(
         (p) => p.time_period_years === selectedPeriod
     ) || summary.projections[0];
-
+    
     return (
         <div className="portfolio-summary">
             <h2>Portfolio Summary</h2>
-
+            
             <div className="summary-grid">
                 <div className="summary-card">
                     <div className="card-header">
@@ -61,7 +61,7 @@ export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
                         Across {summary.investment_count} {summary.investment_count === 1 ? 'investment' : 'investments'}
                     </p>
                 </div>
-
+                
                 <div className="summary-card">
                     <div className="card-header">
                         <span className="card-icon">📈</span>
@@ -72,7 +72,7 @@ export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
                         {currentProjection.roi_percentage >= 0 ? '+' : ''}{formatPercentage(currentProjection.roi_percentage)} ROI
                     </p>
                 </div>
-
+                
                 <div className="summary-card">
                     <div className="card-header">
                         <span className="card-icon">🌱</span>
@@ -81,6 +81,33 @@ export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
                     <p className="card-value">{formatCarbonOffset(currentProjection.total_carbon_offset)}</p>
                     <p className="card-subtitle">Environmental impact</p>
                 </div>
+                
+                {summary.wallet && (
+                    <div className="summary-card wallet-card">
+                        <div className="card-header">
+                            <span className="card-icon">⛓️</span>
+                            <h3>On-Chain Balance</h3>
+                        </div>
+                        <div className="wallet-balances">
+                            <div className="balance-row">
+                                <span>Available:</span>
+                                <span className="balance-value">{formatCurrency(parseFloat(summary.wallet.available))}</span>
+                            </div>
+                            <div className="balance-row">
+                                <span>Locked:</span>
+                                <span className="balance-value locked">{formatCurrency(parseFloat(summary.wallet.locked))}</span>
+                            </div>
+                        </div>
+                        <a 
+                            href={summary.wallet.basescan_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="basescan-link"
+                        >
+                            Verify on BaseScan ↗
+                        </a>
+                    </div>
+                )}
                 
             <TimeButtonGroup
                 selectedPeriod={selectedPeriod}
