@@ -21,7 +21,16 @@ export const authService = {
         // Store tokens and user data
         localStorage.setItem('access_token', response.data.access);
         localStorage.setItem('refresh_token', response.data.refresh);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+        
+        // Merge wallet into user object for storage
+        const userWithWallet = {
+            ...response.data.user,
+            wallet: response.data.wallet ? {
+                address: response.data.wallet.address,
+                basescan_url: response.data.wallet.basescan_url
+            } : undefined
+        };
+        localStorage.setItem('user', JSON.stringify(userWithWallet));
         
         return response.data;
     },

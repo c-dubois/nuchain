@@ -11,7 +11,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
-
+    
     useEffect(() => {
         // Check if user is logged in on mount
         const currentUser = authService.getCurrentUser();
@@ -21,30 +21,34 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
         setLoading(false);
     }, []);
-
+    
     const login = async (username: string, password: string) => {
-        const response = await authService.login({ username, password });
-        setUser(response.user);
+        await authService.login({ username, password });
+        // Get user with wallet from localStorage (authService merges it)
+        const userWithWallet = authService.getCurrentUser();
+        setUser(userWithWallet);
         setIsAuthenticated(true);
     };
-
+    
     const register = async (data: RegisterData) => {
-        const response = await authService.register(data);
-        setUser(response.user);
+        await authService.register(data);
+        // Get user with wallet from localStorage (authService merges it)
+        const userWithWallet = authService.getCurrentUser();
+        setUser(userWithWallet);
         setIsAuthenticated(true);
     };
-
+    
     const logout = async () => {
         await authService.logout();
         setUser(null);
         setIsAuthenticated(false);
     };
-
+    
     const updateUser = (updatedUser: User) => {
         setUser(updatedUser);
         localStorage.setItem('user', JSON.stringify(updatedUser));
     };
-
+    
     return (
         <AuthContext.Provider
         value={{
