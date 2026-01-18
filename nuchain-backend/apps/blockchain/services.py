@@ -50,7 +50,7 @@ class BlockchainService:
                 raise InsufficientGasError("Admin wallet has insufficient ETH for gas")
             
             # Build transaction
-            nonce = self.w3.eth.get_block_transaction_count(self.admin.address)
+            nonce = self.w3.eth.get_transaction_count(self.admin.address)
             gas_price = self.w3.eth.gas_price
             
             transaction = function(*args).build_transaction({
@@ -58,7 +58,7 @@ class BlockchainService:
                 'nonce': nonce,
                 'gas': 300000,
                 'gasPrice': gas_price,
-                'chainID': 84532  # Base Sepolia
+                'chainId': 84532  # Base Sepolia
             })
             
             # Sign transaction
