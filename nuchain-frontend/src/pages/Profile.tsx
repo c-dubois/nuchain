@@ -275,7 +275,7 @@ export const Profile: React.FC = () => {
                         
                         {user.wallet && (
                             <div className="wallet-address-display">
-                                <span className="info-label">Wallet Address:</span>
+                                <span className="info-label">⛓️ Your Blockchain Wallet Address:</span>
                                 <code className="wallet-address">{user.wallet.address}</code>
                                 <a 
                                     href={user.wallet.basescan_url} 
