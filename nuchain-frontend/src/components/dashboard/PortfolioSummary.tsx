@@ -34,6 +34,19 @@ export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
                 <div className="empty-state">
                     <p>🚀 No investments yet!</p>
                     <p>Start investing in nuclear reactors to see your portfolio grow!</p>
+                    {summary?.wallet && (
+                        <div className="wallet-ready">
+                            <p>⛓️ Your blockchain wallet is ready to invest!</p>
+                            <a 
+                                href={summary.wallet.basescan_url} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="wallet-link"
+                            >
+                                View on BaseScan ↗
+                            </a>
+                        </div>
+                    )}
                     <Link to="/invest" className="btn-browse-reactors">
                         Browse Reactors
                     </Link>
@@ -89,13 +102,13 @@ export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
                             <h3>On-Chain Balance</h3>
                         </div>
                         <div className="wallet-balances">
-                            <div className="balance-row">
-                                <span>Available:</span>
+                            <div className="balance-box">
+                                <span className="balance-label">Available</span>
                                 <span className="balance-value">{formatCurrency(parseFloat(summary.wallet.available))}</span>
                             </div>
-                            <div className="balance-row">
-                                <span>Locked:</span>
-                                <span className="balance-value locked">{formatCurrency(parseFloat(summary.wallet.locked))}</span>
+                            <div className="balance-box locked">
+                                <span className="balance-label">Locked</span>
+                                <span className="balance-value">{formatCurrency(parseFloat(summary.wallet.locked))}</span>
                             </div>
                         </div>
                         <a 
@@ -106,6 +119,7 @@ export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
                         >
                             Verify on BaseScan ↗
                         </a>
+                        <span className="basescan-note">Shows total balance (available + locked)</span>
                     </div>
                 )}
                 

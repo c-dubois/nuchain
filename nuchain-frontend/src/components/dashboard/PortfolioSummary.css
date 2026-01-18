@@ -85,23 +85,38 @@
 }
 
 .wallet-card .wallet-balances {
-    margin: 0.5rem 0;
-}
-
-.wallet-card .balance-row {
     display: flex;
-    justify-content: space-between;
-    padding: 0.25rem 0;
-    font-size: 0.875rem;
-    color: var(--color-light);
+    gap: 1rem;
+    margin: 0.75rem 0;
 }
 
-.wallet-card .balance-value {
+.wallet-card .balance-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.75rem;
+    background-color: var(--color-dark);
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.wallet-card .balance-box .balance-label {
+    font-size: 0.75rem;
+    color: var(--color-light);
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.25rem;
+}
+
+.wallet-card .balance-box .balance-value {
+    font-size: 1rem;
     font-weight: 700;
     color: var(--color-primary);
 }
 
-.wallet-card .balance-value.locked {
+.wallet-card .balance-box.locked .balance-value {
     color: var(--color-accent);
 }
 
@@ -116,6 +131,41 @@
 }
 
 .wallet-card .basescan-link:hover {
+    text-decoration: underline;
+    color: var(--color-accent);
+}
+
+.wallet-card .basescan-note {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--color-light);
+    opacity: 0.6;
+    margin-top: 0.25rem;
+    text-align: center;
+}
+
+.empty-state .wallet-ready {
+    margin: 1rem 0;
+    padding: 0.75rem;
+    background-color: var(--color-medium);
+    border-radius: 0.5rem;
+}
+
+.empty-state .wallet-ready p,
+.empty-state .wallet-ready p:first-child {
+    font-size: 1.25rem;
+    margin: 0 0 0.25rem 0;
+    color: var(--color-light);
+}
+
+.empty-state .wallet-ready .wallet-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.empty-state .wallet-ready .wallet-link:hover {
     text-decoration: underline;
     color: var(--color-accent);
 }
