@@ -13,17 +13,19 @@ export const TimeButtonGroup: React.FC<TimeButtonGroupProps> = ({
 }) => {
     return (
         <div className="time-button-group">
-            <span className="time-label">Time Period:</span>
-            <div className="time-buttons">
-                {TIME_PERIODS.map((period) => (
-                    <button
-                        key={period}
-                        className={`time-button ${selectedPeriod === period ? 'active' : ''}`}
-                        onClick={() => onPeriodChange(period)}
-                    >
-                        {period} {period === 1 ? 'Year' : 'Years'}
-                    </button>
-                ))}
+            <div className="time-button-content">
+                <span className="time-label">Time Period:</span>
+                <div className="time-buttons">
+                    {TIME_PERIODS.map((period) => (
+                        <button
+                            key={period}
+                            className={`time-button ${selectedPeriod === period ? 'active' : ''}`}
+                            onClick={() => onPeriodChange(period)}
+                        >
+                            {period} {period === 1 ? 'Year' : 'Years'}
+                        </button>
+                    ))}
+                </div>
             </div>
         </div>
     );

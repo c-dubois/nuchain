@@ -1,8 +1,6 @@
 .time-button-group {
     display: flex;
-    align-items: center;
     justify-content: center;
-    gap: 1rem;
     background-color: var(--color-dark-bg);
     padding: 1rem;
     border-radius: 0.75rem;
@@ -14,13 +12,11 @@
     color: var(--color-light);
     font-weight: 600;
     font-size: 1rem;
+    white-space: nowrap;
 }
 
 .time-buttons {
     display: flex;
-    justify-content: center;
-    width: 100%;                  
-    max-width: 500px;   
     gap: 0.5rem;
 }
 
@@ -51,6 +47,13 @@
 .time-button.active:hover {
     background-color: var(--color-primary);
     transform: none;
+}
+
+.time-button-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: fit-content;
 }
 
 @media (max-width: 768px) {
