@@ -25,6 +25,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             username = request.data.get('username')
             try:
                 user = User.objects.get(username=username)
+                wallet_address = user.profile.wallet_address
                 
                 response.data.update({
                     'user': {
@@ -37,6 +38,13 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                     },
                     'message': 'Login successful!'
                 })
+                
+                # Include wallet if user has one
+                if wallet_address:
+                    response.data['wallet'] = {
+                        'address': wallet_address,
+                        'basescan_url': f"https://sepolia.basescan.org/address/{wallet_address}",
+                    }
             except User.DoesNotExist:
                 pass
         
