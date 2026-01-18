@@ -1,6 +1,7 @@
 .time-button-group {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 1rem;
     background-color: var(--color-dark-bg);
     padding: 1rem;
@@ -13,8 +14,6 @@
     color: var(--color-light);
     font-weight: 600;
     font-size: 1rem;
-    position: relative;
-    left: 0.5rem;
 }
 
 .time-buttons {
