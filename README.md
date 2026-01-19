@@ -35,7 +35,7 @@ NuChain bridges climate tech, energy infrastructure, and blockchain mechanics by
   </a>
 </p>
 
-<p align="center">―――</p>
+<p align="center">________</p>
 
 <p align="center">
   <strong>Portfolio dashboard</strong><br><br>
@@ -44,7 +44,7 @@ NuChain bridges climate tech, energy infrastructure, and blockchain mechanics by
   </a>
 </p>
 
-<p align="center">―――</p>
+<p align="center">________</p>
 
 <p align="center">
   <strong>Reactor marketplace</strong><br><br>
@@ -53,7 +53,7 @@ NuChain bridges climate tech, energy infrastructure, and blockchain mechanics by
   </a>
 </p>
 
-<p align="center">―――</p>
+<p align="center">________</p>
 
 <p align="center">
   <strong>Investment modal</strong><br><br>
@@ -62,7 +62,7 @@ NuChain bridges climate tech, energy infrastructure, and blockchain mechanics by
   </a>
 </p>
 
-<p align="center">―――</p>
+<p align="center">________</p>
 
 <p align="center">
   <strong>Profile with wallet info</strong><br><br>
