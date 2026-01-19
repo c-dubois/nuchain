@@ -1,392 +1,224 @@
-# ⚛️ NuChain Backend - Django REST API
+# ⚛️ NuChain Backend
 
-The backend API for NuChain nuclear investment simulation platform, built with Django REST Framework.
+Django REST API for the NuChain nuclear investment simulation platform — a portfolio project demonstrating full-stack development with blockchain integration.
 
-## 🏗️ Architecture
+## 🎯 Overview
 
-### Technology Stack
+This backend handles all server-side logic for NuChain, including:
 
-- **Framework**: Django 5.2.4 with Django REST Framework 3.16
-- **Database**: PostgreSQL with psycopg2
-- **Authentication**: JWT with SimpleJWT and token blacklisting
-- **Testing**: Django's built-in testing framework
-- **Deployment**: Render with Gunicorn
-- **Environment**: Python 3.11+
-- **Blockchain**: Web3.py for Base Sepolia integration
+- User authentication with JWT tokens
+- Nuclear reactor data and investment management
+- Portfolio calculations with ROI and carbon offset projections
+- On-chain token operations via Web3.py (mint, lock, unlock, burn)
 
-### Project Structure
+## 🛠️ Tech Stack
 
-``` bash
-nuchain-backend/
-├── apps/
-│   ├── common/             # Shared utilities and base classes
-│   │   └── tests/          # Common test utilities
-│   ├── users/              # User authentication and profiles
-│   │   ├── models.py       # User profile model
-│   │   ├── serializers.py  # User data serialization
-│   │   ├── views.py        # Authentication endpoints
-│   │   └── tests/          # User app tests
-│   ├── reactors/           # Nuclear reactor management
-│   │   ├── models.py       # Reactor model and calculations
-│   │   ├── serializers.py  # Reactor data serialization
-│   │   ├── views.py        # Reactor API endpoints
-│   │   ├── management/     # Management commands
-│   │   └── tests/          # Reactor app tests
-│   ├── investments/        # Investment logic and portfolio
-│   │   ├── models.py       # Investment model
-│   │   ├── serializers.py  # Investment serialization
-│   │   ├── views.py        # Investment endpoints
-│   │   └── tests/          # Investment app tests
-│   └── blockchain/         # Blockchain integration
-│       ├── abi.py          # NUC Token contract ABI
-│       ├── exceptions.py   # Custom blockchain exceptions
-│       └── services.py     # BlockchainService class
-├── nuchain_backend/
-│   ├── settings.py         # Django configuration
-│   ├── urls.py             # URL routing
-│   └── wsgi.py             # WSGI application
-├── requirements.txt        # Python dependencies
-├── build.sh                # Render deployment script
-└── manage.py               # Django management
-```
+| Technology | Purpose |
+| ------------ | --------- |
+| Django 5.2 | Web framework |
+| Django REST Framework | RESTful API design |
+| PostgreSQL | Production database |
+| SimpleJWT | JWT authentication with token blacklisting |
+| Web3.py | Ethereum/Base Sepolia blockchain integration |
+| Gunicorn | Production WSGI server |
+| python-decouple | Environment variable management |
 
-## 🚀 Quick Start
+## ✨ Features Implemented
 
-### Prerequisites
+- **JWT Authentication** — Access/refresh tokens with blacklisting on logout
+- **User Profiles** — Balance tracking, wallet address storage
+- **Reactor Management** — CRUD operations with funding calculations
+- **Investment Logic** — Validation, balance deduction, portfolio aggregation
+- **Portfolio Projections** — ROI and carbon offset calculations across time periods
+- **Blockchain Integration** — Real ERC20 token operations on Base Sepolia testnet
 
-- Python 3.11+
-- PostgreSQL 14+
-- pip and virtualenv
+## ⛓️ Blockchain Integration
 
-### Installation
+NuChain uses a custom ERC20 token (NUC) deployed on Base Sepolia testnet.
 
-1. **Create virtual environment**
+| Property | Value |
+| ---------- | ------- |
+| Token | NuChain Token (NUC) |
+| Contract | `0x7a8ed93c1eA030eC8F283e93Ff1BB008e57D4791` |
+| Network | Base Sepolia (Chain ID: 84532) |
 
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
+### Token Operations
 
-2. **Install dependencies**
+| Action | Blockchain Effect |
+| -------- | ------------------- |
+| Register | Mint 25,000 NUC to new wallet |
+| Invest | Lock tokens (cannot transfer) |
+| Reset Wallet | Unlock all tokens |
+| Delete Account | Burn all tokens |
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+All transactions verifiable on [BaseScan](https://sepolia.basescan.org/address/0x7a8ed93c1eA030eC8F283e93Ff1BB008e57D4791).
 
-3. **Database setup**
-
-   ```bash
-   python manage.py migrate
-   python manage.py create_reactors  # Load sample reactor data
-   ```
-
-4. **Create superuser (optional)**
-
-   ```bash
-   python manage.py createsuperuser
-   ```
-
-5. **Run development server**
-
-   ```bash
-   python manage.py runserver
-   ```
-
-The API will be available at `http://localhost:8000`
-
-## 🔧 Environment Variables
-
-Create a `.env` file in the project root:
-
-```env
-SECRET_KEY=your-very-secret-key-here
-DEBUG=True
-DB_NAME=nuchain_db
-DB_USER=nuchain_user
-DB_PASSWORD=your_password
-DB_HOST=localhost
-DB_PORT=5432
-ALLOWED_HOSTS=localhost,127.0.0.1
-CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
-```
-
-### Production Environment
-
-```env
-SECRET_KEY=production-secret-key
-DEBUG=False
-DATABASE_URL=postgresql://user:pass@host:port/dbname
-ALLOWED_HOSTS=yourdomain.com
-CORS_ALLOWED_ORIGINS=https://yourfrontend.com
-```
-
-### Blockchain Environment
-
-```env
-BASE_SEPOLIA_RPC_URL=https://sepolia.base.org
-NUC_CONTRACT_ADDRESS=0x7a8ed93c1eA030eC8F283e93Ff1BB008e57D4791
-ADMIN_PRIVATE_KEY=your-admin-wallet-private-key
-```
+> **Note:** This is a testnet simulation — no real value is involved.
 
 ## 📡 API Endpoints
 
-### Authentication (`/api/auth/`)
+### Authentication `/api/auth/`
 
 | Method | Endpoint | Description |
-|--------|----------|-------------|
-
+| -------- | ---------- | ------------- |
 | POST | `/register/` | Create account + mint 25,000 NUC tokens |
-| POST | `/login/` | User authentication |
-| POST | `/logout/` | Logout and blacklist token |
+| POST | `/login/` | Authenticate user |
+| POST | `/logout/` | Logout and blacklist refresh token |
 | POST | `/token/refresh/` | Refresh access token |
 | GET | `/profile/` | Get user profile |
-| PUT | `/profile/update/` | Update user profile |
+| PUT | `/profile/update/` | Update profile |
 | POST | `/password/change/` | Change password |
 | POST | `/wallet/reset/` | Reset wallet + unlock all tokens on blockchain |
 | DELETE | `/account/delete/` | Delete account + burn all tokens on blockchain |
 
-### Reactors (`/api/reactors/`)
+### Reactors `/api/reactors/`
 
 | Method | Endpoint | Description |
-|--------|----------|-------------|
-
+| ------ | -------- | ----------- |
 | GET | `/` | List all active reactors |
 | GET | `/{id}/` | Get specific reactor details |
 
-### Investments (`/api/investments/`)
+### Investments `/api/investments/`
 
 | Method | Endpoint | Description |
-|--------|----------|-------------|
-
+| -------- | ---------- | ------------- |
 | GET | `/` | List user's investments |
 | POST | `/` | Create investment + lock tokens on blockchain |
 | GET | `/portfolio_summary/` | Get portfolio summary with projections |
 
-## 🏢 Data Models
+## 🏗️ Data Models
 
-### User Profile
+### UserProfile
 
-- Extends Django's User model
+- Extends Django User model
 - Tracks $NUC token balance (default: 25,000)
 - Stores Ethereum wallet address (`wallet_address`)
 - Handles balance deduction and wallet reset
-- Syncs with NUC token contract on Base Sepolia
+- Syncs with on-chain NUC token contract on Base Sepolia
 
 ### Reactor
 
 - Name, type, location, description
-- ROI rate and carbon offset metrics
+- Annual ROI rate and carbon offset metrics per NUC
 - Funding capacity and current funding
+- Computed properties: funding percentage, is fully funded
 - Investment validation methods
 
 ### Investment
 
 - Links user to reactor with investment amount
 - Tracks creation timestamp
-- Calculates ROI and carbon offset projections
+- Calculation methods for ROI and carbon offset projections
 
-## ⛓️ Blockchain Integration
+## 🚀 Local Development
 
-NuChain uses a custom ERC20 token (NUC) deployed on Base Sepolia testnet.
+### Prerequisites
 
-### Smart Contract
+- Python 3.11+
+- PostgreSQL 14+
 
-| Property | Value |
-|----------|-------|
+### Setup
 
-| Token Name | NuChain Token (NUC) |
-| Contract Address | `0x7a8ed93c1eA030eC8F283e93Ff1BB008e57D4791` |
-| Network | Base Sepolia (Testnet) |
-| Chain ID | 84532 |
-| Decimals | 18 |
+```bash
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 
-### Token Flow
+# Configure environment
+cp .env.example .env
 
-1. **Registration**: User receives 25,000 NUC tokens (minted on-chain)
-2. **Investment**: Tokens are locked on-chain when investing
-3. **Reset Wallet**: All locked tokens are unlocked on-chain
-4. **Delete Account**: All tokens are burned on-chain
+# Database setup
+python manage.py migrate
+python manage.py create_reactors
 
-### Verification
+# Run server
+python manage.py runserver
+```
 
-All transactions are verifiable on [BaseScan](https://sepolia.basescan.org/address/0x7a8ed93c1eA030eC8F283e93Ff1BB008e57D4791).
+> **Tip:** Admin interface available at `/admin/` when `DEBUG=True`
 
-> ⚠️ **Note**: This is a testnet simulation only. No real tokens or transactions are involved.
+### Environment Variables
+
+```env
+# Django
+SECRET_KEY=your-secret-key
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+
+# Database
+DB_NAME=nuchain_db
+DB_USER=nuchain_user
+DB_PASSWORD=your_password
+DB_HOST=localhost
+DB_PORT=5432
+
+# Blockchain
+BASE_SEPOLIA_RPC_URL=https://base-sepolia-rpc.publicnode.com
+NUC_CONTRACT_ADDRESS=0x7a8ed93c1eA030eC8F283e93Ff1BB008e57D4791
+ADMIN_PRIVATE_KEY=your-admin-wallet-private-key
+```
 
 ## 🧪 Testing
 
-### Run all tests
-
 ```bash
+# Run all tests
 python manage.py test
-```
 
-### Run specific app tests
-
-```bash
-python manage.py test apps.users
-python manage.py test apps.reactors
-python manage.py test apps.investments
-```
-
-### Run with coverage
-
-```bash
-pip install coverage
+# Run with coverage
 coverage run --source='.' manage.py test
 coverage report
-coverage html  # Generates HTML coverage report
 ```
 
-### Test Categories
+Test coverage includes:
 
-- **Unit Tests**: Model methods and business logic
-- **Integration Tests**: API endpoints and workflows
-- **Authentication Tests**: JWT token management
-- **Validation Tests**: Data validation and error handling
+- User authentication flows
+- Investment validation logic
+- Portfolio calculations
+- API endpoint responses
 
-## 🔒 Security Features
-
-### Authentication
-
-- JWT access and refresh tokens
-- Token blacklisting on logout
-- Automatic token refresh handling
-- Password strength validation
-
-### API Security
-
-- CORS configuration
-- Request rate limiting (production)
-- SQL injection protection via ORM
-- XSS protection headers
-
-### Data Validation
-
-- Serializer-based input validation
-- Custom business logic validation
-- Decimal precision for financial calculations
-
-## 🚀 Deployment
-
-### Render Deployment
-
-1. **Connect repository** to Render
-2. **Environment variables** set in Render dashboard
-3. **Build script** configured in `build.sh`:
-
-   ```bash
-   pip install -r requirements.txt
-   python manage.py collectstatic --no-input
-   python manage.py migrate
-   python manage.py create_reactors
-   ```
-
-4. **Start command**: `gunicorn nuchain_backend.wsgi:application`
-
-### Database Migration
-
-For production deployments:
-
-```bash
-python manage.py migrate
-python manage.py create_reactors
-```
-
-## 🛠️ Management Commands
-
-### Create Sample Reactors
-
-```bash
-python manage.py create_reactors
-```
-
-Loads 6 fictional nuclear reactors with predefined characteristics.
-
-### Custom Management Commands
-
-You can create additional management commands in:
+## 📁 Project Structure
 
 ``` bash
-apps/{app_name}/management/commands/
+apps/
+├── blockchain/         # Web3.py integration
+│   ├── abi.py          # NUC token contract ABI
+│   ├── exceptions.py
+│   └── services.py     # BlockchainService class
+├── common/             # Shared test utilities
+│   └── tests/
+├── investments/        # Investment logic and portfolio
+│   ├── models.py
+│   ├── serializers.py
+│   ├── views.py
+│   ├── urls.py
+│   └── tests/
+├── reactors/           # Reactor data and endpoints
+│   ├── models.py
+│   ├── serializers.py
+│   ├── views.py
+│   ├── urls.py
+│   ├── management/     # create_reactors command
+│   └── tests/
+└── users/              # Authentication and profiles
+    ├── models.py
+    ├── serializers.py
+    ├── views.py
+    ├── urls.py
+    └── tests/
+
+nuchain_backend/        # Django project config
+├── settings.py
+├── urls.py
+└── wsgi.py
 ```
 
-## 🔧 Development
+## 🔗 Related
 
-### Code Style
-
-- Follow PEP 8 guidelines
-- Use Django's naming conventions
-- Document complex business logic
-- Write descriptive commit messages
-
-### Adding New Features
-
-1. **Create models** in appropriate app
-2. **Write serializers** for data transformation
-3. **Implement views** with proper permissions
-4. **Add URL routing**
-5. **Write comprehensive tests**
-6. **Update documentation**
-
-### Database Migrations
-
-```bash
-python manage.py makemigrations
-python manage.py migrate
-```
-
-## 🐛 Debugging
-
-### Common Issues
-
-1. **Database connection errors**
-   - Check PostgreSQL is running
-   - Verify database credentials
-   - Ensure database exists
-
-2. **JWT token errors**
-   - Check SECRET_KEY consistency
-   - Verify token expiration settings
-   - Ensure proper CORS configuration
-
-3. **Import errors**
-   - Check Python path configuration
-   - Verify virtual environment activation
-
-### Logging
-
-Configure Django logging in `settings.py`:
-
-```python
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-    },
-}
-```
-
-## 📊 Performance
-
-### Database Optimization
-
-- Indexed foreign keys
-- Efficient querysets with select_related
-- Database connection pooling in production
-
-### API Optimization
-
-- Pagination for list endpoints
-- Caching for static reactor data
-- Optimized serializer queries
+- [NuChain Frontend](../nuchain-frontend) — React TypeScript UI
+- [NuChain Contracts](../nuchain-contracts) — Solidity smart contracts
+- [Live API](https://nuchain-backend.onrender.com)
 
 ---
 
-**Admin Interface**: Available at `/admin/` when running with `DEBUG=True` for managing users, reactors, and investments
+Built with ⚛️ by [Camille DuBois](https://github.com/c-dubois)
