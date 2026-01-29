@@ -7,7 +7,6 @@ db.sqlite3
 local_settings.py
 .env
 .env.test
-.env.*
 venv/
 env/
 ENV/
@@ -46,6 +45,7 @@ test_db.sqlite3
 # === DOCKER ===
 *.pid
 *.tar
+.env.docker
 docker-compose.override.yml
 
 # === DOCS ===
