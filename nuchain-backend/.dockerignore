@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+venv/
+env/
+.venv/
+ENV/
+
+# Environment files
+.env
+.env.*
+
+# Database
+*.sqlite3
+db.sqlite3
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*~
+
+# Testing
+.coverage
+.pytest_cache/
+htmlcov/
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose*.yml
+
+# Static files
+staticfiles/
+static/
+
+# Misc
+*.log
+*.bak
+*.tmp
