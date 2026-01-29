@@ -231,6 +231,52 @@ All transactions are verifiable on [BaseScan](https://sepolia.basescan.org/addre
    - Frontend: [http://localhost:3000](http://localhost:3000)
    - Backend API: [http://localhost:8000](http://localhost:8000)
 
+## 🐳 Docker Setup
+
+Run the entire stack with a single command using Docker.
+
+- Requires [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+### Setup
+
+1. **Copy the environment template**
+
+    ```bash
+    cp .env.docker.example .env.docker
+    ```
+
+2. **Edit `.env.docker`** with your real values:
+
+   - `SECRET_KEY` — any random string
+   - `ADMIN_PRIVATE_KEY` — your Base Sepolia wallet private key
+   - `NUCHAIN_DEV_WALLET_ADDRESS` — your wallet address
+
+   > **Note:** Blockchain features require valid credentials. Without them, registration and investments will fail. The `ADMIN_PRIVATE_KEY` must belong to the wallet that deployed the NUC token contract. To run with full blockchain functionality locally, you would need to deploy your own contract using the code in `nuchain-contracts/`. See the [live demo](https://nuchain.vercel.app) for full functionality.
+
+3. **Start all services**
+
+    ```bash
+    docker-compose up --build
+    ```
+
+4. **Access the application**
+   - Frontend: [http://localhost:3000](http://localhost:3000)
+   - Backend API: [http://localhost:8000/api](http://localhost:8000/api)
+
+5. **Stop all services**
+
+    ```bash
+    docker-compose down
+    ```
+
+### What Docker Runs
+
+| Service | Description | Port |
+| --------- | ------------- | ------ |
+| `postgres` | PostgreSQL 15 database | 5432 (internal) |
+| `backend` | Django REST API | 8000 |
+| `frontend` | Vite React dev server | 3000 |
+
 ## 🕹️ How to Use
 
 1. **Create Account**: Sign up with a username, email, and password (mints 25,000 $NUC tokens)
