@@ -141,6 +141,25 @@ npx hardhat ignition deploy --network baseSepolia ignition/modules/NucToken.ts
 npx hardhat verify --network baseSepolia <CONTRACT_ADDRESS>
 ```
 
+## ⛓️ Using Your Deployed Contract with NuChain
+
+After deploying your own contract:
+
+1. **Note your deployed contract address** from the deployment output
+
+2. **Update your backend environment** (`.env` or `.env.docker`):
+
+    ```bash
+    NUC_CONTRACT_ADDRESS=0xYourNewContractAddress
+    ADMIN_PRIVATE_KEY=your-deployer-wallet-private-key
+    ```
+
+3. **Ensure your wallet has Base Sepolia ETH** for gas fees. Get testnet ETH from:
+   - [Coinbase Developer Platform Faucet](https://portal.cdp.coinbase.com/products/faucet)
+   - [Alchemy Faucet](https://www.alchemy.com/faucets/base-sepolia)
+
+> **Important:** The `ADMIN_PRIVATE_KEY` must be the private key of the wallet that deployed the contract, as only the contract owner can execute mint, lock, unlock, and burn operations.
+
 ## 🔧 Configuration
 
 ### Environment Variables
