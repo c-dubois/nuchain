@@ -33,16 +33,54 @@ NuChain simulates a decentralized investment platform for fictional nuclear reac
 - **Blockchain Display** — Wallet addresses with BaseScan verification links
 - **Responsive Design** — Mobile-first CSS Grid/Flexbox layout
 
-## 📸 Screenshots
+<!-- markdownlint-disable MD033 -->
 
-<!-- 
-TODO: Add screenshots
-- Welcome page with login/register
-- Dashboard with portfolio cards and charts  
-- Reactor marketplace
-- Investment modal
-- Profile with wallet info
--->
+### Screenshots
+
+<p align="center">
+  <strong>Welcome page</strong><br><br>
+  <a href="../docs/screenshots/welcome.png">
+    <img src="../docs/screenshots/welcome.png" alt="Welcome Page" width="450">
+  </a>
+</p>
+
+<p align="center">________</p>
+
+<p align="center">
+  <strong>Portfolio dashboard</strong><br><br>
+  <a href="../docs/screenshots/dashboard.png">
+    <img src="../docs/screenshots/dashboard.png" alt="Portfolio Dashboard" width="450">
+  </a>
+</p>
+
+<p align="center">________</p>
+
+<p align="center">
+  <strong>Reactor marketplace</strong><br><br>
+  <a href="../docs/screenshots/reactors.png">
+    <img src="../docs/screenshots/reactors.png" alt="Reactor Marketplace" width="450">
+  </a>
+</p>
+
+<p align="center">________</p>
+
+<p align="center">
+  <strong>Investment modal</strong><br><br>
+  <a href="../docs/screenshots/investment-modal.png">
+    <img src="../docs/screenshots/investment-modal.png" alt="Investment Modal" width="450">
+  </a>
+</p>
+
+<p align="center">________</p>
+
+<p align="center">
+  <strong>Profile with wallet info</strong><br><br>
+  <a href="../docs/screenshots/profile.png">
+    <img src="../docs/screenshots/profile.png" alt="Profile & Wallet" width="450">
+  </a>
+</p>
+
+<!-- markdownlint-enable MD033 -->
 
 ## 🚀 Local Development
 
