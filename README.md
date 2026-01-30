@@ -256,7 +256,7 @@ Run the entire stack with a single command using Docker.
 3. **Start all services**
 
     ```bash
-    docker-compose up --build
+    docker compose up --build
     ```
 
 4. **Access the application**
@@ -266,7 +266,7 @@ Run the entire stack with a single command using Docker.
 5. **Stop all services**
 
     ```bash
-    docker-compose down
+    docker compose down
     ```
 
 ### What Docker Runs
