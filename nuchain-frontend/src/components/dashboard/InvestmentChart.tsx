@@ -46,7 +46,7 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
     if (!summary || summary.investment_count === 0) {
         return null;
     }
-
+    
     // Transform data for Recharts
     const chartData = summary.projections.map((projection) => ({
         period: `${projection.time_period_years}Y`,
@@ -54,13 +54,21 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
         carbonOffset: projection.total_carbon_offset,
         totalReturn: projection.total_return
     }));
-
-    const pieData = investments?.map((inv) => ({
-        name: inv.reactor.name,
-        value: parseFloat(inv.amount_invested.toString()),
-        percentage: formatPercentage((parseFloat(inv.amount_invested.toString()) / parseFloat(summary.total_invested.toString())) * 100)
-    })) || [];
-
+    
+    const pieData = Object.values(
+        (investments || []).reduce((acc, inv) => {
+            const name = inv.reactor.name;
+            if (!acc[name]) {
+                acc[name] = { name, value: 0 };
+            }
+            acc[name].value += parseFloat(inv.amount_invested.toString());
+            return acc;
+        }, {} as Record<string, { name: string; value: number }>)
+    ).map(item => ({
+        ...item,
+        percentage: formatPercentage((item.value / parseFloat(summary.total_invested.toString())) * 100)
+    }));
+    
     const CustomTooltip = ({ 
         active, 
         payload 
@@ -86,11 +94,11 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
         }
         return null;
     };
-
+    
     return (
         <div className="investment-chart">
             <h3 className='investment-chart-title'>Investment Projections</h3>
-
+            
             <div className="chart-container">
                 <ResponsiveContainer width="100%" height={300}>
                         <LineChart 
@@ -131,7 +139,7 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
                         </LineChart>
                 </ResponsiveContainer>
             </div>
-
+            
             <div className="chart-carbon">
                 <h3 className='carbon-offset-title'>Carbon Offset Projections</h3>
                 <ResponsiveContainer width="100%" height={300}>
@@ -155,7 +163,7 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
                     </BarChart>
                 </ResponsiveContainer>
             </div>
-
+            
             <div className="chart-portfolio">
                 <h3 className='portfolio-distribution-title'>Portfolio Distribution</h3>
                 <ResponsiveContainer width="100%" height={300}>
