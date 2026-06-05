@@ -43,6 +43,7 @@
 }
 
 .modal-header {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -54,9 +55,15 @@
     color: var(--color-primary);
     margin: 0;
     font-size: 1.5rem;
+    flex: 1;
+    text-align: center;
 }
 
 .modal-close {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
     background: none;
     border: none;
     font-size: 2rem;
@@ -226,6 +233,74 @@
 .modal-footer button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+.investment-success {
+    text-align: center;
+    padding: 0;
+}
+
+.investment-success .success-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.investment-success h3 {
+    color: var(--color-success);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.investment-success .success-amount {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.125rem;
+}
+
+.investment-success .success-reactor {
+    color: var(--color-light);
+    opacity: 0.8;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.investment-success .success-tx {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background-color: var(--color-dark);
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.investment-success .tx-label {
+    color: var(--color-light);
+    opacity: 0.7;
+    font-size: 0.875rem;
+}
+
+.investment-success .tx-hash {
+    font-family: monospace;
+    font-size: 0.875rem;
+    color: var(--color-light);
+}
+
+.success-basescan-link {
+    display: inline-block;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.success-basescan-link:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
 }
 
 @media (max-width: 480px) {
