@@ -200,9 +200,8 @@ p.reactor-description {
 }
 
 .btn-invest:hover:not(.disabled) {
-    background-color: var(--color-accent);
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(254, 87, 42, 0.3);
+    box-shadow: 0 4px 8px rgba(159, 42, 254, 0.3);
 }
 
 .btn-invest.disabled {
@@ -363,7 +362,6 @@ p.reactor-description {
 }
 
 .portfolio-invest-btn:hover:not(.disabled) {
-    background-color: var(--color-accent);
     transform: scale(1.05);
 }
 
