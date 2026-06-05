@@ -15,14 +15,14 @@ export const Reactors: React.FC = () => {
     const [selectedReactor, setSelectedReactor] = useState<Reactor | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-
+    
     useEffect(() => {
         fetchReactors();
     }, []);
-
-    const fetchReactors = async () => {
+    
+    const fetchReactors = async (silent = false) => {
         try {
-            setLoading(true);
+            if (!silent) setLoading(true);
             setError('');
             const data = await reactorService.getReactors();
             setReactors(data);
@@ -33,13 +33,13 @@ export const Reactors: React.FC = () => {
             setLoading(false);
         }
     };
-
+    
     const handleInvest = async (reactorId: number, amount: number) => {
         const response = await investmentService.createInvestment({
             reactor_id: reactorId,
             amount_invested: amount
         });
-
+        
         // Update user balance
         if (user) {
             updateUser({
@@ -47,14 +47,13 @@ export const Reactors: React.FC = () => {
                 balance: response.remaining_balance
             });
         }
-
-        // Refresh reactors to update funding amounts
-        await fetchReactors();
-
-        // Show success message (you could add a toast notification here)
-        alert(`Successfully invested ${amount} $NUC in ${selectedReactor?.name}!`);
+        
+        // Refresh reactors to update funding amounts (silent to prevent flicker)
+        await fetchReactors(true);
+        
+        return { tx_hash: response.tx_hash, tx_url: response.tx_url };
     };
-
+    
     return (
         <div className="reactors-page">
             <div className="page-header">
@@ -63,7 +62,7 @@ export const Reactors: React.FC = () => {
                     Invest in the future of clean energy!
                 </p>
             </div>
-
+            
             <div className="reactor-stats">
                 <div className="stat-card">
                     <span className="stat-number">{reactors.length}</span>
@@ -80,13 +79,13 @@ export const Reactors: React.FC = () => {
                     <span className="stat-label">Open for Investment</span>
                 </div>
             </div>
-
+            
             {loading ? (
                 <LoadingSpinner size="large" message="Loading reactor marketplace..." />
             ) : error ? (
                 <div className="error-container">
                     <p>{error}</p>
-                    <button onClick={fetchReactors} className="btn-primary">
+                    <button onClick={() => fetchReactors()} className="btn-primary">
                         Try Again
                     </button>
                 </div>
@@ -97,7 +96,7 @@ export const Reactors: React.FC = () => {
                     variant="browse"
                 />
             )}
-
+            
             <InvestmentModal
                 reactor={selectedReactor}
                 isOpen={!!selectedReactor}
