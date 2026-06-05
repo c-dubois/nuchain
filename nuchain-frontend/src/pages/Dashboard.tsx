@@ -22,22 +22,22 @@ export const Dashboard: React.FC = () => {
     const [selectedReactor, setSelectedReactor] = useState<Reactor | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-
+    
     useEffect(() => {
         fetchDashboardData();
     }, []);
-
-    const fetchDashboardData = async () => {
+    
+    const fetchDashboardData = async (silent = false) => {
         try {
-            setLoading(true);
-            setError('');
-
+            if (!silent) setLoading(true);
+            setError('')
+            
             const [summaryData, investmentsData, reactorsData] = await Promise.all([
                 investmentService.getPortfolioSummary(),
                 investmentService.getInvestments(),
                 reactorService.getReactors()
             ]);
-
+            
             setPortfolioSummary(summaryData);
             setInvestments(investmentsData);
             setReactors(reactorsData);
@@ -48,13 +48,13 @@ export const Dashboard: React.FC = () => {
             setLoading(false);
         }
     };
-
+    
     const handleInvest = async (reactorId: number, amount: number) => {
         const response = await investmentService.createInvestment({
             reactor_id: reactorId,
             amount_invested: amount
         });
-
+        
         // Update user balance
         if (user) {
             updateUser({
@@ -62,38 +62,40 @@ export const Dashboard: React.FC = () => {
                 balance: response.remaining_balance
             });
         }
-
-        // Refresh dashboard data
-        await fetchDashboardData();
+        
+        // Refresh dashboard data (silent to keep modal mounted)
+        await fetchDashboardData(true);
+        
+        return { tx_hash: response.tx_hash, tx_url: response.tx_url };
     };
-
+    
     if (loading) {
         return <LoadingSpinner size="large" message="Loading your portfolio..." />;
     }
-
+    
     if (error) {
         return (
             <div className="dashboard-error">
                 <h2>Error</h2>
                 <p>{error}</p>
-                <button onClick={fetchDashboardData} className="btn-primary">
+                <button onClick={() => fetchDashboardData()} className="btn-primary">
                     Try Again
                 </button>
             </div>
         );
     }
-
+    
     // Get invested reactors
     const investedReactors = reactors.filter(reactor =>
         investments.some(inv => inv.reactor.id === reactor.id)
     );
-
+    
     // Create investment amounts map
     const investmentAmounts = investments.reduce((acc, inv) => {
-        acc[inv.reactor.id] = inv.amount_invested;
+        acc[inv.reactor.id] = (acc[inv.reactor.id] || 0) + parseFloat(inv.amount_invested.toString());
         return acc;
     }, {} as Record<number, number>);
-
+    
     return (
         <div className="dashboard">
             <div className="dashboard-header">
@@ -102,7 +104,7 @@ export const Dashboard: React.FC = () => {
                     Track your investments and environmental impact!
                 </p>
             </div>
-
+            
             <div className="dashboard-grid">
                 <div className="dashboard-main">
                     <PortfolioSummary
@@ -111,7 +113,7 @@ export const Dashboard: React.FC = () => {
                         onPeriodChange={setSelectedPeriod}
                         loading={loading}
                     />
-
+                    
                     {investedReactors.length > 0 ? (
                         <div className="portfolio-reactors">
                             <h3 className="portfolio-investments-title">Your Investments</h3>
@@ -125,7 +127,7 @@ export const Dashboard: React.FC = () => {
                         </div>
                         ) : null}
                 </div>
-
+                
                 <div className="dashboard-sidebar">
                     {portfolioSummary && portfolioSummary.investment_count > 0 && (
                         <InvestmentChart 
@@ -135,7 +137,7 @@ export const Dashboard: React.FC = () => {
                     )}
                 </div>
             </div>
-
+            
             <InvestmentModal
                 reactor={selectedReactor}
                 isOpen={!!selectedReactor}
