@@ -130,7 +130,7 @@ class InvestmentViewSet(viewsets.ModelViewSet):
         )['total'] or Decimal('0')
         
         reactors_invested_in = list(
-            investments.values_list('reactor__name', flat=True).distinct()
+            investments.order_by().values_list('reactor__name', flat=True).distinct()
         )
         
         time_periods = [1, 2, 5, 10]
